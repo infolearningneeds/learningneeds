@@ -9,11 +9,11 @@ import { CheckCircle2, Package, Truck, MapPin, Mail, Phone } from 'lucide-react'
 import Image from 'next/image';
 import confetti from 'canvas-confetti';
 
-export default function OrderSuccessPage() {
+export default function OrderSuccessClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get('orderId');
-  
+
   const [order, setOrder] = useState<any>(null);
   const [orderItems, setOrderItems] = useState<any[]>([]);
   const [address, setAddress] = useState<any>(null);
@@ -29,7 +29,7 @@ export default function OrderSuccessPage() {
     confetti({
       particleCount: 100,
       spread: 70,
-      origin: { y: 0.6 }
+      origin: { y: 0.6 },
     });
 
     fetchOrderDetails();
@@ -114,7 +114,7 @@ export default function OrderSuccessPage() {
                 {new Date(order.created_at).toLocaleDateString('en-IN', {
                   year: 'numeric',
                   month: 'long',
-                  day: 'numeric'
+                  day: 'numeric',
                 })}
               </p>
             </div>
@@ -166,9 +166,7 @@ export default function OrderSuccessPage() {
                 <p className="font-semibold text-white mb-2 text-lg">{address.full_name}</p>
                 <div className="space-y-1 text-gray-300">
                   <p className="text-sm">{address.address_line1}</p>
-                  {address.address_line2 && (
-                    <p className="text-sm">{address.address_line2}</p>
-                  )}
+                  {address.address_line2 && <p className="text-sm">{address.address_line2}</p>}
                   <p className="text-sm">
                     {address.city}, {address.state} - <span className="font-semibold">{address.pincode}</span>
                   </p>
@@ -192,11 +190,13 @@ export default function OrderSuccessPage() {
                 <p className="text-white font-medium capitalize">
                   {order.payment_method === 'cod' ? 'Cash on Delivery' : order.payment_method.toUpperCase()}
                 </p>
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  order.payment_status === 'completed' 
-                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
-                    : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
-                }`}>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    order.payment_status === 'completed'
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                  }`}
+                >
                   {order.payment_status}
                 </span>
               </div>
@@ -213,12 +213,7 @@ export default function OrderSuccessPage() {
               {orderItems.map((item) => (
                 <div key={item.id} className="flex gap-4 pb-4 border-b border-gray-700/50 last:border-b-0 group">
                   <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-800/50 ring-2 ring-gray-700/50 group-hover:ring-indigo-500/50 transition-all duration-300">
-                    <Image
-                      src={item.product_image}
-                      alt={item.product_title}
-                      fill
-                      className="object-cover"
-                    />
+                    <Image src={item.product_image} alt={item.product_title} fill className="object-cover" />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-semibold text-white mb-1 group-hover:text-indigo-400 transition-colors">
@@ -228,7 +223,9 @@ export default function OrderSuccessPage() {
                       Category: <span className="capitalize text-gray-300">{item.category}</span>
                     </p>
                     <div className="flex items-center justify-between">
-                      <p className="text-sm text-gray-400">Quantity: <span className="font-semibold text-gray-300">{item.quantity}</span></p>
+                      <p className="text-sm text-gray-400">
+                        Quantity: <span className="font-semibold text-gray-300">{item.quantity}</span>
+                      </p>
                       <p className="font-semibold text-emerald-400">₹{item.price * item.quantity}</p>
                     </div>
                   </div>
