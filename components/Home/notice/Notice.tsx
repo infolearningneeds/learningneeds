@@ -27,7 +27,7 @@ interface Notice {
   date: string;
   fullContent: string;
   icon: IconType;
-  color: "red" | "blue" | "green";
+  color: string; // now string
 }
 
 interface ColorClasses {
@@ -42,14 +42,12 @@ const Notice = () => {
   const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Map categories to icon + color
   const categoryMap = {
     important: { icon: FaExclamationCircle, color: "red" },
     info: { icon: FaInfoCircle, color: "blue" },
     success: { icon: FaCheckCircle, color: "green" },
   };
 
-  // Fetch from Supabase
   const fetchNotices = async () => {
     const { data, error } = await supabase
       .from("notices")
@@ -79,36 +77,18 @@ const Notice = () => {
     fetchNotices();
   }, []);
 
-  const getColorClasses = (color: "red" | "blue" | "green"): ColorClasses => {
-    const colors = {
-      red: {
-        bg: "bg-red-50",
-        text: "text-red-600",
-        badge: "bg-red-500",
-        dot: "bg-red-500",
-      },
-      blue: {
-        bg: "bg-blue-50",
-        text: "text-blue-600",
-        badge: "bg-blue-500",
-        dot: "bg-blue-500",
-      },
-      green: {
-        bg: "bg-green-50",
-        text: "text-green-600",
-        badge: "bg-green-500",
-        dot: "bg-green-500",
-      },
+  // Tailwind class mapping function
+  const getColorClasses = (color: string): ColorClasses => {
+    const colors: Record<string, ColorClasses> = {
+      red: { bg: "bg-red-50", text: "text-red-600", badge: "bg-red-500", dot: "bg-red-500" },
+      blue: { bg: "bg-blue-50", text: "text-blue-600", badge: "bg-blue-500", dot: "bg-blue-500" },
+      green: { bg: "bg-green-50", text: "text-green-600", badge: "bg-green-500", dot: "bg-green-500" },
     };
-    return colors[color];
+    return colors[color] || { bg: "bg-gray-50", text: "text-gray-600", badge: "bg-gray-500", dot: "bg-gray-500" };
   };
 
   if (loading)
-    return (
-      <div className="py-20 text-center text-gray-600 text-lg">
-        Loading notices...
-      </div>
-    );
+    return <div className="py-20 text-center text-gray-600 text-lg">Loading notices...</div>;
 
   return (
     <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-100">
@@ -120,18 +100,14 @@ const Notice = () => {
             <FaBell className="text-3xl text-white" />
           </div>
         </div>
-
         <div>
           <h2 className="text-3xl font-bold text-gray-800">Notice Board</h2>
-          <p className="text-sm text-gray-600">
-            Stay updated with latest announcements
-          </p>
+          <p className="text-sm text-gray-600">Stay updated with latest announcements</p>
         </div>
       </div>
 
-      {/* 2 Column Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        {/* Left Column – Scrolling Notices */}
+        {/* Left Column – Notices List */}
         <div className="relative bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden h-80 pointer-events-auto">
           <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-white to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white to-transparent" />
@@ -147,24 +123,16 @@ const Notice = () => {
                   onClick={() => setSelectedNotice(notice)}
                   className="px-5 py-4 cursor-pointer hover:bg-gray-50 transition flex items-center gap-4 border-b border-gray-200"
                 >
-                  <div
-                    className={`w-12 h-12 rounded-xl ${color.bg} flex items-center justify-center border`}
-                  >
+                  <div className={`w-12 h-12 rounded-xl ${color.bg} flex items-center justify-center border`}>
                     <Icon className={`text-lg ${color.text}`} />
                   </div>
 
-                  <span
-                    className={`text-xs font-semibold px-3 py-1 rounded-full text-white ${color.badge}`}
-                  >
+                  <span className={`text-xs font-semibold px-3 py-1 rounded-full text-white ${color.badge}`}>
                     {notice.type}
                   </span>
 
-                  <p className="flex-1 text-gray-700 font-medium text-sm truncate">
-                    {notice.title}
-                  </p>
-
+                  <p className="flex-1 text-gray-700 font-medium text-sm truncate">{notice.title}</p>
                   <span className="text-xs text-gray-500">{notice.date}</span>
-
                   <FaChevronRight className="text-gray-400" />
                 </div>
               );
@@ -177,38 +145,20 @@ const Notice = () => {
           {selectedNotice ? (
             <>
               <div className="flex items-start gap-4">
-                <div
-                  className={`w-14 h-14 bg-${selectedNotice.color}-50 rounded-xl flex items-center justify-center border`}
-                >
-                  <selectedNotice.icon
-                    className={`text-2xl ${
-                      getColorClasses(selectedNotice.color).text
-                    }`}
-                  />
+                <div className={`w-14 h-14 rounded-xl flex items-center justify-center border ${getColorClasses(selectedNotice.color).bg}`}>
+                  <selectedNotice.icon className={`text-2xl ${getColorClasses(selectedNotice.color).text}`} />
                 </div>
 
                 <div className="flex-1">
-                  <span
-                    className={`text-xs font-semibold px-3 py-1 rounded-full text-white ${
-                      getColorClasses(selectedNotice.color).badge
-                    }`}
-                  >
+                  <span className={`text-xs font-semibold px-3 py-1 rounded-full text-white ${getColorClasses(selectedNotice.color).badge}`}>
                     {selectedNotice.type.toUpperCase()}
                   </span>
-
-                  <h3 className="text-xl font-bold text-gray-800 mt-2">
-                    {selectedNotice.title}
-                  </h3>
-
-                  <p className="text-sm text-gray-500 mt-1">
-                    {selectedNotice.date}
-                  </p>
+                  <h3 className="text-xl font-bold text-gray-800 mt-2">{selectedNotice.title}</h3>
+                  <p className="text-sm text-gray-500 mt-1">{selectedNotice.date}</p>
                 </div>
               </div>
 
-              <p className="mt-6 text-gray-700 leading-relaxed">
-                {selectedNotice.fullContent}
-              </p>
+              <p className="mt-6 text-gray-700 leading-relaxed">{selectedNotice.fullContent}</p>
             </>
           ) : (
             <div className="flex items-center justify-center h-full text-gray-500 text-lg">
