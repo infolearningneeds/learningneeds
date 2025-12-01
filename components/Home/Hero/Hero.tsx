@@ -4,6 +4,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, BookOpen, Sparkles, Star, Palette, GraduationCap, Lightbulb, Rocket, Award, Heart, Zap, Crown, Target, TrendingUp } from 'lucide-react';
+import Link from 'next/link';
 
 const Hero = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -171,12 +172,16 @@ const Hero = () => {
                                             {slide.description}
                                         </p>
                                         <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                                            <button className="px-8 py-3.5 bg-orange-600 text-white rounded-lg font-bold hover:bg-orange-700 transition-all hover:scale-105 hover:shadow-2xl shadow-lg text-base">
-                                                Explore Books
-                                            </button>
-                                            <button className="px-8 py-3.5 bg-white text-orange-600 rounded-lg font-bold hover:bg-gray-50 transition-all shadow-lg border-2 border-orange-600 hover:scale-105 hover:shadow-2xl text-base">
-                                                Book Consultation
-                                            </button>
+                                            <Link href='/products'>
+                                                <button className="px-8 py-3.5 bg-orange-600 text-white rounded-lg font-bold hover:bg-orange-700 transition-all hover:scale-105 hover:shadow-2xl shadow-lg text-base">
+                                                    Explore Books
+                                                </button>
+                                            </Link>
+                                            <Link href='/contact'>
+                                                <button className="px-8 py-3.5 bg-white text-orange-600 rounded-lg font-bold hover:bg-gray-50 transition-all shadow-lg border-2 border-orange-600 hover:scale-105 hover:shadow-2xl text-base">
+                                                    Book Consultation
+                                                </button>
+                                            </Link>
                                         </div>
                                     </div>
 
@@ -189,7 +194,7 @@ const Hero = () => {
                                             {/* Main Image Container with 3D Perspective */}
                                             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[85%] h-[85%]">
                                                 {/* Main Image */}
-                                                <div className="relative w-full h-full bg-white/75
+                                                <div className="relative w-full h-full bg-blue-300
  rounded-3xl overflow-hidden 
 shadow-[0_10px_20px_rgba(0,0,0,0.4),0_20px_40px_rgba(0,0,0,0.25)]
 hover:scale-105 transition-transform duration-700">

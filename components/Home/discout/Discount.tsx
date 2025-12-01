@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 const Discount = () => {
@@ -7,10 +8,12 @@ const Discount = () => {
         <div className="text-white">
           <h2 className="text-2xl font-bold">Limited Time Offer - Up to 50% Off!</h2>
         </div>
-        
-        <button className="bg-white text-orange-600 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors duration-300 shadow-md">
-          Connect With Us Today
-        </button>
+
+        <Link href='/contact'>
+          <button className="bg-white text-orange-600 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors duration-300 shadow-md">
+            Connect With Us Today
+          </button>
+        </Link>
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Sparkles, Users, BookOpen, TrendingUp, Award, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 
 const About = () => {
   const features = [
@@ -43,7 +44,7 @@ const About = () => {
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-            Welcome to <span className="sparkle-text text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-orange-500">Learning Needs</span>
+            Welcome to <span className=" text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-orange-500">Learning Needs</span>
           </h1>
         </div>
 
@@ -59,27 +60,29 @@ const About = () => {
               </div>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-6" style={{
-                                textAlign: 'justify',
-                                textJustify: 'inter-word',
-                                hyphens: 'auto',
-                                wordSpacing: 'normal'
-                            }}>
+                textAlign: 'justify',
+                textJustify: 'inter-word',
+                hyphens: 'auto',
+                wordSpacing: 'normal'
+              }}>
                 This proverb perfectly defines the inception of Learning Needs. We believe all companies have one thing in common - they survive and thrive by creating and maintaining satisfied customers through their people.
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-8" style={{
-                                textAlign: 'justify',
-                                textJustify: 'inter-word',
-                                hyphens: 'auto',
-                                wordSpacing: 'normal'
-                            }}>
+                textAlign: 'justify',
+                textJustify: 'inter-word',
+                hyphens: 'auto',
+                wordSpacing: 'normal'
+              }}>
                 The Learning Needs understands the importance of awakening, developing, and rewarding the greatness of a company&lsquo;s people through transformation. With our experience and expertise in leadership training, school consulting, teachers training, school start up, and Learning Needs customized product, we help organization to achieve their goals.
               </p>
 
-              <button className="group px-8 py-4 bg-linear-to-r from-blue-600 to-blue-800 text-white rounded-xl font-bold hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2">
-                Join Us Today
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
+              <Link href='/about'>
+                <button className="group px-8 py-4 bg-linear-to-r from-blue-600 to-blue-800 text-white rounded-xl font-bold hover:shadow-xl transition-all duration-300 hover:scale-105 flex items-center gap-2">
+                  Join Us Today
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </Link>
             </div>
 
 
