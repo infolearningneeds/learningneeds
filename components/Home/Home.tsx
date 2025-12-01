@@ -8,12 +8,15 @@ import Products from './products/Products'
 import TeamMessage from './teammessage/TeamMessage'
 import Goal from './goals/Goals'
 import Notice from './notice/Notice'
+import Marquee from './Marquee/Marquee'
+import NotificationTooltip from '../helper/NotificationTooltip'
 
 const Home = () => {
   return (
     <div>
       <Hero />
       <Discount />
+      <Marquee/>
       <About />
       <Service />
       <Programs />
@@ -21,6 +24,7 @@ const Home = () => {
       <TeamMessage />
       <Goal />
       <Notice/>
+      <NotificationTooltip/>
     </div>
   )
 }

@@ -7,6 +7,7 @@ import Footer from "@/components/Footer/Footer";
 import ReduxProvider from "@/components/ReduxProvider";
 import ScrollToTop from "@/components/helper/ScrollToTop";
 import PageLoader from "@/components/helper/PageLoader";
+import CookieBanner from "@/components/helper/CookieBanner";
 
 const font = Space_Grotesk({
   subsets: ["latin"],
@@ -29,6 +30,7 @@ export default function RootLayout({
         className={`${font.className}`}
       >
         <ReduxProvider>
+          <CookieBanner />
           <PageLoader />
           <ResponsiveNav />
           {children}
