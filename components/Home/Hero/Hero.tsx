@@ -15,7 +15,7 @@ const Hero = () => {
             title: "Empowering Kids With Smart Education",
             subtitle: "Adventure awaits in every page",
             description: "Innovative learning solutions designed to boost creativity, critical thinking, and academic success",
-            image: "/images/hero1.png"
+            image: "/images/hero5.png"
         },
         {
             title: "Simplify Education with School Management",
@@ -194,7 +194,8 @@ const Hero = () => {
                                             {/* Main Image Container with 3D Perspective */}
                                             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[85%] h-[85%]">
                                                 {/* Main Image */}
-                                                <div className="relative w-full h-full bg-blue-300
+                                                <div className="relative w-full h-full bg-linear-to-r from-orange-500 via-amber-400 to-indigo-600
+
  rounded-3xl overflow-hidden 
 shadow-[0_10px_20px_rgba(0,0,0,0.4),0_20px_40px_rgba(0,0,0,0.25)]
 hover:scale-105 transition-transform duration-700">
@@ -215,10 +216,10 @@ hover:scale-105 transition-transform duration-700">
                                             {/* Decorative Elements */}
                                             {/* Small accent cards */}
                                             <div className="absolute top-20 right-[-30px] w-24 h-24 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 flex items-center justify-center animate-float">
-                                                <Star className="text-yellow-400 w-12 h-12" />
+                                                <Star className="text-rose-400 w-12 h-12" />
                                             </div>
                                             <div className="absolute bottom-20 left-10 w-28 h-28 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 flex items-center justify-center animate-float-delayed">
-                                                <Rocket className="text-orange-400 w-14 h-14" />
+                                                <Rocket className="text-green-400 w-14 h-14" />
                                             </div>
                                         </div>
                                     </div>

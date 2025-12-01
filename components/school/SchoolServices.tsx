@@ -1,164 +1,178 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
-import { BookOpen, Users, TrendingUp, Award, Lightbulb, Target, FileText, PieChart, Briefcase, GraduationCap } from 'lucide-react';
+import { BookOpen, Users, TrendingUp, Award, Lightbulb, Target, FileText, PieChart, Briefcase, GraduationCap, Sparkles, CheckCircle2 } from 'lucide-react';
 
-const SchoolServices: React.FC = () => {
-  const floatingIcons = [
-    { Icon: BookOpen, top: '10%', left: '5%', delay: '0s', duration: '6s' },
-    { Icon: Users, top: '20%', right: '8%', delay: '1s', duration: '7s' },
-    { Icon: TrendingUp, top: '60%', left: '3%', delay: '2s', duration: '8s' },
-    { Icon: Award, top: '75%', right: '10%', delay: '0.5s', duration: '6.5s' },
-    { Icon: Lightbulb, top: '35%', left: '7%', delay: '1.5s', duration: '7.5s' },
-    { Icon: Target, top: '45%', right: '5%', delay: '2.5s', duration: '6s' },
-    { Icon: FileText, top: '85%', left: '12%', delay: '1s', duration: '7s' },
-    { Icon: PieChart, top: '15%', left: '15%', delay: '2s', duration: '8s' },
-    { Icon: Briefcase, top: '70%', right: '15%', delay: '0.5s', duration: '6.5s' },
-    { Icon: GraduationCap, top: '50%', left: '10%', delay: '1.5s', duration: '7s' },
-  ];
-
+const SchoolServices = () => {
   const services = [
     {
-      color: 'bg-emerald-500',
-      borderColor: 'border-emerald-500',
-      text: 'Providing organizational structure, project planning and development',
+      icon: Target,
+      title: 'Strategic Planning',
+      description: 'Organizational structure, project planning and development tailored to your institution\'s vision.',
+      gradient: 'from-emerald-400 to-teal-500',
+      iconBg: 'bg-emerald-100',
+      iconColor: 'text-emerald-600',
     },
     {
-      color: 'bg-orange-400',
-      borderColor: 'border-orange-400',
-      text: 'Assisting with Governance and management, staffing and financial structures; growth plans and projections',
+      icon: Users,
+      title: 'Governance & Growth',
+      description: 'Expert guidance on management, staffing, financial structures, and sustainable growth projections.',
+      gradient: 'from-orange-400 to-pink-500',
+      iconBg: 'bg-orange-100',
+      iconColor: 'text-orange-600',
     },
     {
-      color: 'bg-red-500',
-      borderColor: 'border-red-500',
-      text: 'Giving advice on management structure, management leadership style, financial management/control; P& L accounts, management accounts/budgets',
+      icon: PieChart,
+      title: 'Financial Excellence',
+      description: 'Management structure optimization, leadership development, and comprehensive financial control systems.',
+      gradient: 'from-red-400 to-rose-500',
+      iconBg: 'bg-red-100',
+      iconColor: 'text-red-600',
     },
     {
-      color: 'bg-purple-600',
-      borderColor: 'border-purple-600',
-      text: 'Helping your school develop a strategic development or business plan and advising on school/departmental reviews',
+      icon: Briefcase,
+      title: 'Strategic Development',
+      description: 'Business plan creation and school/departmental review guidance for continuous improvement.',
+      gradient: 'from-purple-400 to-indigo-500',
+      iconBg: 'bg-purple-100',
+      iconColor: 'text-purple-600',
     },
+  ];
+
+  const stats = [
+    { icon: Award, value: '500+', label: 'Schools Supported' },
+    { icon: GraduationCap, value: '15+', label: 'Years Experience' },
+    { icon: Sparkles, value: '98%', label: 'Success Rate' },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-200 py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Floating Icons Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        {floatingIcons.map((item, index) => {
-          const { Icon, top, left, right, delay, duration } = item;
-          return (
-            <div
-              key={index}
-              className="absolute animate-float opacity-20"
-              style={{
-                top,
-                left,
-                right,
-                animationDelay: delay,
-                animationDuration: duration,
-              }}
-            >
-              <Icon className="w-12 h-12 text-orange-400" strokeWidth={1.5} />
-            </div>
-          );
-        })}
-      </div>
+    <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50 to-gray-100 py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Animated Background Orbs */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+      <div className="absolute top-40 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+      <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header */}
-        <div className="text-center mb-16 animate-fade-in">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-900 mb-6">
-            For Existing Schools
+        {/* Header Section */}
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm border border-blue-100 mb-6">
+            <Sparkles className="w-4 h-4 text-blue-600" />
+            <span className="text-sm font-semibold text-blue-900">For Existing Schools</span>
+          </div>
+          
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 mb-6 leading-tight">
+            Elevate Your Institution
           </h1>
-          <p className="text-lg sm:text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed" >
-            Learning Needs provides all levels of support for schools leading up to their inspections, 
-            observations and preparations for affiliation networks and collaborations.
+          
+          <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+            Comprehensive support for inspections, observations, and affiliation preparations. 
+            <span className="font-semibold text-blue-900"> We help schools reach new heights.</span>
           </p>
         </div>
 
-        {/* Service Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, index) => (
+        {/* Stats Bar */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+          {stats.map((stat, index) => (
             <div
               key={index}
-              className="group relative transform transition-all duration-300 hover:scale-105 hover:-translate-y-2"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="bg-white/70 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
             >
-              {/* Quote Mark Top */}
-              <div className="absolute -top-4 -left-2 text-6xl font-bold text-gray-800 z-10">
-                &ldquo;
-              </div>
-
-              {/* Card Container */}
-              <div className={`relative h-full border-4 ${service.borderColor} rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300`}>
-                {/* Colored Background */}
-                <div className={`${service.color} h-full p-8 flex items-center justify-center relative`}>
-                  {/* White text content */}
-                  <p className="text-white font-semibold text-lg leading-relaxed text-center relative z-10" style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
-                    {service.text}
-                  </p>
-                  
-                  {/* Subtle overlay pattern */}
-                  <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-white to-transparent"></div>
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                  <stat.icon className="w-7 h-7 text-white" />
                 </div>
-
-                {/* Quote Mark Bottom */}
-                <div className="absolute -bottom-4 -right-2 text-6xl font-bold text-gray-800 z-10">
-                  &ldquo;
+                <div>
+                  <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
+                  <div className="text-sm text-gray-600">{stat.label}</div>
                 </div>
               </div>
-
-              {/* Glow effect on hover */}
-              <div className={`absolute inset-0 ${service.color} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300 -z-10`}></div>
             </div>
           ))}
         </div>
 
-        {/* Additional decorative elements */}
-        <div className="mt-16 flex justify-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-emerald-500 animate-bounce" style={{ animationDelay: '0ms' }}></div>
-          <div className="w-3 h-3 rounded-full bg-orange-400 animate-bounce" style={{ animationDelay: '100ms' }}></div>
-          <div className="w-3 h-3 rounded-full bg-red-500 animate-bounce" style={{ animationDelay: '200ms' }}></div>
-          <div className="w-3 h-3 rounded-full bg-purple-600 animate-bounce" style={{ animationDelay: '300ms' }}></div>
+        {/* Services Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {services.map((service, index) => (
+            <div
+              key={index}
+              className="group relative bg-white/70 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+            >
+              {/* Gradient Border Effect */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+              
+              {/* Content */}
+              <div className="relative z-10">
+                {/* Icon */}
+                <div className={`${service.iconBg} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <service.icon className={`w-8 h-8 ${service.iconColor}`} />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-300">
+                  {service.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  {service.description}
+                </p>
+
+                {/* Decorative Line */}
+                <div className="flex items-center gap-2 mt-6">
+                  <CheckCircle2 className={`w-5 h-5 ${service.iconColor}`} />
+                  <div className={`h-1 flex-1 bg-gradient-to-r ${service.gradient} rounded-full opacity-50`}></div>
+                </div>
+              </div>
+
+              {/* Shine Effect */}
+              <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 translate-x-full group-hover:translate-x-[-200%] transition-transform duration-1000"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA Section */}
+        <div className="mt-20 text-center">
+          <div className="bg-linear-to-r from-blue-600 to-indigo-600 rounded-3xl p-12 shadow-2xl relative overflow-hidden">
+            <div className="absolute inset-0 bg-grid-white/10 bg-size-[20px_20px]"></div>
+            <div className="relative z-10">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Ready to Transform Your School?
+              </h2>
+              <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
+                Let's discuss how we can help elevate your institution to the next level
+              </p>
+              <button className="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-lg">
+                Get Started Today
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
       <style jsx>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes float {
+        @keyframes blob {
           0%, 100% {
-            transform: translateY(0px) translateX(0px) rotate(0deg);
+            transform: translate(0, 0) scale(1);
           }
-          25% {
-            transform: translateY(-20px) translateX(10px) rotate(5deg);
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
           }
-          50% {
-            transform: translateY(-10px) translateX(-10px) rotate(-5deg);
-          }
-          75% {
-            transform: translateY(-30px) translateX(5px) rotate(3deg);
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
           }
         }
 
-        .animate-fade-in {
-          animation: fade-in 0.8s ease-out;
+        .animate-blob {
+          animation: blob 7s infinite;
         }
 
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+
+        .animation-delay-4000 {
+          animation-delay: 4s;
         }
       `}</style>
     </div>

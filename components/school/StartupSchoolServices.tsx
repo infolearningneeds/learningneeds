@@ -1,21 +1,88 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
+import Image from 'next/image';
 import { School, GraduationCap, Building2, TrendingUp, LayoutDashboard, Megaphone, ClipboardList, Users, Tag, MapPin, Sofa, Network, FileText, Sparkles, Zap, Rocket } from 'lucide-react';
 
 const StartupSchoolServices = () => {
   const services = [
-    { title: "New Start-up School", icon: School, color: "from-pink-500 to-rose-600" },
-    { title: "Teacher's Training", icon: GraduationCap, color: "from-purple-500 to-indigo-600" },
-    { title: "Infrastructure Designing", icon: Building2, color: "from-blue-500 to-cyan-600" },
-    { title: "Marketing Training", icon: TrendingUp, color: "from-emerald-500 to-teal-600" },
-    { title: "Interior Layout Designing", icon: LayoutDashboard, color: "from-orange-500 to-amber-600" },
-    { title: "Advertisement Plan", icon: Megaphone, color: "from-red-500 to-pink-600" },
-    { title: "Operation Plan", icon: ClipboardList, color: "from-violet-500 to-purple-600" },
-    { title: "Staff Selection Support", icon: Users, color: "from-sky-500 to-blue-600" },
-    { title: "Name Selection", icon: Tag, color: "from-fuchsia-500 to-pink-600" },
-    { title: "Area & Site Selection", icon: MapPin, color: "from-lime-500 to-green-600" },
-    { title: "Furniture & Learning Aid Selection", icon: Sofa, color: "from-amber-500 to-orange-600" },
-    { title: "School Organization Structure", icon: Network, color: "from-indigo-500 to-blue-600" },
-    { title: "Collateral Designing Support", icon: FileText, color: "from-teal-500 to-cyan-600" }
+    { 
+      title: "New Start-up School", 
+      icon: School, 
+      color: "from-pink-500 to-rose-600",
+      image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80"
+    },
+    { 
+      title: "Teacher's Training", 
+      icon: GraduationCap, 
+      color: "from-purple-500 to-indigo-600",
+      image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80"
+    },
+    { 
+      title: "Infrastructure Designing", 
+      icon: Building2, 
+      color: "from-blue-500 to-cyan-600",
+      image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80"
+    },
+    { 
+      title: "Marketing Training", 
+      icon: TrendingUp, 
+      color: "from-emerald-500 to-teal-600",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
+    },
+    { 
+      title: "Interior Layout Designing", 
+      icon: LayoutDashboard, 
+      color: "from-orange-500 to-amber-600",
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
+    },
+    { 
+      title: "Advertisement Plan", 
+      icon: Megaphone, 
+      color: "from-red-500 to-pink-600",
+      image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80"
+    },
+    { 
+      title: "Operation Plan", 
+      icon: ClipboardList, 
+      color: "from-violet-500 to-purple-600",
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80"
+    },
+    { 
+      title: "Staff Selection Support", 
+      icon: Users, 
+      color: "from-sky-500 to-blue-600",
+      image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80"
+    },
+    { 
+      title: "Name Selection", 
+      icon: Tag, 
+      color: "from-fuchsia-500 to-pink-600",
+      image: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=800&q=80"
+    },
+    { 
+      title: "Area & Site Selection", 
+      icon: MapPin, 
+      color: "from-lime-500 to-green-600",
+      image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80"
+    },
+    { 
+      title: "Furniture & Learning Aid Selection", 
+      icon: Sofa, 
+      color: "from-amber-500 to-orange-600",
+      image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80"
+    },
+    { 
+      title: "School Organization Structure", 
+      icon: Network, 
+      color: "from-indigo-500 to-blue-600",
+      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80"
+    },
+    { 
+      title: "Collateral Designing Support", 
+      icon: FileText, 
+      color: "from-teal-500 to-cyan-600",
+      image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80"
+    }
   ];
 
   const floatingElements = [
@@ -27,7 +94,7 @@ const StartupSchoolServices = () => {
   ];
 
   return (
-    <div className="relative w-full bg-gradient-to-br from-sky-100 via-blue-50 to-cyan-100 py-24 px-4 overflow-hidden">
+    <div className="relative w-full bg-linear-to-br from-sky-100 via-blue-50 to-cyan-100 py-24 px-4 overflow-hidden">
       
       {/* Animated Background Pattern */}
       <div className="absolute inset-0 opacity-30">
@@ -55,11 +122,11 @@ const StartupSchoolServices = () => {
         {/* Header */}
         <div className="text-center mb-20">
           <h2 className="text-6xl sm:text-7xl lg:text-8xl font-black mb-6 leading-tight">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900">
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-gray-900 via-blue-900 to-purple-900">
               Start Your
             </span>
             <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-600 via-purple-600 to-pink-600">
               Dream School
             </span>
           </h2>
@@ -82,26 +149,44 @@ const StartupSchoolServices = () => {
                 className={`group ${gridClass}`}
                 style={{ animationDelay: `${idx * 50}ms` }}
               >
-                <div className="relative h-full min-h-[140px] bg-white/80 backdrop-blur-xl rounded-3xl p-6 border-2 border-white/50 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+                <div className="relative h-full min-h-[140px] bg-white/80 backdrop-blur-xl rounded-3xl border-2 border-white/50 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
                   
-                  {/* Gradient Overlay on Hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                  {/* Background Image */}
+                  <div className="absolute inset-0">
+                    <Image 
+                      src={service.image} 
+                      alt={service.title}
+                      fill
+                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+                      className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:blur-0 blur-sm"
+                    />
+                    {/* Dark Overlay - removes on hover */}
+                    <div className="absolute inset-0 bg-black/60 group-hover:bg-black/0 transition-all duration-500"></div>
+                    
+                    {/* Gradient Overlay - removes on hover */}
+                    <div className={`absolute inset-0 bg-linear-to-br ${service.color} opacity-70 group-hover:opacity-0 transition-all duration-500`}></div>
+                  </div>
                   
                   {/* Content */}
-                  <div className="relative z-10 h-full flex flex-col justify-between">
-                    <div className={`w-14 h-14 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 mb-4`}>
+                  <div className="relative z-10 h-full flex flex-col justify-between p-6">
+                    <div className={`w-14 h-14 bg-linear-to-br ${service.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-0 group-hover:opacity-0 transition-all duration-500`}>
                       <service.icon className="w-7 h-7 text-white" strokeWidth={2.5} />
                     </div>
                     
                     <div>
-                      <h3 className="text-base font-bold text-gray-900 leading-tight group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-gray-900 group-hover:to-gray-600 transition-all duration-300">
+                      <h3 className="text-base font-bold text-white drop-shadow-lg leading-tight">
                         {service.title}
                       </h3>
                     </div>
                   </div>
 
                   {/* Corner Accent */}
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-transparent to-white/20 rounded-bl-3xl"></div>
+                  <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-white/40 to-transparent rounded-bl-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* Shine Effect on Hover */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                    <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+                  </div>
                 </div>
               </div>
             );
@@ -112,7 +197,7 @@ const StartupSchoolServices = () => {
         <div className="mt-20 text-center">
           <button className="group relative bg-gray-900 text-white px-14 py-6 rounded-full font-bold text-xl hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-gray-900/50 overflow-hidden">
             <span className="relative z-10 flex items-center gap-3">
-              Let&lsquo;s Build Together
+              Let's Build Together
               <Rocket className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

@@ -138,6 +138,13 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
       path: '/admin/notices',
       color: 'red'
     },
+    { 
+      id: 'career', 
+      label: 'Career', 
+      icon: FileText, 
+      path: '/admin/career',
+      color: 'blue'
+    },
   ]
 
   if (loading) {

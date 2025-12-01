@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { Package, Award, Tag, Lock, Facebook, Twitter, Instagram, MessageCircle, Youtube, Mail, Phone, ArrowRight, Sparkles } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
@@ -52,9 +54,30 @@ const Footer = () => {
   ];
 
 
-  const helpLinks = ['Track Order', 'FAQs', 'Cancel Order', 'Return Order', 'Warranty Info'];
-  const policyLinks = ['Return Policy', 'Security', 'Sitemap', 'Privacy Policy', 'T&C'];
-  const companyLinks = ['About Us', 'Contact Us', 'Service Centres', 'Work With Us', 'Courses'];
+  const helpLinks = [
+    { label: 'Track Order', href: '/track-order' },
+    { label: 'FAQs', href: '/faqs' },
+    { label: 'Cancel Order', href: '/cancel-order' },
+    { label: 'Return Order', href: '/return-order' },
+    { label: 'Warranty Info', href: '/warranty-info' },
+  ];
+
+  const policyLinks = [
+    { label: 'Return Policy', href: '/return-policy' },
+    { label: 'Security', href: '/security' },
+    { label: 'Sitemap', href: '/sitemap' },
+    { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'T&C', href: '/terms-and-conditions' },
+  ];
+
+  const companyLinks = [
+    { label: 'About Us', href: '/about' },
+    { label: 'Contact Us', href: '/contact' },
+    { label: 'Service Centres', href: '/service-centres' },
+    { label: 'Work With Us', href: '/careers' },
+    { label: 'Products', href: '/products' },
+  ];
+
 
   return (
     <footer className="relative overflow-hidden bg-blue-950">
@@ -154,10 +177,27 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="col-span-2 sm:col-span-2 lg:col-span-4">
             <div className="mb-6 sm:mb-8">
-              <h3 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 flex items-center gap-2">
-                <span className="text-orange-500">Learning</span>
-                <span className="text-white">Needs</span>
-              </h3>
+              <Link href="/">
+                <div className="mb-6 sm:mb-8">
+                  <Link href="/">
+                    <div className="relative group inline-block">
+                      {/* Glow effect behind logo */}
+                      <div className="absolute -inset-2 bg-linear-to-br from-orange-400 to-orange-600 rounded-xl opacity-30 blur-lg group-hover:opacity-50 transition-opacity duration-300"></div>
+                      {/* Logo container with gradient background */}
+                      <div className="relative bg-linear-to-br from-white via-blue-50 to-cyan-50 p-2 rounded-xl shadow-lg border border-white/20 backdrop-blur-sm">
+                        <Image
+                          src="/images/LN.webp"
+                          alt="Logo"
+                          width={160}
+                          height={60}
+                          className="cursor-pointer relative z-10"
+                        />
+                      </div>
+                    </div>
+                  </Link>
+                 
+                </div>
+              </Link>
               <p className="text-blue-200 text-sm leading-relaxed">
                 Driving the power of education to reach new heights. Empowering learners worldwide with innovative solutions.
               </p>
@@ -189,38 +229,38 @@ const Footer = () => {
             <ul className="space-y-2 sm:space-y-3">
               {helpLinks.map((link, index) => (
                 <li key={index}>
-                  <a href="#" className="text-blue-200 hover:text-orange-500 hover:translate-x-2 inline-block transition-all duration-300 flex items-center gap-2 group text-sm sm:text-base">
+                  <Link href={link.href} className="text-blue-200 hover:text-orange-500 hover:translate-x-2 inline-block transition-all duration-300 flex items-center gap-2 group text-sm sm:text-base">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                    {link}
-                  </a>
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div className="col-span-1 sm:col-span-1 lg:col-span-2">
-            <h4 className="text-orange-500 font-bold text-base sm:text-lg mb-4 sm:mb-6">Policies</h4>
+            <h4 className="text-orange-500 font-bold text-base sm:text-lg mb-4 sm:mb-6">Help</h4>
             <ul className="space-y-2 sm:space-y-3">
               {policyLinks.map((link, index) => (
                 <li key={index}>
-                  <a href="#" className="text-blue-200 hover:text-orange-500 hover:translate-x-2 inline-block transition-all duration-300 flex items-center gap-2 group text-sm sm:text-base">
+                  <Link href={link.href} className="text-blue-200 hover:text-orange-500 hover:translate-x-2 inline-block transition-all duration-300 flex items-center gap-2 group text-sm sm:text-base">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                    {link}
-                  </a>
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div className="col-span-1 sm:col-span-1 lg:col-span-2">
-            <h4 className="text-orange-500 font-bold text-base sm:text-lg mb-4 sm:mb-6">Company</h4>
+            <h4 className="text-orange-500 font-bold text-base sm:text-lg mb-4 sm:mb-6">Help</h4>
             <ul className="space-y-2 sm:space-y-3">
               {companyLinks.map((link, index) => (
                 <li key={index}>
-                  <a href="#" className="text-blue-200 hover:text-orange-500 hover:translate-x-2 inline-block transition-all duration-300 flex items-center gap-2 group text-sm sm:text-base">
+                  <Link href={link.href} className="text-blue-200 hover:text-orange-500 hover:translate-x-2 inline-block transition-all duration-300 flex items-center gap-2 group text-sm sm:text-base">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                    {link}
-                  </a>
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
