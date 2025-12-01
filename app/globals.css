@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@tailwind utilities;
+
+@layer components {
+  .nav__link {
+    @apply relative text-xl w-fit block after:block after:content-[''] font-semibold after:absolute after:h-[3px] after:bg-yellow-400 text-white after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-right;
+  }
+  .button__cls {
+    @apply md:px-12 md:py-2.5 px-6 py-1.5 text-white font-semibold text-sm md:text-lg transition-all duration-200 rounded-lg;
+  }
+  .footer__heading {
+    @apply text-lg text-white font-bold mb-4;
+  }
+  .footer__link {
+    @apply text-sm text-white hover:text-green-600 cursor-pointer text-white/60 mb-3 w-fit;
+  }
+}
+/* app/globals.css – BEST ONE FOR BRIGHT HORIZON */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #60a5fa, #ed8816);
+  border-radius: 6px;
+  border: 3px solid #000;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #3b82f6, #f58702);
+  background-clip: content-box;
+  box-shadow: 0 0 20px rgba(210, 122, 8, 0.6);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ec840d #000;
+}
+
+@keyframes scroll-vertical {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-scroll-vertical {
+  animation: scroll-vertical 10s linear infinite;
+}
+
+.sparkle-text {
+  display: inline-block;
+  position: relative;
+  animation: sparkleMain 2s ease-in-out infinite;
+}
+
+.sparkle-text::before,
+.sparkle-text::after {
+  content: '✨';
+  position: absolute;
+  font-size: 0.8em;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.sparkle-text::before {
+  top: -0.5em;
+  left: -0.8em;
+  animation-delay: 0s;
+}
+
+.sparkle-text::after {
+  top: -0.5em;
+  right: -0.8em;
+  animation-delay: 1s;
+}
+
+@keyframes sparkleMain {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1) rotate(180deg); }
+}
