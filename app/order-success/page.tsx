@@ -1,8 +1,7 @@
-// page.tsx
-"use client"; // optional, but safe
+'use client';
 
-import OrderSuccessClient from "./OrderSuccessClient";
+import OrderSuccessPage from './OrderSuccessClient';
 
-export default function OrderSuccessPage() {
-  return <OrderSuccessClient />;
+export default function Page() {
+  return <OrderSuccessPage />;
 }

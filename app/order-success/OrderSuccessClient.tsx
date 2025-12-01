@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-unescaped-entities */
-'use client'
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -26,53 +26,46 @@ export default function OrderSuccessClient() {
     }
 
     // Trigger confetti animation
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
+    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+
+    const fetchOrderDetails = async () => {
+      try {
+        // Fetch order
+        const { data: orderData, error: orderError } = await supabase
+          .from('orders')
+          .select('*')
+          .eq('id', orderId)
+          .single();
+        if (orderError) throw orderError;
+        setOrder(orderData);
+
+        // Fetch order items
+        const { data: itemsData, error: itemsError } = await supabase
+          .from('order_items')
+          .select('*')
+          .eq('order_id', orderId);
+        if (itemsError) throw itemsError;
+        setOrderItems(itemsData);
+
+        // Fetch address
+        const { data: addressData, error: addressError } = await supabase
+          .from('addresses')
+          .select('*')
+          .eq('id', orderData.address_id)
+          .single();
+        if (addressError) throw addressError;
+        setAddress(addressData);
+
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching order details:', error);
+        alert('Failed to load order details');
+        router.push('/');
+      }
+    };
 
     fetchOrderDetails();
   }, [orderId]);
-
-  const fetchOrderDetails = async () => {
-    try {
-      // Fetch order
-      const { data: orderData, error: orderError } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('id', orderId)
-        .single();
-
-      if (orderError) throw orderError;
-      setOrder(orderData);
-
-      // Fetch order items
-      const { data: itemsData, error: itemsError } = await supabase
-        .from('order_items')
-        .select('*')
-        .eq('order_id', orderId);
-
-      if (itemsError) throw itemsError;
-      setOrderItems(itemsData);
-
-      // Fetch address
-      const { data: addressData, error: addressError } = await supabase
-        .from('addresses')
-        .select('*')
-        .eq('id', orderData.address_id)
-        .single();
-
-      if (addressError) throw addressError;
-      setAddress(addressData);
-
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching order details:', error);
-      alert('Failed to load order details');
-      router.push('/');
-    }
-  };
 
   if (loading) {
     return (
@@ -103,6 +96,7 @@ export default function OrderSuccessClient() {
 
         {/* Order Info Card */}
         <div className="bg-gradient-to-br from-gray-800/50 to-gray-800/30 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 border border-gray-700/50 mb-6">
+          {/* Order Summary */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6 pb-6 border-b border-gray-700/50">
             <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/30">
               <p className="text-sm text-gray-400 mb-1">Order Number</p>
