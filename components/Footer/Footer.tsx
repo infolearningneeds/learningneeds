@@ -179,7 +179,7 @@ const Footer = () => {
             <div className="mb-6 sm:mb-8">
               <Link href="/">
                 <div className="mb-6 sm:mb-8">
-                  <Link href="/">
+                  
                     <div className="relative group inline-block">
                       {/* Glow effect behind logo */}
                       <div className="absolute -inset-2 bg-linear-to-br from-orange-400 to-orange-600 rounded-xl opacity-30 blur-lg group-hover:opacity-50 transition-opacity duration-300"></div>
@@ -194,7 +194,7 @@ const Footer = () => {
                         />
                       </div>
                     </div>
-                  </Link>
+                  
                  
                 </div>
               </Link>

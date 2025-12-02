@@ -18,28 +18,30 @@ const PageLoader = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Simulate loading progress
+    // Smooth loading progress (1% per tick)
     const progressInterval = setInterval(() => {
-      setProgress(prev => {
+      setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           return 100;
         }
-        return prev + Math.random() * 15;
+        return prev + 1; // smoother progress
       });
-    }, 200);
+    }, 50); // runs every 50ms → smooth increments
 
-    // Hide loader when page is fully loaded
+    // Hide loader when page fully loaded
     const handleLoad = () => {
-      setProgress(100);
       setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
+        setProgress(100);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
+      }, 800); // ensures smooth start, avoids instant 0→100 flash
     };
 
     if (typeof window !== 'undefined') {
       if (document.readyState === 'complete') {
-        handleLoad();
+        setTimeout(handleLoad, 800);
       } else {
         window.addEventListener('load', handleLoad);
       }
@@ -62,42 +64,34 @@ const PageLoader = () => {
       <div className="absolute inset-0 overflow-hidden">
         <div 
           className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse transition-transform duration-300 ease-out"
-          style={{ 
-            transform: `translate(${mousePosition.x * 30}px, ${mousePosition.y * 30}px)`
-          }}
+          style={{ transform: `translate(${mousePosition.x * 30}px, ${mousePosition.y * 30}px)` }}
         ></div>
+
         <div 
-          className="absolute top-1/3 right-1/4 w-96 h-96 bg-orange-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse transition-transform duration-300 ease-out" 
-          style={{ 
-            animationDelay: '2s',
-            transform: `translate(${mousePosition.x * -40}px, ${mousePosition.y * -40}px)`
-          }}
+          className="absolute top-1/3 right-1/4 w-96 h-96 bg-orange-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse transition-transform duration-300 ease-out"
+          style={{ animationDelay: '2s', transform: `translate(${mousePosition.x * -40}px, ${mousePosition.y * -40}px)` }}
         ></div>
+
         <div 
-          className="absolute bottom-1/4 left-1/2 w-96 h-96 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse transition-transform duration-300 ease-out" 
-          style={{ 
-            animationDelay: '4s',
-            transform: `translate(${mousePosition.x * 50}px, ${mousePosition.y * 50}px)`
-          }}
+          className="absolute bottom-1/4 left-1/2 w-96 h-96 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse transition-transform duration-300 ease-out"
+          style={{ animationDelay: '4s', transform: `translate(${mousePosition.x * 50}px, ${mousePosition.y * 50}px)` }}
         ></div>
-        
+
         {/* Additional parallax layers */}
-        <div 
+        <div
           className="absolute top-1/2 left-1/3 w-64 h-64 bg-blue-400 rounded-full mix-blend-multiply filter blur-2xl opacity-10 transition-transform duration-500 ease-out"
-          style={{ 
-            transform: `translate(${mousePosition.x * -25}px, ${mousePosition.y * 25}px)`
-          }}
+          style={{ transform: `translate(${mousePosition.x * -25}px, ${mousePosition.y * 25}px)` }}
         ></div>
-        <div 
+
+        <div
           className="absolute bottom-1/3 right-1/3 w-80 h-80 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl opacity-15 transition-transform duration-700 ease-out"
-          style={{ 
-            transform: `translate(${mousePosition.x * 35}px, ${mousePosition.y * -35}px)`
-          }}
+          style={{ transform: `translate(${mousePosition.x * 35}px, ${mousePosition.y * -35}px)` }}
         ></div>
       </div>
 
+      {/* Loader Content */}
       <div className="relative z-10 text-center">
-        {/* Logo/Brand */}
+        {/* Logo / Brand */}
         <div className="mb-8 animate-bounce">
           <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-600 to-orange-600 rounded-2xl flex items-center justify-center shadow-2xl transform rotate-6 hover:rotate-12 transition-transform duration-300">
             <span className="text-4xl font-bold text-white">LN</span>
@@ -109,15 +103,13 @@ const PageLoader = () => {
           <span className="text-white">Learning </span>
           <span className="text-orange-500">Needs</span>
         </h1>
-        
-        <p className="text-gray-300 mb-8 text-lg">
-          Loading your experience...
-        </p>
+
+        <p className="text-gray-300 mb-8 text-lg">Loading your experience...</p>
 
         {/* Progress Bar */}
         <div className="w-64 mx-auto">
           <div className="h-2 bg-indigo-900 rounded-full overflow-hidden shadow-inner">
-            <div 
+            <div
               className="h-full bg-gradient-to-r from-blue-600 to-orange-600 rounded-full transition-all duration-300 ease-out relative overflow-hidden"
               style={{ width: `${Math.min(progress, 100)}%` }}
             >
@@ -125,14 +117,14 @@ const PageLoader = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-shimmer"></div>
             </div>
           </div>
-          
-          {/* Progress percentage */}
+
+          {/* Percentage */}
           <div className="mt-3 text-sm font-semibold text-gray-400">
-            {Math.round(Math.min(progress, 100))}%
+            {Math.round(progress)}%
           </div>
         </div>
 
-        {/* Spinning loader */}
+        {/* 3 bouncing dots */}
         <div className="mt-8 flex justify-center gap-2">
           {[0, 1, 2].map((i) => (
             <div
