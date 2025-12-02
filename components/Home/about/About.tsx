@@ -6,29 +6,29 @@ const About = () => {
   const features = [
     {
       icon: <Users className="w-8 h-8" />,
-      title: "Leadership Training",
-      description: "Empowering leaders to inspire and transform their teams",
+      title: "Customized Training",
+      description: "Tailored programs that match the goals of institutions, educators, students, and parents.",
       gradient: "from-blue-50 to-cyan-50",
       iconGradient: "from-blue-500 to-cyan-600"
     },
     {
       icon: <BookOpen className="w-8 h-8" />,
-      title: "School Consulting",
-      description: "Expert guidance for educational excellence and growth",
+      title: "Proven Expertise & Industry Leadership ",
+      description: "With years of experience, we are recognized as one of the best providers of training, consulting, and educational support.",
       gradient: "from-purple-50 to-pink-50",
       iconGradient: "from-purple-500 to-pink-600"
     },
     {
       icon: <Award className="w-8 h-8" />,
-      title: "Teacher Training",
-      description: "Developing educators who shape future generations",
+      title: "Your All-In-One Education Partner",
+      description: "We bring together training, consulting, resources, and services, making us the ultimate one-stop solution.",
       gradient: "from-emerald-50 to-teal-50",
       iconGradient: "from-emerald-500 to-teal-600"
     },
     {
       icon: <TrendingUp className="w-8 h-8" />,
-      title: "School Startup",
-      description: "Complete support for launching successful institutions",
+      title: "Trusted Affiliate Network ",
+      description: "Access to reliable partners offering school supplies, uniforms, equipment, and additional educational services.",
       gradient: "from-orange-50 to-amber-50",
       iconGradient: "from-orange-500 to-amber-600"
     }
