@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Handshake, DollarSign, Shield, TrendingUp, FileCheck, Laptop, Users, Award, Target, Lightbulb, Rocket, Globe, Settings, CheckCircle, Star, Briefcase } from 'lucide-react';
+import ServicesSupplies from './ServicesSupplies';
 
 const ServicesLearningNeeds: React.FC = () => {
   const floatingIcons = [
@@ -45,7 +46,7 @@ const ServicesLearningNeeds: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-200 py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Floating Icons Background */}
       <div className="absolute inset-0 pointer-events-none">
         {floatingIcons.map((item, index) => {
@@ -73,7 +74,7 @@ const ServicesLearningNeeds: React.FC = () => {
         {/* Header Section */}
         <div className="text-center mb-16 animate-fade-in">
           <div className="inline-block mb-6">
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-full text-sm font-bold shadow-xl uppercase tracking-wide">
+            <span className="bg-linear-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-full text-sm font-bold shadow-xl uppercase tracking-wide">
               Professional Excellence
             </span>
           </div>
@@ -134,25 +135,7 @@ const ServicesLearningNeeds: React.FC = () => {
 
         {/* Image Section */}
         <div className="mb-12 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-          <div className="relative group max-w-5xl mx-auto">
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl opacity-20 blur-2xl group-hover:opacity-30 transition-opacity duration-500"></div>
-            <div className="relative overflow-hidden rounded-3xl shadow-2xl transform transition-all duration-500 group-hover:scale-[1.02]">
-              <div className="relative w-full aspect-[16/9]">
-                <Image
-                  src="/images/school/service.png"
-                  alt="Learning Needs Services"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 1200px"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              {/* Decorative corner accents */}
-              <div className="absolute top-4 left-4 w-16 h-16 border-t-4 border-l-4 border-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="absolute bottom-4 right-4 w-16 h-16 border-b-4 border-r-4 border-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            </div>
-          </div>
+          <ServicesSupplies/>
         </div>
 
         {/* Key Services Grid */}

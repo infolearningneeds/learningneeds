@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { BookOpen, Users, TrendingUp, Award, Lightbulb, Target, FileText, PieChart, Briefcase, GraduationCap, Brain, Rocket, Globe, CheckCircle, Star } from 'lucide-react';
+import ExpertiseInclude from './ExpertiseInclude';
 
 const ExpertiseSection: React.FC = () => {
   const floatingIcons = [
@@ -62,34 +63,20 @@ const ExpertiseSection: React.FC = () => {
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-4 relative inline-block">
             Expertise Includes
-            
+
           </h2>
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Image Section */}
-          <div className="relative group animate-slide-in-left">
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl opacity-20 blur-2xl group-hover:opacity-30 transition-opacity duration-500"></div>
-            <div className="relative overflow-hidden rounded-3xl shadow-2xl transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-3xl h-[500px]">
-              <Image
-                src="/images/school/expert.png"
-                alt="Education Excellence"
-                fill
-                className="object-contain"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              {/* Decorative corner accents */}
-              <div className="absolute top-4 left-4 w-16 h-16 border-t-4 border-l-4 border-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="absolute bottom-4 right-4 w-16 h-16 border-b-4 border-r-4 border-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+          {/* Image Section - Takes 3/5 (60%) */}
+          <div className="relative group animate-slide-in-left lg:col-span-3">
+            
+            <ExpertiseInclude />
           </div>
 
-          {/* Expertise List Section */}
-          <div className="animate-slide-in-right">
+          {/* Expertise List Section - Takes 2/5 (40%) */}
+          <div className="animate-slide-in-right lg:col-span-2">
             <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-3xl p-8 shadow-xl border border-gray-100">
               <div className="space-y-4">
                 {expertiseItems.map((item, index) => (

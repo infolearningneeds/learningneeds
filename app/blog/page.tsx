@@ -9,12 +9,11 @@ const page = () => {
                 smallHeader="Blogs"
                 titleMain="Personal Development for Smart People"
                 titleHighlight="captured through moments of Strength, Skill & Team Spirit"
-                description="Our Sports Gallery brings together powerful moments that reflect dedication, teamwork, and the joy of active learning.
-    Each image highlights students developing essential skills, building confidence, and experiencing the true spirit of sportsmanship.
-    From training sessions to competitive events, this collection captures the energy, discipline, and passion that define holistic physical education in schools.
+                description="Stay updated with expert articles on education, personal development, student growth, and modern learning practices. 
+Our blog brings knowledge, inspiration, and practical tips for learners and educators.
             "
             />
-            <BlogPage/>
+            <BlogPage />
         </>
     )
 }

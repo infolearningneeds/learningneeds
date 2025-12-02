@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import Image from 'next/image';
-import { School, GraduationCap, Building2, TrendingUp, LayoutDashboard, Megaphone, ClipboardList, Users, Tag, MapPin, Sofa, Network, FileText, Sparkles, Zap, Rocket } from 'lucide-react';
+import { School, GraduationCap, Building2, TrendingUp, LayoutDashboard, Megaphone, ClipboardList, Users, Tag, MapPin, Sofa, Network, FileText, Sparkles, Zap, Rocket, Globe } from 'lucide-react';
 
 const StartupSchoolServices = () => {
   const services = [
@@ -82,6 +82,12 @@ const StartupSchoolServices = () => {
       icon: FileText, 
       color: "from-teal-500 to-cyan-600",
       image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80"
+    },
+    { 
+      title: "Website Designing", 
+      icon: Globe, 
+      color: "from-cyan-500 to-blue-600",
+      image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&q=80"
     }
   ];
 
@@ -94,7 +100,7 @@ const StartupSchoolServices = () => {
   ];
 
   return (
-    <div className="relative w-full bg-linear-to-br from-sky-100 via-blue-50 to-cyan-100 py-24 px-4 overflow-hidden">
+    <div className="relative w-full bg-gradient-to-br from-sky-100 via-blue-50 to-cyan-100 py-24 px-4 overflow-hidden">
       
       {/* Animated Background Pattern */}
       <div className="absolute inset-0 opacity-30">
@@ -121,17 +127,17 @@ const StartupSchoolServices = () => {
         
         {/* Header */}
         <div className="text-center mb-20">
-          <h2 className="text-6xl sm:text-7xl lg:text-8xl font-black mb-6 leading-tight">
-            <span className="bg-clip-text text-transparent bg-linear-to-r from-gray-900 via-blue-900 to-purple-900">
+          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black mb-6 leading-tight">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900">
               Start Your
             </span>
             <br />
-            <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-600 via-purple-600 to-pink-600">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
               Dream School
             </span>
           </h2>
           <p className="text-2xl text-gray-800 font-medium max-w-2xl mx-auto">
-            13 Essential Services to Launch Successfully
+            14 Essential Services to Launch Successfully
           </p>
         </div>
 
@@ -158,22 +164,22 @@ const StartupSchoolServices = () => {
                       alt={service.title}
                       fill
                       sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-                      className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:blur-0 blur-sm"
+                      className="object-cover transition-all duration-700 group-hover:scale-110"
                     />
-                    {/* Dark Overlay - removes on hover */}
-                    <div className="absolute inset-0 bg-black/60 group-hover:bg-black/0 transition-all duration-500"></div>
+                    {/* Dark Overlay - lightens on hover */}
+                    <div className="absolute inset-0 bg-black/50 group-hover:bg-black/20 transition-all duration-500"></div>
                     
-                    {/* Gradient Overlay - removes on hover */}
-                    <div className={`absolute inset-0 bg-linear-to-br ${service.color} opacity-70 group-hover:opacity-0 transition-all duration-500`}></div>
+                    {/* Gradient Overlay - reduces on hover */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-60 group-hover:opacity-30 transition-all duration-500`}></div>
                   </div>
                   
                   {/* Content */}
-                  <div className="relative z-10 h-full flex flex-col justify-between p-6">
-                    <div className={`w-14 h-14 bg-linear-to-br ${service.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-0 group-hover:opacity-0 transition-all duration-500`}>
+                  <div className="relative z-10 h-full flex flex-col items-center justify-center p-6 gap-4">
+                    <div className={`w-14 h-14 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-500`}>
                       <service.icon className="w-7 h-7 text-white" strokeWidth={2.5} />
                     </div>
                     
-                    <div>
+                    <div className="text-center">
                       <h3 className="text-base font-bold text-white drop-shadow-lg leading-tight">
                         {service.title}
                       </h3>
@@ -185,7 +191,7 @@ const StartupSchoolServices = () => {
                   
                   {/* Shine Effect on Hover */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
                   </div>
                 </div>
               </div>

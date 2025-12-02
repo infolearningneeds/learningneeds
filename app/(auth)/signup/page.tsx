@@ -373,7 +373,7 @@ export default function SignUpPage() {
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className={`w-full ${isAdminSignup ? 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 shadow-amber-500/30' : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-indigo-500/30'} text-white py-3 rounded-xl font-semibold focus:ring-4 focus:ring-indigo-500/50 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group`}
+                  className={`w-full ${isAdminSignup ? 'bg-linear-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 shadow-amber-500/30' : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-indigo-500/30'} text-white py-3 rounded-xl font-semibold focus:ring-4 focus:ring-indigo-500/50 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group`}
                 >
                   {loading ? (
                     <>
