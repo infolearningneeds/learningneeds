@@ -54,13 +54,13 @@ const FitnessDevelopment: React.FC = () => {
     bgColor: 'bg-pink-50',
     iconColor: 'text-pink-600',
   },
-  {
-    icon: Play, 
-    title: 'Play Scape',
-    color: 'from-lime-500 to-gray-500',
-    bgColor: 'bg-teal-50',
-    iconColor: 'text-teal-600',
-  },
+ {
+  icon: Activity, 
+  title: 'Functional Training',
+  color: 'from-emerald-500 to-teal-400',
+  bgColor: 'bg-emerald-50',
+  iconColor: 'text-emerald-600',
+}
 ];
 
 
