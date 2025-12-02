@@ -1,60 +1,68 @@
 'use client'
 
 import React from 'react';
-import { Dumbbell, Heart, Zap, Target, Wind, Brain, Trophy, Star, Activity, Award } from 'lucide-react';
+import { Dumbbell, Heart, Zap, Target, Wind, Brain, Trophy, Star, Activity, Award , Play } from 'lucide-react';
 
 const FitnessDevelopment: React.FC = () => {
   const trainingCategories = [
-    {
-      icon: Dumbbell,
-      title: 'Strength Training',
-      color: 'from-red-500 to-orange-500',
-      bgColor: 'bg-red-50',
-      iconColor: 'text-red-600',
-    },
-    {
-      icon: Heart,
-      title: 'Endurance Training',
-      color: 'from-blue-500 to-cyan-500',
-      bgColor: 'bg-blue-50',
-      iconColor: 'text-blue-600',
-    },
-    {
-      icon: Zap,
-      title: 'Speed and Agility Training',
-      color: 'from-yellow-500 to-orange-500',
-      bgColor: 'bg-yellow-50',
-      iconColor: 'text-yellow-600',
-    },
-    {
-      icon: Target,
-      title: 'Skill Development',
-      color: 'from-purple-500 to-pink-500',
-      bgColor: 'bg-purple-50',
-      iconColor: 'text-purple-600',
-    },
-    {
-      icon: Wind,
-      title: 'Flexibility Training',
-      color: 'from-green-500 to-teal-500',
-      bgColor: 'bg-green-50',
-      iconColor: 'text-green-600',
-    },
-    {
-      icon: Brain,
-      title: 'Mental Training',
-      color: 'from-indigo-500 to-purple-500',
-      bgColor: 'bg-indigo-50',
-      iconColor: 'text-indigo-600',
-    },
-    {
-      icon: Trophy,
-      title: 'Tactical & Strategic Training',
-      color: 'from-pink-500 to-rose-500',
-      bgColor: 'bg-pink-50',
-      iconColor: 'text-pink-600',
-    },
-  ];
+  {
+    icon: Dumbbell,
+    title: 'Strength Training',
+    color: 'from-red-500 to-orange-500',
+    bgColor: 'bg-red-50',
+    iconColor: 'text-red-600',
+  },
+  {
+    icon: Heart,
+    title: 'Endurance Training',
+    color: 'from-blue-500 to-cyan-500',
+    bgColor: 'bg-blue-50',
+    iconColor: 'text-blue-600',
+  },
+  {
+    icon: Zap,
+    title: 'Speed and Agility Training',
+    color: 'from-yellow-500 to-orange-500',
+    bgColor: 'bg-yellow-50',
+    iconColor: 'text-yellow-600',
+  },
+  {
+    icon: Target,
+    title: 'Skill Development',
+    color: 'from-purple-500 to-pink-500',
+    bgColor: 'bg-purple-50',
+    iconColor: 'text-purple-600',
+  },
+  {
+    icon: Wind,
+    title: 'Flexibility Training',
+    color: 'from-green-500 to-teal-500',
+    bgColor: 'bg-green-50',
+    iconColor: 'text-green-600',
+  },
+  {
+    icon: Brain,
+    title: 'Mental Training',
+    color: 'from-indigo-500 to-purple-500',
+    bgColor: 'bg-indigo-50',
+    iconColor: 'text-indigo-600',
+  },
+  {
+    icon: Trophy,
+    title: 'Tactical & Strategic Training',
+    color: 'from-pink-500 to-rose-500',
+    bgColor: 'bg-pink-50',
+    iconColor: 'text-pink-600',
+  },
+  {
+    icon: Play, 
+    title: 'Play Scape',
+    color: 'from-lime-500 to-gray-500',
+    bgColor: 'bg-teal-50',
+    iconColor: 'text-teal-600',
+  },
+];
+
 
   const floatingIcons = [
     { Icon: Activity, top: '10%', left: '8%', delay: '0s', duration: '8s' },
