@@ -74,7 +74,7 @@ const Nav = ({ openNav }: Props) => {
                         <div className="absolute -inset-2 rounded-xl opacity-30 blur-lg group-hover:opacity-50 transition-opacity duration-300"></div>
 
                         {/* Logo container with gradient background */}
-                        <div className="relative bg-linear-to-br from-white via-blue-50 to-cyan-50 p-2 rounded-xl shadow-lg border border-white/20 backdrop-blur-sm">
+                        <div className="relative bg-linear-to-br from-blue-50 to-blue-200 p-3 rounded-2xl shadow-xl border border-white/50">
                             <Image
                                 src="/images/LN.webp"
                                 alt="Logo"
@@ -83,6 +83,10 @@ const Nav = ({ openNav }: Props) => {
                                 className="cursor-pointer relative z-10"
                             />
                         </div>
+
+
+
+
                     </div>
                 </Link>
 
@@ -154,7 +158,7 @@ const Nav = ({ openNav }: Props) => {
                                                 My Orders
                                             </button>
                                         </Link>
-                                       
+
                                     </div>
                                     <div className="border-t border-gray-100">
                                         <button
