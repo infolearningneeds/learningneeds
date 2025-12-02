@@ -115,7 +115,12 @@ const Programs = () => {
                       {program.title}
                     </h3>
 
-                    <p className="text-gray-700 leading-relaxed mb-6">
+                    <p className="text-gray-700 leading-relaxed mb-6" style={{
+                      textAlign: 'justify',
+                      textJustify: 'inter-word',
+                      hyphens: 'auto',
+                      wordSpacing: 'normal'
+                    }}>
                       {program.description}
                     </p>
                   </div>
