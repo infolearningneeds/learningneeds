@@ -1,5 +1,5 @@
 import React from 'react'
-import { Sparkles, Users, BookOpen, TrendingUp, Award, ArrowRight } from 'lucide-react'
+import { Users, BookOpen, TrendingUp, Award, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
 const About = () => {
@@ -100,7 +100,12 @@ const About = () => {
                 {feature.icon}
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
+              <p className="text-gray-600" style={{
+                textAlign: 'justify',
+                textJustify: 'inter-word',
+                hyphens: 'auto',
+                wordSpacing: 'normal'
+              }}>{feature.description}</p>
             </div>
           ))}
         </div>
