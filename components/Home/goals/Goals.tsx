@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 import { FaArrowRight, FaAward } from 'react-icons/fa'
 
@@ -35,10 +36,12 @@ const Goal = () => {
                         through structured training, strategic consulting, and meaningful transformation.
                     </p>
 
+                   <Link href="/training">
                     <button className='flex items-center space-x-2 px-8 py-3 mt-8 hover:bg-gray-700 transition-all duration-200 rounded-3xl bg-black text-white'>
                         <span>Learn More</span>
                         <FaArrowRight />
                     </button>
+                   </Link>
                 </div>
 
                 {/* RIGHT SECTION */}

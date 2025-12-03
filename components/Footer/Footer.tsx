@@ -55,10 +55,10 @@ const Footer = () => {
 
 
   const helpLinks = [
-    { label: 'Track Order', href: '/track-order' },
-    { label: 'FAQs', href: '/faqs' },
-    { label: 'Cancel Order', href: '/cancel-order' },
-    { label: 'Return Order', href: '/return-order' },
+    { label: 'Track Order', href: '/orders' },
+    { label: 'FAQs', href: '/about' },
+    { label: 'Cancel Order', href: '/orders' },
+    { label: 'Return Order', href: '/orders' },
     { label: 'Warranty Info', href: '/warranty-info' },
   ];
 
@@ -114,12 +114,14 @@ const Footer = () => {
               </p>
             </div>
             <div className="flex-shrink-0">
+              <Link href="/school-essentials">
               <button className="group relative bg-blue-950 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-base sm:text-lg shadow-2xl hover:bg-blue-900 transition-all duration-300 hover:scale-105">
                 <span className="flex items-center gap-2">
                   Get Started
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -179,23 +181,23 @@ const Footer = () => {
             <div className="mb-6 sm:mb-8">
               <Link href="/">
                 <div className="mb-6 sm:mb-8">
-                  
-                    <div className="relative group inline-block">
-                      {/* Glow effect behind logo */}
-                      <div className="absolute -inset-2 bg-linear-to-br from-orange-400 to-orange-600 rounded-xl opacity-30 blur-lg group-hover:opacity-50 transition-opacity duration-300"></div>
-                      {/* Logo container with gradient background */}
-                      <div className="relative bg-linear-to-br from-white via-blue-50 to-cyan-50 p-2 rounded-xl shadow-lg border border-white/20 backdrop-blur-sm">
-                        <Image
-                          src="/images/LN.webp"
-                          alt="Logo"
-                          width={160}
-                          height={60}
-                          className="cursor-pointer relative z-10"
-                        />
-                      </div>
+
+                  <div className="relative group inline-block">
+                    {/* Glow effect behind logo */}
+                    <div className="absolute -inset-2 bg-linear-to-br from-orange-400 to-orange-600 rounded-xl opacity-30 blur-lg group-hover:opacity-50 transition-opacity duration-300"></div>
+                    {/* Logo container with gradient background */}
+                    <div className="relative bg-linear-to-br from-white via-blue-50 to-cyan-50 p-2 rounded-xl shadow-lg border border-white/20 backdrop-blur-sm">
+                      <Image
+                        src="/images/LN.webp"
+                        alt="Logo"
+                        width={160}
+                        height={60}
+                        className="cursor-pointer relative z-10"
+                      />
                     </div>
-                  
-                 
+                  </div>
+
+
                 </div>
               </Link>
               <p className="text-blue-200 text-sm leading-relaxed">
@@ -302,21 +304,24 @@ const Footer = () => {
               <p className="text-blue-300 text-sm sm:text-base mb-3 sm:mb-4">Get connected with us on social networks:</p>
               <div className="flex items-center justify-center md:justify-start gap-2 sm:gap-3">
                 {[
-                  { Icon: Facebook },
-                  { Icon: Twitter },
-                  { Icon: Instagram },
-                  { Icon: MessageCircle },
-                  { Icon: Youtube }
-                ].map(({ Icon }, index) => (
+                  { Icon: Facebook, href: "https://www.facebook.com/share/1Gvcjtkpqn/" },
+                  { Icon: Twitter, href: "https://twitter.com/" },
+                  { Icon: Instagram, href: "https://www.instagram.com/learning_needs" },
+                  { Icon: MessageCircle, href: "https://wa.me/8240554890" },
+                  { Icon: Youtube, href: "https://www.youtube.com/@LearningNeedsofficial" }
+                ].map(({ Icon, href }, index) => (
                   <a
                     key={index}
-                    href="#"
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-blue-900 flex items-center justify-center text-blue-300 hover:bg-orange-500 hover:text-white transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-orange-500/50"
                   >
                     <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </a>
                 ))}
               </div>
+
             </div>
             <div className="text-center md:text-right">
               <p className="text-blue-300 text-xs sm:text-sm">

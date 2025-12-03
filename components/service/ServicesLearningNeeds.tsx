@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Handshake, DollarSign, Shield, TrendingUp, FileCheck, Laptop, Users, Award, Target, Lightbulb, Rocket, Globe, Settings, CheckCircle, Star, Briefcase } from 'lucide-react';
 import ServicesSupplies from './ServicesSupplies';
+import Link from 'next/link';
 
 const ServicesLearningNeeds: React.FC = () => {
   const floatingIcons = [
@@ -90,41 +91,41 @@ const ServicesLearningNeeds: React.FC = () => {
         <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 mb-12 animate-slide-up">
           <div className="prose prose-lg max-w-none">
             <p className="text-gray-700 text-lg leading-relaxed mb-6 " style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
+              textAlign: 'justify',
+              textJustify: 'inter-word',
+              hyphens: 'auto',
+              wordSpacing: 'normal'
+            }}>
               Learning Needs actively works with various reliable preferred associates from different walks of life. This exercise ensures <span className="font-semibold text-blue-600">durable, timely and quality supply</span> of school needs at reasonable price.
             </p>
-            
+
             <p className="text-gray-700 text-lg leading-relaxed mb-6" style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
+              textAlign: 'justify',
+              textJustify: 'inter-word',
+              hyphens: 'auto',
+              wordSpacing: 'normal'
+            }}>
               <span className="font-semibold text-purple-600">Vendor management</span> includes activities such as selecting the right partners, negotiating contracts, controlling costs, reducing vendor-related risks and ensuring smooth service delivery.
             </p>
-            
+
             <p className="text-gray-700 text-lg leading-relaxed mb-6" style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
+              textAlign: 'justify',
+              textJustify: 'inter-word',
+              hyphens: 'auto',
+              wordSpacing: 'normal'
+            }}>
               We provide the <span className="font-semibold text-green-600">school consultancy services</span> needed to streamline and systematize various tasks, from period accounting to complex and sensitive whole-school projects, guidance on the best software solutions for your administration or a project manager to lead a school's digital transformation.
             </p>
-            
+
             <p className="text-gray-700 text-lg leading-relaxed mb-6" style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
+              textAlign: 'justify',
+              textJustify: 'inter-word',
+              hyphens: 'auto',
+              wordSpacing: 'normal'
+            }}>
               The Learning Needs team has worked with <span className="font-semibold text-orange-600">hundreds of schools</span>, and we have a deep respect for how ethos and values impact the day-to-day operations within a school. We understand that there are many moving parts, roles, and responsibilities to running a successful school operation.
             </p>
-            
+
             <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border-l-4 border-blue-600 mt-8">
               <p className="text-gray-800 text-xl font-semibold italic">
                 If you feel like you've gotten off track, why not trust the experts to help you get back on the road to success?
@@ -135,7 +136,7 @@ const ServicesLearningNeeds: React.FC = () => {
 
         {/* Image Section */}
         <div className="mb-12 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-          <ServicesSupplies/>
+          <ServicesSupplies />
         </div>
 
         {/* Key Services Grid */}
@@ -151,19 +152,19 @@ const ServicesLearningNeeds: React.FC = () => {
                 <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                   <service.icon className="w-8 h-8 text-white" strokeWidth={2} />
                 </div>
-                
+
                 {/* Title */}
                 <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">
                   {service.title}
                 </h3>
-                
+
                 {/* Description */}
                 <p className="text-gray-600 leading-relaxed" style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
+                  textAlign: 'justify',
+                  textJustify: 'inter-word',
+                  hyphens: 'auto',
+                  wordSpacing: 'normal'
+                }}>
                   {service.description}
                 </p>
 
@@ -204,9 +205,11 @@ const ServicesLearningNeeds: React.FC = () => {
               Let our experienced team guide you to operational excellence and sustainable success
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-blue-600 font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                Schedule a Consultation
-              </button>
+              <Link href="/contact">
+                <button className="bg-white text-blue-600 font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                  Schedule a Consultation
+                </button>
+              </Link>
               <button className="bg-transparent border-2 border-white text-white font-bold py-4 px-8 rounded-xl hover:bg-white hover:text-blue-600 transition-all duration-300">
                 Learn More
               </button>

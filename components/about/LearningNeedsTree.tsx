@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react';
 import { Award, Target, Heart, Users, Handshake, Lightbulb, Sprout, Flag, CheckCircle, Star, TrendingUp, Briefcase } from 'lucide-react';
+import Link from 'next/link';
 
 const LearningNeedsTree = () => {
   const [activeCard, setActiveCard] = useState<number | null>(null);
@@ -336,12 +337,12 @@ const LearningNeedsTree = () => {
               Master these 13 essential traits and unlock your full potential
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
+             <Link href="/training">
               <button className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-300/50 transition-all duration-300 transform hover:scale-105">
                 Get Started
               </button>
-              <button className="px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-all duration-300">
-                Learn More
-              </button>
+             </Link>
+              
             </div>
           </div>
         </div>

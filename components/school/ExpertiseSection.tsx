@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { BookOpen, Users, TrendingUp, Award, Lightbulb, Target, FileText, PieChart, Briefcase, GraduationCap, Brain, Rocket, Globe, CheckCircle, Star } from 'lucide-react';
 import ExpertiseInclude from './ExpertiseInclude';
+import Link from 'next/link';
 
 const ExpertiseSection: React.FC = () => {
   const floatingIcons = [
@@ -71,7 +72,7 @@ const ExpertiseSection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
           {/* Image Section - Takes 3/5 (60%) */}
           <div className="relative group animate-slide-in-left lg:col-span-3">
-            
+
             <ExpertiseInclude />
           </div>
 
@@ -102,9 +103,11 @@ const ExpertiseSection: React.FC = () => {
 
               {/* Call to Action */}
               <div className="mt-8 pt-8 border-t border-gray-200">
-                <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                  Learn More About Our Services
-                </button>
+                <Link href="/school-essentials">
+                  <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                    Learn More About Our Services
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

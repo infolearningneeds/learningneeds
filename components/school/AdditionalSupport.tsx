@@ -1,5 +1,6 @@
 import React from 'react';
 import { Users, TrendingUp, BookOpen, ClipboardCheck, GraduationCap, Smile, Lightbulb, Megaphone, DollarSign, UserCheck, Heart, School, Wallet, Shield, CheckCircle, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 
 const AdditionalSupport: React.FC = () => {
   const supportItems = [
@@ -165,13 +166,13 @@ const AdditionalSupport: React.FC = () => {
               <div className="relative h-full bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 overflow-hidden">
                 {/* Gradient overlay on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
-                
+
                 {/* Icon */}
                 <div className="relative flex items-start gap-4">
                   <div className={`flex-shrink-0 ${item.iconBg} p-3 rounded-xl group-hover:scale-110 transition-transform duration-300 shadow-md`}>
                     <item.icon className={`w-6 h-6 ${item.iconColor}`} strokeWidth={2} />
                   </div>
-                  
+
                   {/* Text */}
                   <div className="flex-1 pt-1">
                     <p className="text-gray-700 font-medium leading-relaxed group-hover:text-gray-900 transition-colors duration-300">
@@ -203,9 +204,10 @@ const AdditionalSupport: React.FC = () => {
             <p className="text-blue-100 text-lg mb-6">
               Our comprehensive support services are designed to help your institution excel
             </p>
-            <button className="bg-white text-blue-600 font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-              Contact Our Team Today
-            </button>
+            <Link href="/contact">
+              <button className="bg-white text-blue-600 font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                Contact Our Team Today
+              </button></Link>
           </div>
         </div>
 

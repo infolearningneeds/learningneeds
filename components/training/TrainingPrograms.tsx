@@ -226,17 +226,7 @@ const TrainingPrograms = () => {
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="mt-16 text-center">
-          <div className="inline-block bg-gradient-to-r from-purple-600 to-orange-500 p-[3px] rounded-2xl shadow-xl">
-            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl px-8 py-6">
-              <p className="text-gray-700 mb-4 font-medium">Ready to transform your career?</p>
-              <button className="bg-gradient-to-r from-purple-600 to-orange-500 text-white font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-purple-400/50 transition-all duration-300 hover:scale-105">
-                Get Started Today
-              </button>
-            </div>
-          </div>
-        </div>
+      
       </div>
     </div>
   );

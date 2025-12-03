@@ -1,67 +1,68 @@
 'use client'
 
 import React from 'react';
-import { Dumbbell, Heart, Zap, Target, Wind, Brain, Trophy, Star, Activity, Award , Play } from 'lucide-react';
+import { Dumbbell, Heart, Zap, Target, Wind, Brain, Trophy, Star, Activity, Award, Play } from 'lucide-react';
+import Link from 'next/link';
 
 const FitnessDevelopment: React.FC = () => {
   const trainingCategories = [
-  {
-    icon: Dumbbell,
-    title: 'Strength Training',
-    color: 'from-red-500 to-orange-500',
-    bgColor: 'bg-red-50',
-    iconColor: 'text-red-600',
-  },
-  {
-    icon: Heart,
-    title: 'Endurance Training',
-    color: 'from-blue-500 to-cyan-500',
-    bgColor: 'bg-blue-50',
-    iconColor: 'text-blue-600',
-  },
-  {
-    icon: Zap,
-    title: 'Speed and Agility Training',
-    color: 'from-yellow-500 to-orange-500',
-    bgColor: 'bg-yellow-50',
-    iconColor: 'text-yellow-600',
-  },
-  {
-    icon: Target,
-    title: 'Skill Development',
-    color: 'from-purple-500 to-pink-500',
-    bgColor: 'bg-purple-50',
-    iconColor: 'text-purple-600',
-  },
-  {
-    icon: Wind,
-    title: 'Flexibility Training',
-    color: 'from-green-500 to-teal-500',
-    bgColor: 'bg-green-50',
-    iconColor: 'text-green-600',
-  },
-  {
-    icon: Brain,
-    title: 'Mental Training',
-    color: 'from-indigo-500 to-purple-500',
-    bgColor: 'bg-indigo-50',
-    iconColor: 'text-indigo-600',
-  },
-  {
-    icon: Trophy,
-    title: 'Tactical & Strategic Training',
-    color: 'from-pink-500 to-rose-500',
-    bgColor: 'bg-pink-50',
-    iconColor: 'text-pink-600',
-  },
- {
-  icon: Activity, 
-  title: 'Functional Training',
-  color: 'from-emerald-500 to-teal-400',
-  bgColor: 'bg-emerald-50',
-  iconColor: 'text-emerald-600',
-}
-];
+    {
+      icon: Dumbbell,
+      title: 'Strength Training',
+      color: 'from-red-500 to-orange-500',
+      bgColor: 'bg-red-50',
+      iconColor: 'text-red-600',
+    },
+    {
+      icon: Heart,
+      title: 'Endurance Training',
+      color: 'from-blue-500 to-cyan-500',
+      bgColor: 'bg-blue-50',
+      iconColor: 'text-blue-600',
+    },
+    {
+      icon: Zap,
+      title: 'Speed and Agility Training',
+      color: 'from-yellow-500 to-orange-500',
+      bgColor: 'bg-yellow-50',
+      iconColor: 'text-yellow-600',
+    },
+    {
+      icon: Target,
+      title: 'Skill Development',
+      color: 'from-purple-500 to-pink-500',
+      bgColor: 'bg-purple-50',
+      iconColor: 'text-purple-600',
+    },
+    {
+      icon: Wind,
+      title: 'Flexibility Training',
+      color: 'from-green-500 to-teal-500',
+      bgColor: 'bg-green-50',
+      iconColor: 'text-green-600',
+    },
+    {
+      icon: Brain,
+      title: 'Mental Training',
+      color: 'from-indigo-500 to-purple-500',
+      bgColor: 'bg-indigo-50',
+      iconColor: 'text-indigo-600',
+    },
+    {
+      icon: Trophy,
+      title: 'Tactical & Strategic Training',
+      color: 'from-pink-500 to-rose-500',
+      bgColor: 'bg-pink-50',
+      iconColor: 'text-pink-600',
+    },
+    {
+      icon: Activity,
+      title: 'Functional Training',
+      color: 'from-emerald-500 to-teal-400',
+      bgColor: 'bg-emerald-50',
+      iconColor: 'text-emerald-600',
+    }
+  ];
 
 
   const floatingIcons = [
@@ -77,7 +78,7 @@ const FitnessDevelopment: React.FC = () => {
     <div className="min-h-screen bg-white py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Animated Blob Background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 -left-20 w-96 h-96 bg-gradient-to-br from-blue-200 to-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
+        <div className="absolute top-0 -left-20 w-96 h-96 bg-linear-to-br from-blue-200 to-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
         <div className="absolute top-20 -right-20 w-96 h-96 bg-gradient-to-br from-pink-200 to-red-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
         <div className="absolute -bottom-20 left-1/3 w-96 h-96 bg-gradient-to-br from-green-200 to-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-4000"></div>
         <div className="absolute bottom-32 right-1/4 w-96 h-96 bg-gradient-to-br from-yellow-200 to-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-6000"></div>
@@ -123,29 +124,29 @@ const FitnessDevelopment: React.FC = () => {
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 md:p-12 mb-16 border border-gray-200 animate-slide-up">
           <div className="prose prose-lg max-w-none">
             <p className="text-gray-700 text-lg leading-relaxed mb-6" style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
+              textAlign: 'justify',
+              textJustify: 'inter-word',
+              hyphens: 'auto',
+              wordSpacing: 'normal'
+            }}>
               Our <span className="font-bold text-blue-600">Sports training for children</span> is essential for promoting physical health, building teamwork, and developing essential motor skills. It focuses on age-appropriate exercises that improve strength, coordination, flexibility, and endurance, all while minimizing the risk of injury.
             </p>
-            
+
             <p className="text-gray-700 text-lg leading-relaxed mb-6" style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
+              textAlign: 'justify',
+              textJustify: 'inter-word',
+              hyphens: 'auto',
+              wordSpacing: 'normal'
+            }}>
               At this stage, the emphasis should be on <span className="font-bold text-purple-600">fun, learning basic techniques</span>, and fostering a love for physical activity rather than intense competition. Sports training also teaches important life skills such as discipline, perseverance, and how to handle both success and failure.
             </p>
-            
+
             <p className="text-gray-700 text-lg leading-relaxed" style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
+              textAlign: 'justify',
+              textJustify: 'inter-word',
+              hyphens: 'auto',
+              wordSpacing: 'normal'
+            }}>
               By engaging children in sports, they develop not only <span className="font-bold text-green-600">physical abilities</span> but also <span className="font-bold text-pink-600">social skills and emotional resilience</span>, which are crucial for their overall growth and development.
             </p>
           </div>
@@ -170,7 +171,7 @@ const FitnessDevelopment: React.FC = () => {
               <div className="relative h-full bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-200 overflow-hidden">
                 {/* Gradient overlay on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                
+
                 {/* Star Icon */}
                 <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Star className={`w-6 h-6 ${category.iconColor} fill-current`} />
@@ -202,7 +203,7 @@ const FitnessDevelopment: React.FC = () => {
             {/* Decorative circles */}
             <div className="absolute top-0 left-0 w-40 h-40 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
             <div className="absolute bottom-0 right-0 w-40 h-40 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
-            
+
             <div className="relative">
               <Trophy className="w-16 h-16 text-white mx-auto mb-6" strokeWidth={1.5} />
               <h3 className="text-4xl font-bold text-white mb-4">
@@ -212,14 +213,13 @@ const FitnessDevelopment: React.FC = () => {
                 Join our comprehensive fitness development programs and unlock your child&apos;s full potential
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-white text-blue-600 font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
-                  <Star className="w-5 h-5" />
-                  Enroll Now
-                </button>
-                <button className="bg-transparent border-2 border-white text-white font-bold py-4 px-8 rounded-xl hover:bg-white hover:text-blue-600 transition-all duration-300 flex items-center justify-center gap-2">
-                  <Activity className="w-5 h-5" />
-                  Learn More
-                </button>
+                <Link href="/contact">
+                  <button className="bg-white text-blue-600 font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2">
+                    <Star className="w-5 h-5" />
+                    Enroll Now
+                  </button>
+                </Link>
+                
               </div>
             </div>
           </div>

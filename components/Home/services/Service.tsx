@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import Image from 'next/image'
 import { ArrowRight, Phone, Globe, Car, Rocket, Award, Target, TrendingUp, Zap, Users } from 'lucide-react'
+import Link from 'next/link'
 
 const Services = () => {
   const services = [
@@ -50,7 +51,7 @@ const Services = () => {
           <div className="relative group order-2 lg:order-1">
             {/* Decorative Elements Behind Image */}
             <div className="absolute -inset-4 bg-gradient-to-r from-blue-400 to-orange-400 rounded-3xl blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
-            
+
             <div className="relative">
               {/* Main Image Card */}
               <div className="relative h-[400px] sm:h-[500px] md:h-[600px] rounded-3xl overflow-hidden border-4 border-white shadow-2xl transform transition-transform duration-500 group-hover:scale-[1.02]">
@@ -113,7 +114,7 @@ const Services = () => {
             {/* Services Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 py-4">
               {services.map((service, index) => (
-                <div 
+                <div
                   key={index}
                   className="group relative p-4 sm:p-5 rounded-2xl bg-white border-2 border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300 hover:scale-105"
                 >
@@ -131,14 +132,16 @@ const Services = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-3 sm:gap-4 pt-4">
-              <button className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-bold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl text-sm sm:text-base">
-                <span className="relative z-10 flex items-center gap-2">
-                  Explore More
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </button>
+              <Link href="/school-essentials">
+                <button className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-linear-to-r from-blue-600 to-blue-700 text-white rounded-xl font-bold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl text-sm sm:text-base">
+                  <span className="relative z-10 flex items-center gap-2">
+                    Explore More
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </button>
+              </Link>
 
-              <a 
+              <a
                 href="tel:+918240554890"
                 className="group px-6 sm:px-8 py-3 sm:py-4 bg-white text-blue-600 rounded-xl font-bold border-2 border-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-300 hover:scale-105 flex items-center gap-2 text-sm sm:text-base"
               >
@@ -149,8 +152,8 @@ const Services = () => {
 
             {/* Phone Number */}
             <div className="relative inline-block pt-2">
-              <a 
-                href="tel:+918240554890" 
+              <a
+                href="tel:+918240554890"
                 className="relative block text-2xl sm:text-3xl font-bold text-blue-600 hover:text-blue-700 transition-colors duration-300"
               >
                 +91 82405-54890

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface IndustryHeroProps {
@@ -73,6 +74,7 @@ export default function IndustryHero({
                         </p>
                     )}
 
+                    <Link href="/products">
                     <button
                         className="px-8 py-3 rounded-full border text-white text-lg font-medium transition-all duration-300 hover:scale-105"
                         style={{
@@ -88,6 +90,7 @@ export default function IndustryHero({
                             {buttonText} →
                         </span>
                     </button>
+                    </Link>
                 </div>
 
                 {/* Right Image */}

@@ -91,9 +91,9 @@ const Hero = () => {
     };
 
     return (
-        <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950">
+        <div className="relative w-full h-screen overflow-hidden bg-linear-to-br from-blue-950 via-blue-900 to-blue-950">
             {/* Fixed Background Layer - Stays constant */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950" />
+            <div className="absolute inset-0 bg-linear-to-br from-blue-950 via-blue-900 to-blue-950" />
 
             {/* Random Animated Shapes - Fixed Background */}
             <div className="absolute inset-0 overflow-hidden">
