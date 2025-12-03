@@ -197,7 +197,7 @@ const InvoiceGenerator: React.FC<InvoiceProps> = ({ order, onClose }) => {
               This is a computer-generated invoice and does not require a signature.
             </p>
             <p className="text-xs text-gray-500 mt-2">
-              For any queries, please contact us at contact@yourcompany.com
+              For any queries, please contact us at infolearningneeds@gmail.com
             </p>
           </div>
         </div>
