@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Mail, Trash2, Eye, EyeOff, Search, Calendar, Phone, User } from 'lucide-react'
+import toast from 'react-hot-toast'
 
 interface ContactSubmission {
   id: string
@@ -44,7 +45,7 @@ const AdminContactPage = () => {
 
       if (error) {
         console.error('Error fetching submissions:', error)
-        alert('Failed to fetch submissions')
+        toast.error('Failed to fetch submissions')
         return
       }
 
@@ -65,7 +66,7 @@ const AdminContactPage = () => {
 
       if (error) {
         console.error('Error updating submission:', error)
-        alert('Failed to update submission status')
+        toast.error('Failed to update submission status')
         return
       }
 
@@ -89,7 +90,7 @@ const AdminContactPage = () => {
 
       if (error) {
         console.error('Error deleting submission:', error)
-        alert('Failed to delete submission')
+        toast.error('Failed to delete submission')
         return
       }
 
@@ -97,10 +98,10 @@ const AdminContactPage = () => {
       if (selectedSubmission?.id === id) {
         setSelectedSubmission(null)
       }
-      alert('Submission deleted successfully!')
+      toast.success('Submission deleted successfully!')
     } catch (error) {
       console.error('Error deleting submission:', error)
-      alert('Failed to delete submission')
+      toast.error('Failed to delete submission')
     }
   }
 

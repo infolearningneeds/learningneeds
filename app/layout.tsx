@@ -8,6 +8,7 @@ import ReduxProvider from "@/components/ReduxProvider";
 import ScrollToTop from "@/components/helper/ScrollToTop";
 import PageLoader from "@/components/helper/PageLoader";
 import CookieBanner from "@/components/helper/CookieBanner";
+import { Toaster } from "react-hot-toast";
 
 const font = Space_Grotesk({
   subsets: ["latin"],
@@ -72,6 +73,7 @@ export default function RootLayout({
         className={`${font.className}`}
       >
         <ReduxProvider>
+          <Toaster />
           <CookieBanner />
           <PageLoader />
           <ResponsiveNav />

@@ -20,8 +20,11 @@ import {
     CreditCard,
     User,
     Phone,
-    Mail
+    Mail,
+    FileText
 } from 'lucide-react';
+import toast from 'react-hot-toast';
+import InvoiceGenerator from '@/components/helper/InvoiceGenerator';
 
 interface Order {
     id: string;
@@ -56,7 +59,8 @@ export default function AdminOrdersPage() {
     const [orderStatusFilter, setOrderStatusFilter] = useState<OrderStatus>('all');
     const [paymentStatusFilter, setPaymentStatusFilter] = useState<PaymentStatus>('all');
     const [isAdmin, setIsAdmin] = useState(false);
-
+    const [showInvoiceModal, setShowInvoiceModal] = useState(false);
+    const [invoiceOrder, setInvoiceOrder] = useState<OrderWithDetails | null>(null);
     useEffect(() => {
         checkAdminAndFetchOrders();
     }, []);
@@ -79,7 +83,7 @@ export default function AdminOrdersPage() {
             user.user_metadata?.role === 'admin';
 
         if (!userIsAdmin) {
-            alert('Access denied. Admin privileges required.');
+            toast.error('Access denied. Admin privileges required.');
             router.push('/');
             return;
         }
@@ -167,7 +171,7 @@ export default function AdminOrdersPage() {
             setLoading(false);
         } catch (error) {
             console.error('Error fetching orders:', error);
-            alert('Failed to load orders: ' + (error instanceof Error ? error.message : 'Unknown error'));
+            toast.error('Failed to load orders: ' + (error instanceof Error ? error.message : 'Unknown error'));
             setLoading(false);
         }
     };
@@ -209,14 +213,14 @@ export default function AdminOrdersPage() {
 
             if (error) throw error;
 
-            alert('Order status updated successfully!');
+            toast.success('Order status updated successfully!');
             await fetchAllOrders();
             if (selectedOrder?.id === orderId) {
                 setShowDetailsModal(false);
             }
         } catch (error) {
             console.error('Error updating order:', error);
-            alert('Failed to update order status');
+            toast.error('Failed to update order status');
         }
     };
 
@@ -473,16 +477,28 @@ export default function AdminOrdersPage() {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <button
-                                                    onClick={() => {
-                                                        setSelectedOrder(order);
-                                                        setShowDetailsModal(true);
-                                                    }}
-                                                    className="flex items-center gap-2 px-3 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors text-sm font-semibold"
-                                                >
-                                                    <Eye className="w-4 h-4" />
-                                                    View
-                                                </button>
+                                                <div className="flex items-center gap-2">
+                                                    <button
+                                                        onClick={() => {
+                                                            setSelectedOrder(order);
+                                                            setShowDetailsModal(true);
+                                                        }}
+                                                        className="flex items-center gap-2 px-3 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors text-sm font-semibold"
+                                                    >
+                                                        <Eye className="w-4 h-4" />
+                                                        View
+                                                    </button>
+                                                    <button
+                                                        onClick={() => {
+                                                            setInvoiceOrder(order);
+                                                            setShowInvoiceModal(true);
+                                                        }}
+                                                        className="flex items-center gap-2 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold"
+                                                    >
+                                                        <FileText className="w-4 h-4" />
+                                                        Invoice
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))
@@ -503,6 +519,28 @@ export default function AdminOrdersPage() {
                                 <h2 className="text-2xl font-bold mb-1">Order Details</h2>
                                 <p className="text-gray-300">Order #{selectedOrder.id.slice(0, 8)}</p>
                             </div>
+                            <div className="flex items-center gap-3">
+                                {/* NEW: Invoice Button */}
+                                <button
+                                    onClick={() => {
+                                        setShowDetailsModal(false);
+                                        setInvoiceOrder(selectedOrder);
+                                        setShowInvoiceModal(true);
+                                    }}
+                                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold"
+                                >
+                                    <FileText className="w-4 h-4" />
+                                    Generate Invoice
+                                </button>
+
+                                {/* Close Button */}
+                                <button
+                                    onClick={() => setShowDetailsModal(false)}
+                                    className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+                                >
+                                    <XCircle className="w-6 h-6" />
+                                </button>
+                            </div>
                             <button
                                 onClick={() => setShowDetailsModal(false)}
                                 className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
@@ -521,8 +559,8 @@ export default function AdminOrdersPage() {
                                             key={status}
                                             onClick={() => handleUpdateOrderStatus(selectedOrder.id, status)}
                                             className={`px-3 py-2 rounded-lg text-sm font-semibold capitalize transition-colors ${selectedOrder.order_status === status
-                                                    ? 'bg-gray-900 text-white'
-                                                    : 'bg-white border border-gray-300 hover:bg-gray-100'
+                                                ? 'bg-gray-900 text-white'
+                                                : 'bg-white border border-gray-300 hover:bg-gray-100'
                                                 }`}
                                         >
                                             {status}
@@ -642,6 +680,16 @@ export default function AdminOrdersPage() {
                         </div>
                     </div>
                 </div>
+            )}
+            {/* Invoice Modal */}
+            {showInvoiceModal && invoiceOrder && (
+                <InvoiceGenerator
+                    order={invoiceOrder}
+                    onClose={() => {
+                        setShowInvoiceModal(false);
+                        setInvoiceOrder(null);
+                    }}
+                />
             )}
         </div>
     );

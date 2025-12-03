@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Calendar, Clock, ArrowLeft, Share2, User, Heart } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import toast from 'react-hot-toast';
 
 interface Blog {
   id: string;
@@ -133,7 +134,7 @@ export default function BlogDetailPage() {
       }).catch(() => {});
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      toast.success('Link copied to clipboard!');
     }
   }
 

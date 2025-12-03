@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Image as ImageIcon, Plus, Trash2, Upload, GraduationCap, Users } from 'lucide-react'
 import Image from 'next/image'
+import toast from 'react-hot-toast'
 
 interface GalleryImage {
   id: string
@@ -90,13 +91,13 @@ const AdminGalleryPage = () => {
       if (response.ok) {
         await fetchImages()
         setShowModal(false)
-        alert('Image uploaded successfully!')
+        toast.success('Image uploaded successfully!')
       } else {
         throw new Error('Failed to save to database')
       }
     } catch (error) {
       console.error('Error uploading image:', error)
-      alert(`Failed to upload image: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      toast.error(`Failed to upload image: ${error instanceof Error ? error.message : 'Unknown error'}`)
     } finally {
       setUploading(false)
     }
@@ -106,7 +107,7 @@ const AdminGalleryPage = () => {
     const file = e.target.files?.[0]
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
-        alert('File size must be less than 10MB')
+        toast.error('File size must be less than 10MB')
         return
       }
       uploadImage(file)
@@ -129,11 +130,11 @@ const AdminGalleryPage = () => {
 
       if (response.ok) {
         await fetchImages()
-        alert('Image deleted successfully!')
+        toast.success('Image deleted successfully!')
       }
     } catch (error) {
       console.error('Error deleting image:', error)
-      alert('Failed to delete image')
+      toast.error('Failed to delete image')
     }
   }
 
@@ -156,11 +157,11 @@ const AdminGalleryPage = () => {
 
       if (response.ok) {
         await fetchImages()
-        alert('Category updated successfully!')
+        toast.success('Category updated successfully!')
       }
     } catch (error) {
       console.error('Error updating category:', error)
-      alert('Failed to update category')
+      toast.error('Failed to update category')
     }
   }
 

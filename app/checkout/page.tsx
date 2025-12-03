@@ -8,6 +8,7 @@ import { clearCart } from '@/store/slices/cartSlice';
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import { CreditCard, Wallet, Building2, CheckCircle2, MapPin } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 type PaymentMethod = 'card' | 'upi' | 'netbanking' | 'cod';
 
@@ -61,7 +62,7 @@ export default function CheckoutPage() {
       .single();
 
     if (error || !addressData) {
-      alert('Address not found. Please select an address.');
+      toast.error('Address not found. Please select an address.');
       router.push('/address');
       return;
     }
@@ -73,24 +74,24 @@ export default function CheckoutPage() {
   const validatePaymentDetails = () => {
     if (paymentMethod === 'card') {
       if (!cardNumber || !cardName || !expiryDate || !cvv) {
-        alert('Please fill in all card details');
+        toast.error('Please fill in all card details');
         return false;
       }
       if (!/^\d{16}$/.test(cardNumber.replace(/\s/g, ''))) {
-        alert('Please enter a valid 16-digit card number');
+        toast.error('Please enter a valid 16-digit card number');
         return false;
       }
       if (!/^\d{3,4}$/.test(cvv)) {
-        alert('Please enter a valid CVV');
+        toast.error('Please enter a valid CVV');
         return false;
       }
     } else if (paymentMethod === 'upi') {
       if (!upiId) {
-        alert('Please enter your UPI ID');
+        toast.error('Please enter your UPI ID');
         return false;
       }
       if (!/^[\w.-]+@[\w.-]+$/.test(upiId)) {
-        alert('Please enter a valid UPI ID');
+        toast.error('Please enter a valid UPI ID');
         return false;
       }
     }
@@ -169,7 +170,7 @@ export default function CheckoutPage() {
       router.push(`/order-success?orderId=${orderData.id}`);
     } catch (error: any) {
       console.error('Error placing order:', error);
-      alert('Failed to place order. Please try again.');
+      toast.error('Failed to place order. Please try again.');
     } finally {
       setProcessing(false);
     }

@@ -8,6 +8,7 @@ import { FaStar } from 'react-icons/fa';
 import Image from 'next/image';
 import { useAppDispatch } from '@/store/hooks';
 import { addToCart } from '@/store/slices/cartSlice';
+import toast from 'react-hot-toast';
 
 interface Product {
     id: string;
@@ -133,7 +134,7 @@ export default function ProductDetailsPage() {
                 category: product.category
             }));
             
-            alert(`Added ${quantity} ${quantity === 1 ? 'item' : 'items'} to cart!`);
+            toast.success(`Added ${quantity} ${quantity === 1 ? 'item' : 'items'} to cart!`);
             setQuantity(1);
         }
     };

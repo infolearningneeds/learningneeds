@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { MapPin, User, Phone, Mail, Home } from 'lucide-react';
-
+import { toast } from 'react-hot-toast';
 interface AddressFormData {
   full_name: string;
   email: string;
@@ -98,17 +98,17 @@ export default function AddressForm() {
     const { full_name, email, phone, address_line1, city, state, pincode } = formData;
     
     if (!full_name || !email || !phone || !address_line1 || !city || !state || !pincode) {
-      alert('Please fill in all required fields');
+      toast.error("Please fill in all required fields");
       return false;
     }
 
     if (!/^\d{10}$/.test(phone)) {
-      alert('Please enter a valid 10-digit phone number');
+      toast.error('Please enter a valid 10-digit phone number');
       return false;
     }
 
     if (!/^\d{6}$/.test(pincode)) {
-      alert('Please enter a valid 6-digit pincode');
+      toast.error('Please enter a valid 6-digit pincode');
       return false;
     }
 
@@ -150,7 +150,7 @@ export default function AddressForm() {
       router.push('/checkout');
     } catch (error: any) {
       console.error('Error saving address:', error);
-      alert('Failed to save address. Please try again.');
+      toast.error('Failed to save address. Please try again.');
     } finally {
       setLoading(false);
     }

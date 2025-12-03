@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
 import { FileText, Plus, Edit, Trash2, Eye, EyeOff, Search, Calendar, ThumbsUp, Upload, Image as ImageIcon } from 'lucide-react'
+import toast from 'react-hot-toast'
 
 interface Blog {
   id: string
@@ -104,7 +105,7 @@ const AdminBlogPage = () => {
       }
     } catch (error) {
       console.error('Error uploading image:', error)
-      alert('Failed to upload image')
+      toast.error('Failed to upload image')
     } finally {
       setUploading(false)
     }
@@ -114,7 +115,7 @@ const AdminBlogPage = () => {
     const file = e.target.files?.[0]
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        alert('File size must be less than 5MB')
+        toast.error('File size must be less than 5MB')
         return
       }
       uploadImage(file, type)

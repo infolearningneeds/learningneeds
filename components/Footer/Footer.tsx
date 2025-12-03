@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Package, Award, Tag, Lock, Facebook, Twitter, Instagram, MessageCircle, Youtube, Mail, Phone, ArrowRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
@@ -11,10 +12,10 @@ const Footer = () => {
 
   const handleSubscribe = () => {
     if (email && email.includes('@')) {
-      alert('Thank you for subscribing!');
+      toast.success('Thank you for subscribing!');
       setEmail('');
     } else {
-      alert('Please enter a valid email address');
+      toast.error('Please enter a valid email address');
     }
   };
 

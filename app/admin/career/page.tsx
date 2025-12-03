@@ -21,6 +21,7 @@ import {
   Briefcase,
   ExternalLink
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 // Initialize Supabase client from environment variables
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -138,7 +139,7 @@ const AdminCareerPage = () => {
       window.URL.revokeObjectURL(downloadUrl);
     } catch (err) {
       console.error('Download error:', err);
-      alert('Failed to download file');
+      toast.error('Failed to download file');
     }
   };
 
