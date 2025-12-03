@@ -3,7 +3,7 @@ import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import ResponsiveNav from "@/components/Navbar/ResponsiveNav";
 import Footer from "@/components/Footer/Footer";
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import ReduxProvider from "@/components/ReduxProvider";
 import ScrollToTop from "@/components/helper/ScrollToTop";
 import PageLoader from "@/components/helper/PageLoader";
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: "Learning Needs — Educational & Training Services",
     description:
       "Delivering customized training, school management solutions, and holistic development programs for institutions and learners.",
-    images: ["/images/og.png"], 
+    images: ["/images/og.png"],
   },
   metadataBase: new URL("https://learningneeds.in"),
 };
@@ -73,6 +73,7 @@ export default function RootLayout({
         className={`${font.className}`}
       >
         <ReduxProvider>
+          <SpeedInsights />
           <Toaster />
           <CookieBanner />
           <PageLoader />
