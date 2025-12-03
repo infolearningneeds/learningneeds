@@ -203,7 +203,8 @@ const InvoiceGenerator: React.FC<InvoiceProps> = ({ order, onClose }) => {
         </div>
       </div>
 
-      <style jsx global>{`
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @media print {
           body * {
             visibility: hidden;
@@ -225,7 +226,8 @@ const InvoiceGenerator: React.FC<InvoiceProps> = ({ order, onClose }) => {
             margin: 1cm;
           }
         }
-      `}</style>
+      `
+      }} />
     </div>
   );
 };
