@@ -74,13 +74,18 @@ const Nav = ({ openNav }: Props) => {
                         <div className="absolute -inset-2 rounded-xl opacity-30 blur-lg group-hover:opacity-50 transition-opacity duration-300"></div>
 
                         {/* Logo container with gradient background */}
-                        <div className="relative bg-linear-to-br from-blue-50 to-blue-200 p-3 rounded-2xl shadow-xl border border-white/50">
+                        <div className="relative bg-linear-to-br from-blue-50 to-blue-200 p-2 rounded-2xl shadow-xl border border-white/50">
                             <Image
                                 src="/images/LN.webp"
                                 alt="Logo"
                                 width={160}
                                 height={60}
-                                className="cursor-pointer relative z-10"
+                                className="cursor-pointer relative z-10 
+             w-28 h-auto        /* mobile */
+             sm:w-32 
+             md:w-36 
+             lg:w-40            /* desktop */
+            "
                             />
                         </div>
 
@@ -102,7 +107,7 @@ const Nav = ({ openNav }: Props) => {
                 </div>
 
                 {/* Right Section — Cart Icon & User Profile/Sign In */}
-                <div className="flex items-center space-x-6">
+                <div className="flex items-center space-x-4">
                     {/* Cart Icon */}
                     <CartIcon />
 
@@ -176,7 +181,16 @@ const Nav = ({ openNav }: Props) => {
                         /* Sign In Button */
                         <Link href="/signin">
                             <button
-                                className="md:px-6 md:py-2 px-4 py-1 text-white font-semibold text-base bg-orange-600 hover:bg-orange-700 transition-all duration-200 rounded-lg shadow-lg hover:shadow-xl hover:scale-105"
+                                className="
+    bg-orange-600 text-white font-semibold 
+    rounded-lg shadow-lg transition-all duration-200 hover:bg-orange-700
+
+    px-3 py-1.5 text-sm              /* Mobile */
+    sm:px-4 sm:py-2 sm:text-base     /* Small devices */
+    md:px-6 md:py-2 md:text-base     /* Tablets + Desktop */
+
+    hover:shadow-xl hover:scale-105
+  "
                             >
                                 Sign In
                             </button>

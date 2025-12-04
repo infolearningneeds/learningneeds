@@ -65,7 +65,7 @@ const About = () => {
                 hyphens: 'auto',
                 wordSpacing: 'normal'
               }}>
-                This proverb perfectly defines the inception of Learning Needs. We believe all companies have one thing in common - they survive and thrive by creating and maintaining satisfied customers through their people.
+                This proverb perfectly defines the inception of Learning Needs. We believe all companies have one thing in common , they survive and thrive by creating and maintaining satisfied customers through their people.
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-8" style={{

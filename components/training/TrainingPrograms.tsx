@@ -8,22 +8,22 @@ const TrainingPrograms = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
   const programs = [
-    { title: "Effective Communication", icon: MessageSquare, color: "from-blue-500 to-cyan-500", accent: "bg-blue-500" },
-    { title: "Peak Performance", icon: TrendingUp, color: "from-purple-500 to-pink-500", accent: "bg-purple-500" },
-    { title: "Leadership Innovation", icon: Lightbulb, color: "from-orange-500 to-red-500", accent: "bg-orange-500" },
-    { title: "Power of Influence", icon: Target, color: "from-green-500 to-emerald-500", accent: "bg-green-500" },
-    { title: "Success with Change", icon: Zap, color: "from-yellow-500 to-orange-500", accent: "bg-yellow-500" },
-    { title: "Complaint Handling", icon: Phone, color: "from-red-500 to-pink-500", accent: "bg-red-500" },
-    { title: "Questioning Skills", icon: Brain, color: "from-indigo-500 to-purple-500", accent: "bg-indigo-500" },
-    { title: "Public Speaking", icon: Mic, color: "from-cyan-500 to-blue-500", accent: "bg-cyan-500" },
-    { title: "Anger Management", icon: Shield, color: "from-rose-500 to-red-500", accent: "bg-rose-500" },
-    { title: "Dealing Difficult Situations", icon: Target, color: "from-violet-500 to-purple-500", accent: "bg-violet-500" },
-    { title: "Presentation Skills", icon: Presentation, color: "from-teal-500 to-cyan-500", accent: "bg-teal-500" },
-    { title: "Assertiveness in Action", icon: Zap, color: "from-amber-500 to-orange-500", accent: "bg-amber-500" },
-    { title: "Listening Skills", icon: Ear, color: "from-blue-500 to-indigo-500", accent: "bg-blue-500" },
-    { title: "Effective Meetings", icon: Calendar, color: "from-green-500 to-teal-500", accent: "bg-green-500" },
-    { title: "Think Your Way to Success", icon: Brain, color: "from-pink-500 to-rose-500", accent: "bg-pink-500" },
-    { title: "Team Building", icon: Users, color: "from-purple-500 to-indigo-500", accent: "bg-purple-500" }
+    { title: "Effective Communication", desc: " Clearer messages, fewer misunderstandings", icon: MessageSquare, color: "from-blue-500 to-cyan-500", accent: "bg-blue-500" },
+    { title: "Peak Performance", desc: " Improved productivity and focus", icon: TrendingUp, color: "from-purple-500 to-pink-500", accent: "bg-purple-500" },
+    { title: "Leadership Innovation", desc: "Creative solutions, forward-thinking leadership", icon: Lightbulb, color: "from-orange-500 to-red-500", accent: "bg-orange-500" },
+    { title: "Power of Influence", desc: "Stronger impact and persuasion", icon: Target, color: "from-green-500 to-emerald-500", accent: "bg-green-500" },
+    { title: "Success with Change", desc: "Smoother transitions, faster adaptation", icon: Zap, color: "from-yellow-500 to-orange-500", accent: "bg-yellow-500" },
+    { title: "Complaint Handling", desc: "Improved customer satisfaction", icon: Phone, color: "from-red-500 to-pink-500", accent: "bg-red-500" },
+    { title: "Questioning Skills", desc: " Deeper insights, better decisions", icon: Brain, color: "from-indigo-500 to-purple-500", accent: "bg-indigo-500" },
+    { title: "Public Speaking", desc: "Confident delivery, audience engagement", icon: Mic, color: "from-cyan-500 to-blue-500", accent: "bg-cyan-500" },
+    { title: "Anger Management", desc: "Emotional control, reduced conflict", icon: Shield, color: "from-rose-500 to-red-500", accent: "bg-rose-500" },
+    { title: "Dealing Difficult Situations", desc: "Calm resolution, better outcomes", icon: Target, color: "from-violet-500 to-purple-500", accent: "bg-violet-500" },
+    { title: "Presentation Skills", desc: "Compelling visuals, confident communication", icon: Presentation, color: "from-teal-500 to-cyan-500", accent: "bg-teal-500" },
+    { title: "Assertiveness in Action", desc: "Clear boundaries, respectful expression", icon: Zap, color: "from-amber-500 to-orange-500", accent: "bg-amber-500" },
+    { title: "Listening Skills", desc: "Better understanding, stronger relationships", icon: Ear, color: "from-blue-500 to-indigo-500", accent: "bg-blue-500" },
+    { title: "Effective Meetings", desc: "Productive discussions, efficient outcomes", icon: Calendar, color: "from-green-500 to-teal-500", accent: "bg-green-500" },
+    { title: "Think Your Way to Success", desc: "Positive mindset, strategic thinking", icon: Brain, color: "from-pink-500 to-rose-500", accent: "bg-pink-500" },
+    { title: "Team Building", desc: "Stronger collaboration, higher morale", icon: Users, color: "from-purple-500 to-indigo-500", accent: "bg-purple-500" }
   ];
 
   const floatingIcons = [
@@ -91,30 +91,30 @@ const TrainingPrograms = () => {
             <BookOpen className="w-5 h-5 text-purple-600" />
             <span className="text-purple-700 font-semibold">Professional Development</span>
           </div>
-          
+
           <h1 className="text-5xl sm:text-6xl font-bold text-gray-800 mb-6 leading-tight">
             Soft Skills' <span className="bg-linear-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">Behavioural Shift</span>
             <br />Training Programs
           </h1>
-          
+
           <p className="text-xl text-gray-700 mx-auto leading-relaxed font-medium" style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
-            Soft skills' Behavioural Shift training is essential because we do not have it in our academic curricula. 
+            textAlign: 'justify',
+            textJustify: 'inter-word',
+            hyphens: 'auto',
+            wordSpacing: 'normal'
+          }}>
+            Soft skills' Behavioural Shift training is essential because we do not have it in our academic curricula.
             However it can be developed through continuous training.
           </p>
-          
+
           <p className="text-lg text-gray-600 mx-auto" style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
-            Our skill based training programs are designed to encourage <span className="text-purple-600 font-bold">'awareness'</span> in one's behavioural patterns. 
-            Learning Needs international quality Training & Development Programs are designed to help today's aspiring 
+            textAlign: 'justify',
+            textJustify: 'inter-word',
+            hyphens: 'auto',
+            wordSpacing: 'normal'
+          }}>
+            Our skill based training programs are designed to encourage <span className="text-purple-600 font-bold">'awareness'</span> in one's behavioural patterns.
+            Learning Needs international quality Training & Development Programs are designed to help today's aspiring
             professionals to succeed in an ever increasing competitive and diverse business environment.
           </p>
         </div>
@@ -130,7 +130,7 @@ const TrainingPrograms = () => {
             {programs.map((program, index) => {
               const Icon = program.icon;
               const isHovered = hoveredCard === index;
-              
+
               return (
                 <div
                   key={index}
@@ -144,7 +144,7 @@ const TrainingPrograms = () => {
                     transition-all duration-500
                     ${isHovered ? 'opacity-100' : 'opacity-0'}
                   `}></div>
-                  
+
                   <div className={`
                     relative bg-white rounded-3xl p-6 
                     transition-all duration-500 overflow-hidden
@@ -163,7 +163,7 @@ const TrainingPrograms = () => {
                       transition-all duration-500
                       ${isHovered ? 'h-full' : 'h-0'}
                     `}></div>
-                    
+
                     {/* Icon Container with Hexagon Effect */}
                     <div className="relative mb-4">
                       <div className={`
@@ -173,7 +173,7 @@ const TrainingPrograms = () => {
                       `}>
                         <Icon className="w-8 h-8 text-white" />
                       </div>
-                      
+
                       {/* Orbiting Dot */}
                       <div className={`
                         absolute -top-1 -right-1 w-3 h-3 ${program.accent} rounded-full
@@ -181,7 +181,7 @@ const TrainingPrograms = () => {
                         ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}
                       `}></div>
                     </div>
-                    
+
                     {/* Title */}
                     <h3 className="text-lg font-bold text-gray-800 transition-colors duration-300">
                       {program.title}
@@ -194,9 +194,9 @@ const TrainingPrograms = () => {
                       ${isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}
                     `}>
                       <p className="text-sm text-gray-600 mb-3">
-                        Develop essential skills for professional growth
+                        {program.desc}
                       </p>
-                      
+
                       <div className="flex items-center gap-2 text-sm font-semibold">
                         <span className="bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">
                           Learn More
@@ -226,7 +226,7 @@ const TrainingPrograms = () => {
           </div>
         </div>
 
-      
+
       </div>
     </div>
   );
