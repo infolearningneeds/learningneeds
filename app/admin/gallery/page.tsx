@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
-import { Image as ImageIcon, Plus, Trash2, Upload, GraduationCap, Users } from 'lucide-react'
+import { Image as ImageIcon, Plus, Trash2, Upload, GraduationCap, Users, X } from 'lucide-react'
 import Image from 'next/image'
 import toast from 'react-hot-toast'
 
@@ -37,9 +37,7 @@ const AdminGalleryPage = () => {
         : `/api/admin/gallery?category=${selectedCategory}`
 
       const response = await fetch(url, {
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`
-        }
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
       })
 
       if (response.ok) {
@@ -56,23 +54,19 @@ const AdminGalleryPage = () => {
   const uploadImage = async (file: File) => {
     try {
       setUploading(true)
-      
-      // Step 1: Upload to Supabase Storage
       const fileExt = file.name.split('.').pop()
       const fileName = `${uploadCategory}-${Date.now()}.${fileExt}`
 
-      const { error: uploadError, data } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('gallery-images')
         .upload(fileName, file)
 
       if (uploadError) throw uploadError
 
-      // Step 2: Get public URL
       const { data: { publicUrl } } = supabase.storage
         .from('gallery-images')
         .getPublicUrl(fileName)
 
-      // Step 3: Save to database via API
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) return
 
@@ -116,16 +110,13 @@ const AdminGalleryPage = () => {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this image?')) return
-
     try {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) return
 
       const response = await fetch(`/api/admin/gallery?id=${id}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`
-        }
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
       })
 
       if (response.ok) {
@@ -149,15 +140,12 @@ const AdminGalleryPage = () => {
           'Authorization': `Bearer ${session.access_token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          id,
-          category: newCategory
-        })
+        body: JSON.stringify({ id, category: newCategory })
       })
 
       if (response.ok) {
         await fetchImages()
-        toast.success('Category updated successfully!')
+        toast.success('Category updated!')
       }
     } catch (error) {
       console.error('Error updating category:', error)
@@ -165,14 +153,13 @@ const AdminGalleryPage = () => {
     }
   }
 
-  const filteredImages = images
-
   const schoolImages = images.filter(img => img.category === 'school')
   const trainingImages = images.filter(img => img.category === 'training')
+  const filteredImages = selectedCategory === 'all' ? images : images.filter(i => i.category === selectedCategory)
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <svg className="animate-spin h-12 w-12 text-amber-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -185,178 +172,168 @@ const AdminGalleryPage = () => {
   }
 
   return (
-    <div className="p-8">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center space-x-3">
-          <div className="p-3 bg-emerald-500/20 rounded-xl">
-            <ImageIcon className="w-8 h-8 text-emerald-400" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-white">Gallery Management</h1>
-            <p className="text-indigo-300">Upload and manage school & training images</p>
-          </div>
-        </div>
-        <button
-          onClick={() => setShowModal(true)}
-          className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all"
-        >
-          <Plus className="w-5 h-5" />
-          <span>Upload Image</span>
-        </button>
-      </div>
+    <div className="min-h-screen bg-indigo-500/20 p-4 sm:p-6 lg:p-8 mt-10">
+      <div className="max-w-7xl mx-auto">
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-indigo-300 text-sm mb-1">Total Images</p>
-              <p className="text-3xl font-bold text-white">{images.length}</p>
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-emerald-500/20 rounded-xl">
+              <ImageIcon className="w-8 h-8 text-emerald-400" />
             </div>
-            <ImageIcon className="w-8 h-8 text-emerald-400" />
-          </div>
-        </div>
-        <div className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center justify-between">
             <div>
-              <p className="text-indigo-300 text-sm mb-1">School Images</p>
-              <p className="text-3xl font-bold text-white">{schoolImages.length}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Gallery Management</h1>
+              <p className="text-indigo-300 text-sm sm:text-base">Upload and manage school & training images</p>
             </div>
-            <GraduationCap className="w-8 h-8 text-blue-400" />
           </div>
+          <button
+            onClick={() => setShowModal(true)}
+            className="flex items-center gap-3 px-5 py-3 sm:px-6 sm:py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all font-medium text-sm sm:text-base"
+          >
+            <Plus className="w-5 h-5" />
+            Upload Image
+          </button>
         </div>
-        <div className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-indigo-300 text-sm mb-1">Training Images</p>
-              <p className="text-3xl font-bold text-white">{trainingImages.length}</p>
-            </div>
-            <Users className="w-8 h-8 text-purple-400" />
-          </div>
-        </div>
-      </div>
 
-      {/* Filter Tabs */}
-      <div className="flex items-center space-x-4 mb-8">
-        <button
-          onClick={() => setSelectedCategory('all')}
-          className={`px-6 py-3 rounded-xl font-medium transition-all ${
-            selectedCategory === 'all'
-              ? 'bg-amber-500 text-white'
-              : 'bg-indigo-900/30 text-indigo-300 hover:bg-indigo-900/50'
-          }`}
-        >
-          All Images
-        </button>
-        <button
-          onClick={() => setSelectedCategory('school')}
-          className={`px-6 py-3 rounded-xl font-medium transition-all ${
-            selectedCategory === 'school'
-              ? 'bg-blue-500 text-white'
-              : 'bg-indigo-900/30 text-indigo-300 hover:bg-indigo-900/50'
-          }`}
-        >
-          School
-        </button>
-        <button
-          onClick={() => setSelectedCategory('training')}
-          className={`px-6 py-3 rounded-xl font-medium transition-all ${
-            selectedCategory === 'training'
-              ? 'bg-purple-500 text-white'
-              : 'bg-indigo-900/30 text-indigo-300 hover:bg-indigo-900/50'
-          }`}
-        >
-          Training
-        </button>
-      </div>
-
-      {/* Gallery Grid */}
-      {filteredImages.length === 0 ? (
-        <div className="text-center py-20">
-          <ImageIcon className="w-16 h-16 text-indigo-400 mx-auto mb-4" />
-          <p className="text-indigo-300 text-lg">No images found</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredImages.map((image) => (
-            <div key={image.id} className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden group">
-              <div className="relative aspect-square">
-                <Image
-                  src={image.image_url}
-                  alt={`${image.category} image`}
-                  fill
-                  className="object-cover"
-                  onError={(e) => {
-                    console.error('Image failed to load:', image.image_url)
-                    e.currentTarget.src = '/placeholder.png'
-                  }}
-                  unoptimized={image.image_url.includes('supabase.co') ? false : true}
-                />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-3">
-                  <select
-                    value={image.category}
-                    onChange={(e) => handleCategoryChange(image.id, e.target.value as 'school' | 'training')}
-                    className="px-4 py-2 bg-white text-gray-900 rounded-lg font-medium"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <option value="school">School</option>
-                    <option value="training">Training</option>
-                  </select>
-                  <button
-                    onClick={() => handleDelete(image.id)}
-                    className="p-3 bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
-                    title="Delete"
-                  >
-                    <Trash2 className="w-5 h-5 text-white" />
-                  </button>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          {[
+            { label: 'Total Images', value: images.length, icon: ImageIcon, color: 'emerald' },
+            { label: 'School Images', value: schoolImages.length, icon: GraduationCap, color: 'blue' },
+            { label: 'Training Images', value: trainingImages.length, icon: Users, color: 'purple' }
+          ].map((stat, i) => (
+            <div key={i} className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:bg-indigo-900/40 transition">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-indigo-300 text-sm">{stat.label}</p>
+                  <p className="text-3xl sm:text-4xl font-bold text-white mt-2">{stat.value}</p>
                 </div>
-              </div>
-              <div className="p-4">
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  image.category === 'school'
-                    ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                    : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
-                }`}>
-                  {image.category.charAt(0).toUpperCase() + image.category.slice(1)}
-                </span>
+                <stat.icon className={`w-10 h-10 text-${stat.color}-400`} />
               </div>
             </div>
           ))}
         </div>
-      )}
 
-      {/* Upload Modal */}
+        {/* Filter Tabs - Responsive */}
+        <div className="flex flex-wrap gap-3 mb-8">
+          {[
+            { label: 'All Images', value: 'all' as const, color: 'amber' },
+            { label: 'School', value: 'school' as const, color: 'blue' },
+            { label: 'Training', value: 'training' as const, color: 'purple' }
+          ].map(tab => (
+            <button
+              key={tab.value}
+              onClick={() => setSelectedCategory(tab.value)}
+              className={`px-5 py-3 rounded-xl font-medium transition-all text-sm sm:text-base ${
+                selectedCategory === tab.value
+                  ? `bg-${tab.color}-500 text-white shadow-lg`
+                  : 'bg-indigo-900/30 text-indigo-300 hover:bg-indigo-900/50'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Gallery Grid - Fully Responsive */}
+        {filteredImages.length === 0 ? (
+          <div className="text-center py-20">
+            <ImageIcon className="w-16 h-16 text-indigo-400 mx-auto mb-4" />
+            <p className="text-indigo-300 text-lg">No images found</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+            {filteredImages.map((image) => (
+              <div
+                key={image.id}
+                className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden group relative"
+              >
+                <div className="aspect-square relative">
+                  <Image
+                    src={image.image_url}
+                    alt={`${image.category} image`}
+                    fill
+                    className="object-cover"
+                    unoptimized
+                    onError={(e) => {
+                      e.currentTarget.src = '/placeholder.png'
+                    }}
+                  />
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 p-4">
+                    <select
+                      value={image.category}
+                      onChange={(e) => handleCategoryChange(image.id, e.target.value as 'school' | 'training')}
+                      className="w-full max-w-32 px-3 py-2 bg-white text-gray-900 rounded-lg text-sm font-medium"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <option value="school">School</option>
+                      <option value="training">Training</option>
+                    </select>
+                    <button
+                      onClick={() => handleDelete(image.id)}
+                      className="p-3 bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+                    >
+                      <Trash2 className="w-5 h-5 text-white" />
+                    </button>
+                  </div>
+                </div>
+                <div className="p-3 sm:p-4">
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    image.category === 'school'
+                      ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                      : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                  }`}>
+                    {image.category.charAt(0).toUpperCase() + image.category.slice(1)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Upload Modal - Mobile First */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-indigo-900 border border-white/10 rounded-2xl p-8 max-w-md w-full">
-            <h2 className="text-2xl font-bold text-white mb-6">Upload Image</h2>
-            
-            <div className="space-y-6">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
+          <div className="bg-indigo-900 border border-white/10 rounded-2xl w-full max-w-md sm:max-w-lg overflow-hidden">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-5 sm:p-6 border-b border-white/10">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">Upload Image</h2>
+              <button
+                onClick={() => setShowModal(false)}
+                disabled={uploading}
+                className="p-2 hover:bg-white/10 rounded-lg transition"
+              >
+                <X className="w-6 h-6 text-white" />
+              </button>
+            </div>
+
+            <div className="p-5 sm:p-6 space-y-6">
               {/* Category Selection */}
               <div>
-                <label className="block text-indigo-300 mb-3">Select Category</label>
+                <label className="block text-indigo-300 mb-4 text-sm sm:text-base">Select Category</label>
                 <div className="grid grid-cols-2 gap-4">
                   <button
                     onClick={() => setUploadCategory('school')}
-                    className={`p-4 rounded-xl border-2 transition-all ${
+                    className={`p-5 rounded-xl border-2 transition-all flex flex-col items-center ${
                       uploadCategory === 'school'
                         ? 'border-blue-500 bg-blue-500/20'
                         : 'border-white/10 hover:border-white/30'
                     }`}
                   >
-                    <GraduationCap className="w-8 h-8 text-blue-400 mx-auto mb-2" />
+                    <GraduationCap className="w-10 h-10 text-blue-400 mb-2" />
                     <p className="text-white font-medium">School</p>
                   </button>
                   <button
                     onClick={() => setUploadCategory('training')}
-                    className={`p-4 rounded-xl border-2 transition-all ${
+                    className={`p-5 rounded-xl border-2 transition-all flex flex-col items-center ${
                       uploadCategory === 'training'
                         ? 'border-purple-500 bg-purple-500/20'
                         : 'border-white/10 hover:border-white/30'
                     }`}
                   >
-                    <Users className="w-8 h-8 text-purple-400 mx-auto mb-2" />
+                    <Users className="w-10 h-10 text-purple-400 mb-2" />
                     <p className="text-white font-medium">Training</p>
                   </button>
                 </div>
@@ -374,26 +351,24 @@ const AdminGalleryPage = () => {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="w-full flex items-center justify-center space-x-3 px-6 py-4 bg-indigo-800 hover:bg-indigo-700 rounded-xl transition-all disabled:opacity-50"
+                  className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-indigo-800 hover:bg-indigo-700 rounded-xl transition-all disabled:opacity-50 font-medium"
                 >
                   <Upload className="w-5 h-5 text-white" />
-                  <span className="text-white font-medium">
+                  <span className="text-white">
                     {uploading ? 'Uploading...' : 'Choose Image'}
                   </span>
                 </button>
-                <p className="text-indigo-400 text-xs mt-2">Max file size: 10MB</p>
+                <p className="text-indigo-400 text-xs text-center mt-2">Max file size: 10MB</p>
               </div>
 
-              {/* Actions */}
-              <div className="flex items-center space-x-4">
-                <button
-                  onClick={() => setShowModal(false)}
-                  disabled={uploading}
-                  className="flex-1 px-6 py-3 bg-indigo-800 text-white rounded-xl hover:bg-indigo-700 transition-all disabled:opacity-50"
-                >
-                  Cancel
-                </button>
-              </div>
+              {/* Cancel Button */}
+              <button
+                onClick={() => setShowModal(false)}
+                disabled={uploading}
+                className="w-full px-6 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all disabled:opacity-50 font-medium"
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>

@@ -125,36 +125,41 @@ export default function AdminOverview() {
     }
 
     return (
-        <div className="p-8">
+        <div className="px-4 sm:px-6 md:px-8 py-6 overflow-x-hidden mt-10">
+
             {/* Header */}
-            <div className="mb-8">
-                <h1 className="text-4xl font-bold text-white mb-2">Dashboard Overview</h1>
-                <p className="text-indigo-300">Welcome back! Here's what's happening with your platform.</p>
+            <div className="mb-6 sm:mb-8">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
+                    Dashboard Overview
+                </h1>
+                <p className="text-sm sm:text-base text-indigo-300">
+                    Welcome back! Here's what's happening with your platform.
+                </p>
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
                 {statCards.map((stat, index) => {
                     const Icon = stat.icon
                     const colors = getColorClasses(stat.color)
                     return (
                         <div
                             key={index}
-                            className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 hover:bg-white/10 transition-all cursor-pointer group"
+                            className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 
+                     p-4 sm:p-6 hover:bg-white/10 transition-all cursor-pointer group"
                         >
                             <div className="flex items-center justify-between mb-4">
-                                <div className={`p-3 ${colors.bg} rounded-xl group-hover:scale-110 transition-transform`}>
-                                    <Icon className={`w-6 h-6 ${colors.text}`} />
+                                <div className={`p-2 sm:p-3 ${colors.bg} rounded-xl group-hover:scale-110 transition-transform`}>
+                                    <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${colors.text}`} />
                                 </div>
-                                <span className={`text-sm font-semibold ${stat.changeType === 'positive' ? 'text-emerald-400' : 'text-indigo-300'
-                                    }`}>
+                                <span className={`text-xs sm:text-sm font-semibold 
+                            ${stat.changeType === 'positive' ? 'text-emerald-400' : 'text-indigo-300'}`}>
                                     {stat.change}
                                 </span>
                             </div>
-                            <div>
-                                <p className="text-3xl font-bold text-white mb-1">{stat.value}</p>
-                                <p className="text-indigo-300 text-sm font-medium">{stat.title}</p>
-                            </div>
+
+                            <p className="text-2xl sm:text-3xl font-bold text-white mb-1">{stat.value}</p>
+                            <p className="text-indigo-300 text-xs sm:text-sm font-medium">{stat.title}</p>
                         </div>
                     )
                 })}
@@ -162,13 +167,15 @@ export default function AdminOverview() {
 
             {/* Recent Activity & Quick Actions */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+
                 {/* Recent Activity */}
-                <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
-                    <div className="flex items-center space-x-2 mb-6">
-                        <Activity className="w-6 h-6 text-indigo-400" />
-                        <h2 className="text-2xl font-bold text-white">Recent Activity</h2>
+                <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-4 sm:p-6">
+                    <div className="flex items-center space-x-2 mb-4 sm:mb-6">
+                        <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400" />
+                        <h2 className="text-xl sm:text-2xl font-bold text-white">Recent Activity</h2>
                     </div>
-                    <div className="space-y-4">
+
+                    <div className="space-y-3 sm:space-y-4">
                         {[
                             { action: 'New user registered', time: '5 minutes ago', icon: Users, color: 'blue' },
                             { action: 'New order placed', time: '15 minutes ago', icon: ShoppingCart, color: 'pink' },
@@ -179,13 +186,16 @@ export default function AdminOverview() {
                             const Icon = activity.icon
                             const colors = getColorClasses(activity.color)
                             return (
-                                <div key={index} className="flex items-center space-x-4 p-3 rounded-xl hover:bg-white/5 transition-colors">
+                                <div
+                                    key={index}
+                                    className="flex items-center space-x-3 sm:space-x-4 p-3 rounded-xl hover:bg-white/5 transition-colors"
+                                >
                                     <div className={`p-2 ${colors.bg} rounded-lg`}>
-                                        <Icon className={`w-4 h-4 ${colors.text}`} />
+                                        <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${colors.text}`} />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-white font-medium">{activity.action}</p>
-                                        <p className="text-indigo-300 text-sm">{activity.time}</p>
+                                        <p className="text-white text-sm sm:text-base font-medium">{activity.action}</p>
+                                        <p className="text-indigo-300 text-xs sm:text-sm">{activity.time}</p>
                                     </div>
                                 </div>
                             )
@@ -194,12 +204,13 @@ export default function AdminOverview() {
                 </div>
 
                 {/* Quick Actions */}
-                <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
-                    <div className="flex items-center space-x-2 mb-6">
-                        <TrendingUp className="w-6 h-6 text-amber-400" />
-                        <h2 className="text-2xl font-bold text-white">Quick Actions</h2>
+                <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-4 sm:p-6">
+                    <div className="flex items-center space-x-2 mb-4 sm:mb-6">
+                        <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400" />
+                        <h2 className="text-xl sm:text-2xl font-bold text-white">Quick Actions</h2>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
                         {[
                             { label: 'Add Product', icon: Package, path: '/admin/products' },
                             { label: 'New Blog Post', icon: FileText, path: '/admin/blog' },
@@ -210,10 +221,13 @@ export default function AdminOverview() {
                             return (
                                 <button
                                     key={index}
-                                    className="p-4 bg-white/5 hover:bg-amber-500/20 rounded-xl border border-white/10 hover:border-amber-500/30 transition-all group text-center"
+                                    className="p-3 sm:p-4 bg-white/5 hover:bg-amber-500/20 
+                         rounded-xl border border-white/10 hover:border-amber-500/30 
+                         transition-all group text-center"
                                 >
-                                    <Icon className="w-8 h-8 text-amber-400 mb-2 mx-auto group-hover:scale-110 transition-transform" />
-                                    <p className="text-white font-semibold text-sm">{action.label}</p>
+                                    <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-amber-400 mb-2 mx-auto 
+                            group-hover:scale-110 transition-transform" />
+                                    <p className="text-white text-xs sm:text-sm font-semibold">{action.label}</p>
                                 </button>
                             )
                         })}
@@ -222,25 +236,42 @@ export default function AdminOverview() {
             </div>
 
             {/* Performance Chart Placeholder */}
-            <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
-                <div className="flex items-center justify-between mb-6">
+            <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-4 sm:p-6">
+                <div className="
+        flex flex-col sm:flex-row 
+        sm:items-center sm:justify-between 
+        mb-4 sm:mb-6
+        space-y-3 sm:space-y-0
+    ">
                     <div className="flex items-center space-x-2">
-                        <Calendar className="w-6 h-6 text-purple-400" />
-                        <h2 className="text-2xl font-bold text-white">Performance Overview</h2>
+                        <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" />
+                        <h2 className="text-xl sm:text-2xl font-bold text-white">
+                            Performance Overview
+                        </h2>
                     </div>
-                    <select className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none">
+
+                    <select
+                        className="px-3 py-2 sm:px-4 sm:py-2 bg-white/5 border border-white/10
+                rounded-xl text-white text-sm sm:text-base 
+                focus:ring-2 focus:ring-amber-500 outline-none"
+                    >
                         <option>Last 7 days</option>
                         <option>Last 30 days</option>
                         <option>Last 3 months</option>
                     </select>
                 </div>
-                <div className="h-64 flex items-center justify-center border-2 border-dashed border-white/10 rounded-xl">
+
+                <div className="h-48 sm:h-64 flex items-center justify-center border-2 border-dashed border-white/10 rounded-xl">
                     <div className="text-center">
-                        <BarChart3 className="w-16 h-16 text-indigo-400/50 mx-auto mb-4" />
-                        <p className="text-indigo-300">Chart visualization coming soon</p>
+                        <BarChart3 className="w-12 h-12 sm:w-16 sm:h-16 text-indigo-400/50 mx-auto mb-4" />
+                        <p className="text-indigo-300 text-sm sm:text-base">
+                            Chart visualization coming soon
+                        </p>
                     </div>
                 </div>
             </div>
+
         </div>
+
     )
 }

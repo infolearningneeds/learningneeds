@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
-import { Mail, Trash2, Eye, EyeOff, Search, Calendar, Phone, User } from 'lucide-react'
+import { Mail, Trash2, Eye, EyeOff, Search, Calendar, Phone, User, X } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 interface ContactSubmission {
@@ -29,29 +29,22 @@ const AdminContactPage = () => {
   const fetchSubmissions = async () => {
     try {
       setLoading(true)
-      
-      // Build query based on selected status
       let query = supabase
         .from('contact_submissions')
         .select('*')
         .order('created_at', { ascending: false })
 
-      // Apply status filter if not 'all'
       if (selectedStatus !== 'all') {
         query = query.eq('status', selectedStatus)
       }
 
       const { data, error } = await query
 
-      if (error) {
-        console.error('Error fetching submissions:', error)
-        toast.error('Failed to fetch submissions')
-        return
-      }
-
+      if (error) throw error
       setSubmissions(data || [])
     } catch (error) {
       console.error('Error fetching submissions:', error)
+      toast.error('Failed to fetch submissions')
     } finally {
       setLoading(false)
     }
@@ -64,18 +57,15 @@ const AdminContactPage = () => {
         .update({ status })
         .eq('id', id)
 
-      if (error) {
-        console.error('Error updating submission:', error)
-        toast.error('Failed to update submission status')
-        return
-      }
+      if (error) throw error
 
       await fetchSubmissions()
       if (selectedSubmission?.id === id) {
-        setSelectedSubmission({ ...selectedSubmission, status })
+        setSelectedSubmission(prev => prev ? { ...prev, status } : null)
       }
+      toast.success(`Marked as ${status}`)
     } catch (error) {
-      console.error('Error updating submission:', error)
+      toast.error('Failed to update status')
     }
   }
 
@@ -88,20 +78,13 @@ const AdminContactPage = () => {
         .delete()
         .eq('id', id)
 
-      if (error) {
-        console.error('Error deleting submission:', error)
-        toast.error('Failed to delete submission')
-        return
-      }
+      if (error) throw error
 
       await fetchSubmissions()
-      if (selectedSubmission?.id === id) {
-        setSelectedSubmission(null)
-      }
-      toast.success('Submission deleted successfully!')
+      if (selectedSubmission?.id === id) setSelectedSubmission(null)
+      toast.success('Submission deleted!')
     } catch (error) {
-      console.error('Error deleting submission:', error)
-      toast.error('Failed to delete submission')
+      toast.error('Failed to delete')
     }
   }
 
@@ -126,7 +109,7 @@ const AdminContactPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <svg className="animate-spin h-12 w-12 text-amber-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -139,227 +122,258 @@ const AdminContactPage = () => {
   }
 
   return (
-    <div className="p-8">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center space-x-3">
-          <div className="p-3 bg-blue-500/20 rounded-xl">
-            <Mail className="w-8 h-8 text-blue-400" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold text-white">Contact Submissions</h1>
-            <p className="text-indigo-300">Manage incoming messages from visitors</p>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen bg-indigo-500/20 p-4 sm:p-6 lg:p-8 mt-10">
+      <div className="max-w-7xl mx-auto">
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-indigo-300 text-sm mb-1">Total Messages</p>
-              <p className="text-3xl font-bold text-white">{submissions.length}</p>
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-blue-500/20 rounded-xl">
+              <Mail className="w-8 h-8 text-blue-400" />
             </div>
-            <Mail className="w-8 h-8 text-blue-400" />
-          </div>
-        </div>
-        <div className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center justify-between">
             <div>
-              <p className="text-indigo-300 text-sm mb-1">Unread</p>
-              <p className="text-3xl font-bold text-white">{unreadCount}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Contact Submissions</h1>
+              <p className="text-indigo-300 text-sm sm:text-base">Manage incoming messages from visitors</p>
             </div>
-            <EyeOff className="w-8 h-8 text-orange-400" />
           </div>
         </div>
-        <div className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-indigo-300 text-sm mb-1">Read</p>
-              <p className="text-3xl font-bold text-white">{readCount}</p>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          {[
+            { label: 'Total Messages', value: submissions.length, icon: Mail, color: 'blue' },
+            { label: 'Unread', value: unreadCount, icon: EyeOff, color: 'orange' },
+            { label: 'Read', value: readCount, icon: Eye, color: 'green' }
+          ].map((stat, i) => (
+            <div key={i} className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:bg-indigo-900/40 transition">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-indigo-300 text-sm">{stat.label}</p>
+                  <p className="text-3xl sm:text-4xl font-bold text-white mt-2">{stat.value}</p>
+                </div>
+                <stat.icon className={`w-10 h-10 text-${stat.color}-400`} />
+              </div>
             </div>
-            <Eye className="w-8 h-8 text-green-400" />
+          ))}
+        </div>
+
+        {/* Filters + Search */}
+        <div className="space-y-5 mb-8">
+          {/* Filter Tabs */}
+          <div className="flex flex-wrap gap-3">
+            {[
+              { label: 'All Messages', value: 'all' as const, color: 'amber' },
+              { label: 'Unread', value: 'unread' as const, color: 'orange' },
+              { label: 'Read', value: 'read' as const, color: 'green' }
+            ].map(tab => (
+              <button
+                key={tab.value}
+                onClick={() => setSelectedStatus(tab.value)}
+                className={`px-5 py-3 rounded-xl font-medium transition-all text-sm sm:text-base ${
+                  selectedStatus === tab.value
+                    ? `bg-${tab.color}-500 text-white shadow-lg`
+                    : 'bg-indigo-900/30 text-indigo-300 hover:bg-indigo-900/50'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-indigo-400" />
+            <input
+              type="text"
+              placeholder="Search by name, email, or message..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-6 py-4 bg-indigo-900/30 border border-white/10 rounded-xl text-white placeholder-indigo-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+            />
           </div>
         </div>
-      </div>
 
-      {/* Filter Tabs */}
-      <div className="flex items-center space-x-4 mb-6">
-        <button
-          onClick={() => setSelectedStatus('all')}
-          className={`px-6 py-3 rounded-xl font-medium transition-all ${
-            selectedStatus === 'all'
-              ? 'bg-amber-500 text-white'
-              : 'bg-indigo-900/30 text-indigo-300 hover:bg-indigo-900/50'
-          }`}
-        >
-          All Messages
-        </button>
-        <button
-          onClick={() => setSelectedStatus('unread')}
-          className={`px-6 py-3 rounded-xl font-medium transition-all ${
-            selectedStatus === 'unread'
-              ? 'bg-orange-500 text-white'
-              : 'bg-indigo-900/30 text-indigo-300 hover:bg-indigo-900/50'
-          }`}
-        >
-          Unread
-        </button>
-        <button
-          onClick={() => setSelectedStatus('read')}
-          className={`px-6 py-3 rounded-xl font-medium transition-all ${
-            selectedStatus === 'read'
-              ? 'bg-green-500 text-white'
-              : 'bg-indigo-900/30 text-indigo-300 hover:bg-indigo-900/50'
-          }`}
-        >
-          Read
-        </button>
-      </div>
-
-      {/* Search */}
-      <div className="mb-6">
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-indigo-400 w-5 h-5" />
-          <input
-            type="text"
-            placeholder="Search by name, email, or message..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-4 bg-indigo-900/30 border border-white/10 rounded-xl text-white placeholder-indigo-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
-          />
-        </div>
-      </div>
-
-      {/* Submissions List */}
-      <div className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
+        {/* Submissions List - Mobile Cards + Desktop Table */}
         {filteredSubmissions.length === 0 ? (
-          <div className="text-center py-12">
+          <div className="text-center py-20 bg-indigo-900/30 rounded-2xl border border-white/10">
             <Mail className="w-16 h-16 text-indigo-400 mx-auto mb-4" />
             <p className="text-indigo-300 text-lg">No submissions found</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-indigo-900/50 border-b border-white/10">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Name</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Contact</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Message</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Date</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Status</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredSubmissions.map((submission) => (
-                  <tr 
-                    key={submission.id} 
-                    className="border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer"
-                    onClick={() => setSelectedSubmission(submission)}
-                  >
-                    <td className="px-6 py-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-indigo-500/20 rounded-full flex items-center justify-center">
-                          <User className="w-5 h-5 text-indigo-300" />
-                        </div>
-                        <div>
-                          <p className="text-white font-medium">{submission.name}</p>
-                          <p className="text-indigo-400 text-sm">{submission.email}</p>
-                        </div>
+          <>
+            {/* Desktop Table */}
+            <div className="hidden lg:block bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-indigo-900/50 border-b border-white/10">
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Name</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Contact</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Message</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Date</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Status</th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-indigo-300">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredSubmissions.map((submission) => (
+                      <tr
+                        key={submission.id}
+                        className="border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer"
+                        onClick={() => setSelectedSubmission(submission)}
+                      >
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-indigo-500/20 rounded-full flex items-center justify-center">
+                              <User className="w-5 h-5 text-indigo-300" />
+                            </div>
+                            <div>
+                              <p className="text-white font-medium">{submission.name}</p>
+                              <p className="text-indigo-400 text-sm">{submission.email}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-indigo-300">
+                          <div className="flex items-center gap-2">
+                            <Phone className="w-4 h-4" />
+                            <span className="text-sm">{submission.contact}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <p className="text-indigo-300 text-sm max-w-md truncate">
+                            {submission.message}
+                          </p>
+                        </td>
+                        <td className="px-6 py-4 text-indigo-300 text-sm">
+                          {formatDate(submission.created_at)}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            submission.status === 'unread'
+                              ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
+                              : 'bg-green-500/20 text-green-300 border border-green-500/30'
+                          }`}>
+                            {submission.status.charAt(0).toUpperCase() + submission.status.slice(1)}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => handleMarkAs(submission.id, submission.status === 'read' ? 'unread' : 'read')}
+                              className="p-2 hover:bg-blue-500/20 rounded-lg transition"
+                            >
+                              {submission.status === 'read' ? (
+                                <EyeOff className="w-4 h-4 text-orange-400" />
+                              ) : (
+                                <Eye className="w-4 h-4 text-green-400" />
+                              )}
+                            </button>
+                            <button
+                              onClick={() => handleDelete(submission.id)}
+                              className="p-2 hover:bg-red-500/20 rounded-lg transition"
+                            >
+                              <Trash2 className="w-4 h-4 text-red-400" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="lg:hidden space-y-4">
+              {filteredSubmissions.map((submission) => (
+                <div
+                  key={submission.id}
+                  onClick={() => setSelectedSubmission(submission)}
+                  className="bg-indigo-900/30 backdrop-blur-xl border border-white/10 rounded-2xl p-5 hover:bg-indigo-900/40 transition cursor-pointer"
+                >
+                  <div className="flex flex-col sm:flex-row items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-indigo-500/20 rounded-full flex items-center justify-center">
+                        <User className="w-5 h-5 text-indigo-300" />
                       </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center space-x-2 text-indigo-300">
-                        <Phone className="w-4 h-4" />
-                        <span className="text-sm">{submission.contact}</span>
+                      <div>
+                        <p className="text-white font-semibold">{submission.name}</p>
+                        <p className="text-indigo-400 text-sm">{submission.email}</p>
                       </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="text-indigo-300 text-sm truncate max-w-xs">
-                        {submission.message}
-                      </p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center space-x-2 text-indigo-300">
-                        <Calendar className="w-4 h-4" />
-                        <span className="text-sm">{formatDate(submission.created_at)}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      {submission.status === 'unread' ? (
-                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-orange-500/20 text-orange-300 border border-orange-500/30">
-                          Unread
-                        </span>
-                      ) : (
-                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-500/20 text-green-300 border border-green-500/30">
-                          Read
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center space-x-2">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handleMarkAs(submission.id, submission.status === 'read' ? 'unread' : 'read')
-                          }}
-                          className="p-2 hover:bg-blue-500/20 rounded-lg transition-colors"
-                          title={submission.status === 'read' ? 'Mark as unread' : 'Mark as read'}
-                        >
-                          {submission.status === 'read' ? (
-                            <EyeOff className="w-4 h-4 text-orange-400" />
-                          ) : (
-                            <Eye className="w-4 h-4 text-green-400" />
-                          )}
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handleDelete(submission.id)
-                          }}
-                          className="p-2 hover:bg-red-500/20 rounded-lg transition-colors"
-                          title="Delete"
-                        >
-                          <Trash2 className="w-4 h-4 text-red-400" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                      submission.status === 'unread'
+                        ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
+                        : 'bg-green-500/20 text-green-300 border border-green-500/30'
+                    }`}>
+                      {submission.status}
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2 text-indigo-300">
+                      <Phone className="w-4 h-4" />
+                      <span>{submission.contact}</span>
+                    </div>
+                    <p className="text-indigo-300 line-clamp-2">{submission.message}</p>
+                    <div className="flex items-center gap-2 text-indigo-400">
+                      <Calendar className="w-4 h-4" />
+                      <span>{formatDate(submission.created_at)}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3 mt-4 pt-4 border-t border-white/10">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleMarkAs(submission.id, submission.status === 'read' ? 'unread' : 'read')
+                      }}
+                      className="flex items-center gap-2 px-4 py-2 bg-indigo-800 hover:bg-indigo-700 rounded-lg text-white text-sm"
+                    >
+                      {submission.status === 'read' ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      Mark as {submission.status === 'read' ? 'Unread' : 'Read'}
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDelete(submission.id)
+                      }}
+                      className="p-2 bg-red-500/20 hover:bg-red-500/40 rounded-lg transition"
+                    >
+                      <Trash2 className="w-4 h-4 text-red-400" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 
-      {/* Detail Modal */}
+      {/* Detail Modal - Full Mobile Experience */}
       {selectedSubmission && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-indigo-900 border border-white/10 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">Message Details</h2>
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
+          <div className="bg-indigo-900 border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-indigo-900/80 backdrop-blur border-b border-white/10 p-5 flex items-center justify-between">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">Message Details</h2>
               <button
                 onClick={() => setSelectedSubmission(null)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-2 hover:bg-white/10 rounded-lg transition"
               >
-                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <X className="w-6 h-6 text-white" />
               </button>
             </div>
 
-            <div className="space-y-6">
+            <div className="p-5 sm:p-8 space-y-6">
               <div>
                 <label className="block text-indigo-300 text-sm mb-2">Name</label>
-                <p className="text-white text-lg font-medium">{selectedSubmission.name}</p>
+                <p className="text-white text-lg font-semibold">{selectedSubmission.name}</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-indigo-300 text-sm mb-2">Email</label>
-                  <a href={`mailto:${selectedSubmission.email}`} className="text-blue-400 hover:text-blue-300">
+                  <a href={`mailto:${selectedSubmission.email}`} className="text-blue-400 hover:text-blue-300 break-all">
                     {selectedSubmission.email}
                   </a>
                 </div>
@@ -373,48 +387,44 @@ const AdminContactPage = () => {
 
               <div>
                 <label className="block text-indigo-300 text-sm mb-2">Message</label>
-                <div className="bg-indigo-950 p-4 rounded-xl text-white whitespace-pre-wrap">
+                <div className="bg-indigo-950 p-5 rounded-xl text-white whitespace-pre-wrap text-base leading-relaxed">
                   {selectedSubmission.message}
                 </div>
               </div>
 
-              <div>
-                <label className="block text-indigo-300 text-sm mb-2">Received</label>
-                <p className="text-white">{formatDate(selectedSubmission.created_at)}</p>
-              </div>
-
-              <div>
-                <label className="block text-indigo-300 text-sm mb-2">Status</label>
-                <div className="flex items-center space-x-3">
-                  {selectedSubmission.status === 'unread' ? (
-                    <span className="px-4 py-2 rounded-full text-sm font-semibold bg-orange-500/20 text-orange-300 border border-orange-500/30">
-                      Unread
-                    </span>
-                  ) : (
-                    <span className="px-4 py-2 rounded-full text-sm font-semibold bg-green-500/20 text-green-300 border border-green-500/30">
-                      Read
-                    </span>
-                  )}
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <label className="block text-indigo-300 text-sm mb-2">Received</label>
+                  <p className="text-white">{formatDate(selectedSubmission.created_at)}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className={`px-4 py-2 rounded-full text-sm font-bold ${
+                    selectedSubmission.status === 'unread'
+                      ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
+                      : 'bg-green-500/20 text-green-300 border border-green-500/30'
+                  }`}>
+                    {selectedSubmission.status.toUpperCase()}
+                  </span>
                   <button
                     onClick={() => handleMarkAs(selectedSubmission.id, selectedSubmission.status === 'read' ? 'unread' : 'read')}
-                    className="px-4 py-2 bg-indigo-800 hover:bg-indigo-700 rounded-xl text-white transition-all"
+                    className="px-4 py-2 bg-indigo-800 hover:bg-indigo-700 rounded-xl text-white font-medium transition"
                   >
                     Mark as {selectedSubmission.status === 'read' ? 'Unread' : 'Read'}
                   </button>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4 pt-4">
+              <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-white/10">
                 <button
                   onClick={() => handleDelete(selectedSubmission.id)}
-                  className="px-6 py-3 bg-red-500 hover:bg-red-600 rounded-xl text-white transition-all flex items-center space-x-2"
+                  className="flex-1 px-6 py-4 bg-red-500 hover:bg-red-600 rounded-xl text-white font-bold transition flex items-center justify-center gap-2"
                 >
-                  <Trash2 className="w-4 h-4" />
-                  <span>Delete</span>
+                  <Trash2 className="w-5 h-5" />
+                  Delete Message
                 </button>
                 <button
                   onClick={() => setSelectedSubmission(null)}
-                  className="px-6 py-3 bg-indigo-800 hover:bg-indigo-700 rounded-xl text-white transition-all"
+                  className="flex-1 px-6 py-4 bg-white/10 hover:bg-white/20 text-white font-medium rounded-xl transition"
                 >
                   Close
                 </button>
