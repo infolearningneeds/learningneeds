@@ -12,7 +12,8 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
   const router = useRouter()
   const pathname = usePathname()
   const [loading, setLoading] = useState(true)
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false) // mobile default hidden
+  const [desktopSidebar, setDesktopSidebar] = useState(true) // for >= md screens
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalProducts: 0,
@@ -23,29 +24,36 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
   useEffect(() => {
     checkAdminAccess()
     fetchStats()
-    
-    // Hide footer on admin pages
+
+    // Hide main footer in admin
     const footer = document.querySelector('footer')
-    if (footer) {
-      footer.style.display = 'none'
-    }
-    
-    // Show footer again when component unmounts
+    if (footer) footer.style.display = 'none'
+
     return () => {
       const footer = document.querySelector('footer')
-      if (footer) {
-        footer.style.display = 'block'
+      if (footer) footer.style.display = 'block'
+    }
+  }, [])
+
+  // Detect desktop to show sidebar automatically
+  useEffect(() => {
+    const updateSidebar = () => {
+      if (window.innerWidth >= 768) {
+        setDesktopSidebar(true)
+      } else {
+        setDesktopSidebar(false)
       }
     }
+
+    updateSidebar()
+    window.addEventListener('resize', updateSidebar)
+    return () => window.removeEventListener('resize', updateSidebar)
   }, [])
 
   const checkAdminAccess = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        router.push('/signin')
-        return
-      }
+      if (!user) return router.push('/signin')
 
       const { data: roleData } = await supabase
         .from('user_roles')
@@ -57,8 +65,9 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
         router.push('/profile')
         return
       }
+
     } catch (error) {
-      console.error('Error:', error)
+      console.error(error)
       router.push('/signin')
     } finally {
       setLoading(false)
@@ -67,128 +76,87 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
 
   const fetchStats = async () => {
     try {
-      // Fetch user count
       const { count: userCount } = await supabase
         .from('user_roles')
         .select('*', { count: 'exact', head: true })
-      
+
       setStats(prev => ({
         ...prev,
         totalUsers: userCount || 0
       }))
     } catch (error) {
-      console.error('Error fetching stats:', error)
+      console.error(error)
     }
   }
 
   const menuItems = [
-    { 
-      id: 'overview', 
-      label: 'Overview', 
-      icon: BarChart3, 
-      path: '/admin/dashboard',
-      color: 'blue'
-    },
-    { 
-      id: 'users', 
-      label: 'Users', 
-      icon: Users, 
-      path: '/admin/users',
-      color: 'indigo'
-    },
-    { 
-      id: 'products', 
-      label: 'Products', 
-      icon: Package, 
-      path: '/admin/products',
-      color: 'purple'
-    },
-    { 
-      id: 'orders', 
-      label: 'Orders', 
-      icon: ShoppingCart, 
-      path: '/admin/orders',
-      color: 'pink'
-    },
-    { 
-      id: 'blog', 
-      label: 'Blog', 
-      icon: FileText, 
-      path: '/admin/blog',
-      color: 'cyan'
-    },
-    { 
-      id: 'gallery', 
-      label: 'Gallery', 
-      icon: Image, 
-      path: '/admin/gallery',
-      color: 'emerald'
-    },
-    { 
-      id: 'contact', 
-      label: 'Messages', 
-      icon: MessageSquare, 
-      path: '/admin/contact',
-      color: 'orange'
-    },
-    { 
-      id: 'notices', 
-      label: 'Notices', 
-      icon: Megaphone, 
-      path: '/admin/notices',
-      color: 'red'
-    },
-    { 
-      id: 'career', 
-      label: 'Career', 
-      icon: FileText, 
-      path: '/admin/career',
-      color: 'blue'
-    },
+    { id: 'overview', label: 'Overview', icon: BarChart3, path: '/admin/dashboard' },
+    { id: 'users', label: 'Users', icon: Users, path: '/admin/users' },
+    { id: 'products', label: 'Products', icon: Package, path: '/admin/products' },
+    { id: 'orders', label: 'Orders', icon: ShoppingCart, path: '/admin/orders' },
+    { id: 'blog', label: 'Blog', icon: FileText, path: '/admin/blog' },
+    { id: 'gallery', label: 'Gallery', icon: Image, path: '/admin/gallery' },
+    { id: 'contact', label: 'Messages', icon: MessageSquare, path: '/admin/contact' },
+    { id: 'notices', label: 'Notices', icon: Megaphone, path: '/admin/notices' },
+    { id: 'career', label: 'Career', icon: FileText, path: '/admin/career' },
   ]
 
   if (loading) {
     return (
       <div className="min-h-screen bg-indigo-950 flex items-center justify-center">
         <div className="text-center">
-          <svg className="animate-spin h-12 w-12 text-amber-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
+          <div className="animate-spin h-12 w-12 text-amber-500 mx-auto mb-4">●</div>
           <p className="text-amber-300 text-lg">Loading dashboard...</p>
         </div>
       </div>
     )
   }
 
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768
+
   return (
     <div className="min-h-screen bg-indigo-950 pt-20">
-      {/* Sidebar */}
-      <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-indigo-900/50 backdrop-blur-xl border-r border-white/10 transition-all duration-300 fixed h-full top-20 z-40`}>
+
+      {/* MOBILE TOP-BAR MENU BUTTON */}
+      <div className="md:hidden fixed top-20 left-0 z-50 p-3">
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="p-2 bg-indigo-900/60 backdrop-blur-xl border border-white/10 rounded-lg text-white"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* SIDEBAR (Desktop always visible, mobile slides in) */}
+      <aside
+        className={`
+          fixed top-20 h-full z-50 bg-indigo-900/60 backdrop-blur-xl border-r border-white/10
+          transition-transform duration-300
+          ${desktopSidebar ? 'md:w-64 md:translate-x-0' : 'md:w-20'}
+          ${sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full md:translate-x-0'}
+        `}
+      >
         <div className="p-4 h-full flex flex-col">
-          {/* Logo/Header */}
+
+          {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            {sidebarOpen && (
-              <div className="flex items-center space-x-2">
-                <div className="p-2 bg-amber-500/20 rounded-xl">
-                  <Shield className="w-6 h-6 text-amber-400" />
-                </div>
-                <span className="text-white font-bold text-lg">Admin Panel</span>
+            <div className="flex items-center space-x-2">
+              <div className="p-2 bg-amber-500/20 rounded-xl">
+                <Shield className="w-6 h-6 text-amber-400" />
               </div>
-            )}
+              <span className="text-white font-bold text-lg hidden md:block">Admin Panel</span>
+            </div>
+
+            {/* Close btn (mobile only) */}
             <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors ml-auto"
+              onClick={() => setSidebarOpen(false)}
+              className="p-2 hover:bg-white/10 rounded-lg text-white md:hidden"
             >
-              {sidebarOpen ? (
-                <X className="w-5 h-5 text-white" />
-              ) : (
-                <Menu className="w-5 h-5 text-white" />
-              )}
+              <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Menu Items */}
+          {/* MENU */}
           <nav className="space-y-2 flex-1 overflow-y-auto">
             {menuItems.map((item) => {
               const Icon = item.icon
@@ -196,36 +164,49 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
               return (
                 <button
                   key={item.id}
-                  onClick={() => router.push(item.path)}
+                  onClick={() => {
+                    router.push(item.path)
+                    if (isMobile) setSidebarOpen(false)
+                  }}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
-                    isActive 
-                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' 
+                    isActive
+                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                       : 'text-indigo-300 hover:bg-white/5 hover:text-white'
                   }`}
-                  title={!sidebarOpen ? item.label : ''}
                 >
-                  <Icon className="w-5 h-5 shrink-0" />
-                  {sidebarOpen && <span className="font-medium">{item.label}</span>}
+                  <Icon className="w-5 h-5" />
+                  <span className="font-medium">{item.label}</span>
                 </button>
               )
             })}
           </nav>
 
           {/* Back to Profile */}
-          <div className="pt-4 border-t border-white/10 mt-4">
-            <button
-              onClick={() => router.push('/profile')}
-              className="w-full flex items-center space-x-3 px-4 py-3 text-indigo-300 hover:bg-white/5 hover:text-white rounded-xl transition-all"
-            >
-              <ArrowLeft className="w-5 h-5 shrink-0" />
-              {sidebarOpen && <span className="font-medium">Back to Profile</span>}
-            </button>
-          </div>
+          <button
+            onClick={() => router.push('/profile')}
+            className="flex items-center space-x-3 px-4 py-3 text-indigo-300 hover:bg-white/5 hover:text-white rounded-xl transition-all"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span className="font-medium hidden md:block">Back to Profile</span>
+          </button>
+
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className={`flex-1 ${sidebarOpen ? 'ml-64' : 'ml-20'} transition-all duration-300 p-6`}>
+      {/* OVERLAY (mobile only) */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+        ></div>
+      )}
+
+      {/* MAIN CONTENT */}
+      <main
+        className={`transition-all duration-300 p-4 md:p-6 ${
+          desktopSidebar ? 'md:ml-64' : 'md:ml-20'
+        }`}
+      >
         {children}
       </main>
     </div>
