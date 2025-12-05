@@ -74,7 +74,7 @@ const Footer = () => {
   const companyLinks = [
     { label: 'About Us', href: '/about' },
     { label: 'Contact Us', href: '/contact' },
-    { label: 'Service Centres', href: '/service-centres' },
+    { label: 'Call Centres', href: '/call-centres' },
     { label: 'Work With Us', href: '/careers' },
     { label: 'Products', href: '/products' },
   ];
@@ -256,7 +256,7 @@ const Footer = () => {
           </div>
 
           <div className="col-span-1 sm:col-span-1 lg:col-span-2">
-            <h4 className="text-orange-500 font-bold text-base sm:text-lg mb-4 sm:mb-6">Help</h4>
+            <h4 className="text-orange-500 font-bold text-base sm:text-lg mb-4 sm:mb-6">Company</h4>
             <ul className="space-y-2 sm:space-y-3">
               {companyLinks.map((link, index) => (
                 <li key={index}>
