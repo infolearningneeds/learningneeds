@@ -9,15 +9,35 @@ import toast from 'react-hot-toast';
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [newsletterEmail, setNewsletterEmail] = useState("");
 
-  const handleSubscribe = () => {
-    if (email && email.includes('@')) {
-      toast.success('Thank you for subscribing!');
-      setEmail('');
-    } else {
-      toast.error('Please enter a valid email address');
+
+
+  const handleSubscribe = async () => {
+    if (!newsletterEmail) {
+      alert("Please enter a valid email");
+      return;
     }
+
+    const res = await fetch("/api/newsletter", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: newsletterEmail }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error);
+      return;
+    }
+
+    toast.success("Subscribed successfully!");
+    setNewsletterEmail("");
   };
+
 
   const features = [
     {
@@ -90,7 +110,7 @@ const Footer = () => {
       </div>
 
       {/* Hero Banner */}
-      <div className="relative bg-gradient-to-r from-orange-600 via-orange-500 to-red-500">
+      <div className="relative bg-linear-to-r from-orange-600 via-orange-500 to-red-500">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)`,
@@ -114,14 +134,14 @@ const Footer = () => {
                 Learning Needs offers variety of boutique services, tailored to each client&lsquo;s need. Our specialized expertise allows the Individual, Institution, Schools, and Organizations to achieve their objectives.
               </p>
             </div>
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <Link href="/school-essentials">
-              <button className="group relative bg-blue-950 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-base sm:text-lg shadow-2xl hover:bg-blue-900 transition-all duration-300 hover:scale-105">
-                <span className="flex items-center gap-2">
-                  Get Started
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </button>
+                <button className="group relative bg-blue-950 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-base sm:text-lg shadow-2xl hover:bg-blue-900 transition-all duration-300 hover:scale-105">
+                  <span className="flex items-center gap-2">
+                    Get Started
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </button>
               </Link>
             </div>
           </div>
@@ -211,13 +231,13 @@ const Footer = () => {
               <h4 className="text-orange-500 font-bold text-base sm:text-lg mb-4 sm:mb-6">Contact</h4>
               <div className="space-y-3 sm:space-y-4">
                 <a href="mailto:infolearningneeds@gmail.com" className="flex items-start gap-3 text-blue-200 hover:text-orange-500 transition-colors group">
-                  <div className="bg-orange-500/10 p-2 rounded-lg group-hover:bg-orange-500 transition-colors flex-shrink-0">
+                  <div className="bg-orange-500/10 p-2 rounded-lg group-hover:bg-orange-500 transition-colors shrink-0">
                     <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 group-hover:text-white transition-colors" />
                   </div>
                   <span className="text-sm leading-relaxed break-all mt-1">infolearningneeds@gmail.com</span>
                 </a>
                 <a href="tel:8240554890" className="flex items-center gap-3 text-blue-200 hover:text-orange-500 transition-colors group">
-                  <div className="bg-orange-500/10 p-2 rounded-lg group-hover:bg-orange-500 transition-colors flex-shrink-0">
+                  <div className="bg-orange-500/10 p-2 rounded-lg group-hover:bg-orange-500 transition-colors shrink-0">
                     <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 group-hover:text-white transition-colors" />
                   </div>
                   <span className="text-sm mt-1">8240554890</span>
@@ -232,7 +252,7 @@ const Footer = () => {
             <ul className="space-y-2 sm:space-y-3">
               {helpLinks.map((link, index) => (
                 <li key={index}>
-                  <Link href={link.href} className="text-blue-200 hover:text-orange-500 hover:translate-x-2 inline-block transition-all duration-300 flex items-center gap-2 group text-sm sm:text-base">
+                  <Link href={link.href} className="text-blue-200 hover:text-orange-500 hover:translate-x-2 inline-block transition-all duration-300 items-center gap-2 group text-sm sm:text-base">
                     <span className="w-1.5 h-1.5 bg-orange-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
                     {link.label}
                   </Link>
@@ -273,20 +293,22 @@ const Footer = () => {
           <div className="col-span-2 sm:col-span-2 lg:col-span-2">
             <div className="transition-all duration-300">
               <h4 className="text-orange-500 font-bold text-base sm:text-lg mb-3 sm:mb-4 flex items-center gap-2">
-                <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                 Newsletter
               </h4>
+
               <div className="space-y-3">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
                   className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-xl bg-blue-950 border border-blue-800 text-white placeholder-blue-400 focus:outline-none focus:border-orange-500 transition-all"
                 />
+
                 <p className="text-xs text-blue-300">
                   By subscribing, you agree to our Terms & Conditions
                 </p>
+
                 <button
                   onClick={handleSubscribe}
                   className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 sm:py-3 text-sm sm:text-base rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/50 hover:scale-105"

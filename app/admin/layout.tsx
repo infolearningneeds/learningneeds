@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase'
 import { useRouter, usePathname } from 'next/navigation'
 import { 
   Shield, Users, Package, ShoppingCart, FileText, Image,
-  MessageSquare, Megaphone, Menu, X, ArrowLeft, BarChart3
+  MessageSquare, Megaphone, Menu, X, ArrowLeft, BarChart3 , Newspaper
 } from 'lucide-react'
 
 export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
@@ -99,6 +99,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
     { id: 'contact', label: 'Messages', icon: MessageSquare, path: '/admin/contact' },
     { id: 'notices', label: 'Notices', icon: Megaphone, path: '/admin/notices' },
     { id: 'career', label: 'Career', icon: FileText, path: '/admin/career' },
+    { id: 'newsletter', label: 'Newsletter', icon: Newspaper, path: '/admin/newsletter' },
   ]
 
   if (loading) {
