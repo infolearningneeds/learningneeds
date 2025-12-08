@@ -30,7 +30,7 @@ const Goal = () => {
                             wordSpacing: 'normal'
                         }}>
                         This proverb perfectly defines the inception of Learning Needs.
-                        We believe all companies have one thing in common — they survive 
+                        We believe all companies have one thing in common , they survive 
                         and thrive by creating and maintaining satisfied customers through their people.
                         At Learning Needs, we help individuals, schools, and organizations unlock their true potential
                         through structured training, strategic consulting, and meaningful transformation.

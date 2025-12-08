@@ -1,5 +1,8 @@
 import React from 'react';
-import { Users, TrendingUp, BookOpen, ClipboardCheck, GraduationCap, Smile, Lightbulb, Megaphone, DollarSign, UserCheck, Heart, School, Wallet, Shield, CheckCircle, Sparkles } from 'lucide-react';
+import { Users, TrendingUp, BookOpen, ClipboardCheck, GraduationCap, Smile, Lightbulb, Megaphone, DollarSign, UserCheck, Heart, School, Wallet, Shield, CheckCircle, Sparkles} from 'lucide-react';
+import { RiFlaskLine } from "react-icons/ri";
+
+
 import Link from 'next/link';
 
 const AdditionalSupport: React.FC = () => {
@@ -101,6 +104,13 @@ const AdditionalSupport: React.FC = () => {
       color: 'from-amber-500 to-amber-600',
       iconBg: 'bg-amber-100',
       iconColor: 'text-amber-600',
+    },
+    {
+      icon: RiFlaskLine,
+      text: 'Lab Setup and Equipment',
+      color: 'from-red-500 to-red-600',
+      iconBg: 'bg-red-100',
+      iconColor: 'text-red-600',
     },
   ];
 
