@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -10,10 +10,16 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import { IconType } from "react-icons";
-import { supabase } from "@/lib/supabase";
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 interface NoticeItem {
-  id: number;
+  idx?: number;
+  id?: number;
   title: string;
   date: string;
   category: "important" | "info" | "success";
@@ -27,7 +33,7 @@ interface Notice {
   date: string;
   fullContent: string;
   icon: IconType;
-  color: string; // now string
+  color: string;
 }
 
 interface ColorClasses {
@@ -41,6 +47,7 @@ const Notice = () => {
   const [notices, setNotices] = useState<Notice[]>([]);
   const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const categoryMap = {
     important: { icon: FaExclamationCircle, color: "red" },
@@ -49,35 +56,55 @@ const Notice = () => {
   };
 
   const fetchNotices = async () => {
-    const { data, error } = await supabase
-      .from("notices")
-      .select("*")
-      .order("id", { ascending: false });
+    try {
+      setLoading(true);
+      setError(null);
+      console.log("Fetching notices from Supabase...");
 
-    if (error) {
-      console.error("Supabase Fetch Error:", error);
-      return;
+      const { data, error: fetchError } = await supabase
+        .from("notices")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (fetchError) {
+        console.error("Supabase Fetch Error:", fetchError);
+        setError(fetchError.message);
+        return;
+      }
+
+      console.log("Fetched data:", data);
+
+      if (!data || data.length === 0) {
+        console.log("No notices found");
+        setNotices([]);
+        setLoading(false);
+        return;
+      }
+
+      const formatted: Notice[] = data.map((n: NoticeItem) => ({
+        id: n.idx || n.id || 0,
+        type: n.category,
+        title: n.title,
+        date: n.date,
+        fullContent: n.description,
+        icon: categoryMap[n.category].icon,
+        color: categoryMap[n.category].color,
+      }));
+
+      console.log("Formatted notices:", formatted);
+      setNotices(formatted);
+    } catch (err) {
+      console.error("Error fetching notices:", err);
+      setError(err instanceof Error ? err.message : "Failed to load notices");
+    } finally {
+      setLoading(false);
     }
-
-    const formatted: Notice[] = data.map((n: NoticeItem) => ({
-      id: n.id,
-      type: n.category,
-      title: n.title,
-      date: n.date,
-      fullContent: n.description,
-      icon: categoryMap[n.category].icon,
-      color: categoryMap[n.category].color,
-    }));
-
-    setNotices(formatted);
-    setLoading(false);
   };
 
   useEffect(() => {
     fetchNotices();
   }, []);
 
-  // Tailwind class mapping function
   const getColorClasses = (color: string): ColorClasses => {
     const colors: Record<string, ColorClasses> = {
       red: { bg: "bg-red-50", text: "text-red-600", badge: "bg-red-500", dot: "bg-red-500" },
@@ -88,11 +115,34 @@ const Notice = () => {
   };
 
   if (loading)
-    return <div className="py-20 text-center text-gray-600 text-lg">Loading notices...</div>;
+    return (
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-100">
+        <div className="flex flex-col items-center justify-center py-20">
+          <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p className="text-gray-600 text-lg">Loading notices...</p>
+        </div>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-100">
+        <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+          <FaExclamationCircle className="text-red-500 text-4xl mx-auto mb-3" />
+          <p className="text-red-600 font-semibold mb-2">Error Loading Notices</p>
+          <p className="text-red-500 text-sm mb-4">{error}</p>
+          <button 
+            onClick={fetchNotices}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
 
   return (
     <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-100">
-      {/* Header */}
       <div className="flex items-center gap-4 mb-10">
         <div className="relative">
           <div className="absolute inset-0 bg-yellow-300 rounded-full blur-xl opacity-40" />
@@ -106,69 +156,74 @@ const Notice = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        {/* Left Column – Notices List */}
-        <div className="relative bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden h-80 pointer-events-auto">
-          <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-white to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white to-transparent" />
+      {notices.length === 0 ? (
+        <div className="bg-white border border-gray-200 shadow-md rounded-xl p-12 text-center">
+          <FaBell className="text-gray-300 text-6xl mx-auto mb-4" />
+          <p className="text-gray-500 text-lg font-medium mb-2">No Notices Available</p>
+          <p className="text-gray-400 text-sm">Check back later for new announcements</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="relative bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden h-80 pointer-events-auto">
+            <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-white to-transparent z-10" />
+            <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white to-transparent z-10" />
 
-          <div className="animate-scroll-vertical py-3">
-            {[...notices, ...notices].map((notice, index) => {
-              const Icon = notice.icon;
-              const color = getColorClasses(notice.color);
+            <div className="animate-scroll-vertical py-3">
+              {[...notices, ...notices].map((notice, index) => {
+                const Icon = notice.icon;
+                const color = getColorClasses(notice.color);
 
-              return (
-                <div
-                  key={index}
-                  onClick={() => setSelectedNotice(notice)}
-                  className="px-5 py-4 cursor-pointer hover:bg-gray-50 transition flex items-center gap-4 border-b border-gray-200"
-                >
-                  <div className={`w-12 h-12 rounded-xl ${color.bg} flex items-center justify-center border`}>
-                    <Icon className={`text-lg ${color.text}`} />
+                return (
+                  <div
+                    key={`${notice.id}-${index}`}
+                    onClick={() => setSelectedNotice(notice)}
+                    className="px-5 py-4 cursor-pointer hover:bg-gray-50 transition flex items-center gap-4 border-b border-gray-200"
+                  >
+                    <div className={`w-12 h-12 rounded-xl ${color.bg} flex items-center justify-center border flex-shrink-0`}>
+                      <Icon className={`text-lg ${color.text}`} />
+                    </div>
+
+                    <span className={`text-xs font-semibold px-3 py-1 rounded-full text-white ${color.badge} flex-shrink-0`}>
+                      {notice.type}
+                    </span>
+
+                    <p className="flex-1 text-gray-700 font-medium text-sm truncate">{notice.title}</p>
+                    <span className="text-xs text-gray-500 flex-shrink-0">{notice.date}</span>
+                    <FaChevronRight className="text-gray-400 flex-shrink-0" />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="bg-white border border-gray-200 shadow-md rounded-xl p-6 min-h-80">
+            {selectedNotice ? (
+              <>
+                <div className="flex items-start gap-4">
+                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center border ${getColorClasses(selectedNotice.color).bg}`}>
+                    <selectedNotice.icon className={`text-2xl ${getColorClasses(selectedNotice.color).text}`} />
                   </div>
 
-                  <span className={`text-xs font-semibold px-3 py-1 rounded-full text-white ${color.badge}`}>
-                    {notice.type}
-                  </span>
-
-                  <p className="flex-1 text-gray-700 font-medium text-sm truncate">{notice.title}</p>
-                  <span className="text-xs text-gray-500">{notice.date}</span>
-                  <FaChevronRight className="text-gray-400" />
+                  <div className="flex-1">
+                    <span className={`text-xs font-semibold px-3 py-1 rounded-full text-white ${getColorClasses(selectedNotice.color).badge}`}>
+                      {selectedNotice.type.toUpperCase()}
+                    </span>
+                    <h3 className="text-xl font-bold text-gray-800 mt-2">{selectedNotice.title}</h3>
+                    <p className="text-sm text-gray-500 mt-1">{selectedNotice.date}</p>
+                  </div>
                 </div>
-              );
-            })}
+
+                <p className="mt-6 text-gray-700 leading-relaxed">{selectedNotice.fullContent}</p>
+              </>
+            ) : (
+              <div className="flex items-center justify-center h-full text-gray-500 text-lg">
+                Select a notice to see details
+              </div>
+            )}
           </div>
         </div>
+      )}
 
-        {/* Right Column – Notice Details */}
-        <div className="bg-white border border-gray-200 shadow-md rounded-xl p-6 min-h-80">
-          {selectedNotice ? (
-            <>
-              <div className="flex items-start gap-4">
-                <div className={`w-14 h-14 rounded-xl flex items-center justify-center border ${getColorClasses(selectedNotice.color).bg}`}>
-                  <selectedNotice.icon className={`text-2xl ${getColorClasses(selectedNotice.color).text}`} />
-                </div>
-
-                <div className="flex-1">
-                  <span className={`text-xs font-semibold px-3 py-1 rounded-full text-white ${getColorClasses(selectedNotice.color).badge}`}>
-                    {selectedNotice.type.toUpperCase()}
-                  </span>
-                  <h3 className="text-xl font-bold text-gray-800 mt-2">{selectedNotice.title}</h3>
-                  <p className="text-sm text-gray-500 mt-1">{selectedNotice.date}</p>
-                </div>
-              </div>
-
-              <p className="mt-6 text-gray-700 leading-relaxed">{selectedNotice.fullContent}</p>
-            </>
-          ) : (
-            <div className="flex items-center justify-center h-full text-gray-500 text-lg">
-              Select a notice to see details
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Animation */}
       <style>{`
         @keyframes scroll-vertical {
           0% { transform: translateY(0); }

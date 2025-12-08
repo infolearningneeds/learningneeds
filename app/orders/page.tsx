@@ -3,9 +3,15 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 import Image from 'next/image';
-import { Package, Truck, CheckCircle2, XCircle, Clock, Download, Eye } from 'lucide-react';
+import { Package, Truck, CheckCircle2, XCircle, Clock, Download, Eye, AlertCircle } from 'lucide-react';
+import toast from 'react-hot-toast';
+
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 interface Order {
   id: string;
@@ -32,6 +38,10 @@ export default function OrdersPage() {
   const [orderItems, setOrderItems] = useState<Record<string, OrderItem[]>>({});
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
+  const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [orderToCancel, setOrderToCancel] = useState<string | null>(null);
+  const [cancelError, setCancelError] = useState<string | null>(null);
 
   useEffect(() => {
     checkUserAndFetchOrders();
@@ -49,7 +59,6 @@ export default function OrdersPage() {
 
   const fetchOrders = async (userId: string) => {
     try {
-      // Fetch orders
       const { data: ordersData, error: ordersError } = await supabase
         .from('orders')
         .select('*')
@@ -60,7 +69,6 @@ export default function OrdersPage() {
 
       setOrders(ordersData || []);
 
-      // Fetch order items for each order
       const itemsMap: Record<string, OrderItem[]> = {};
       for (const order of ordersData || []) {
         const { data: itemsData, error: itemsError } = await supabase
@@ -81,6 +89,70 @@ export default function OrdersPage() {
     }
   };
 
+  const canCancelOrder = (order: Order): boolean => {
+    const cancellableStatuses = ['processing', 'confirmed'];
+    return cancellableStatuses.includes(order.order_status);
+  };
+
+  const handleCancelClick = (orderId: string) => {
+    setOrderToCancel(orderId);
+    setCancelError(null);
+    setShowCancelModal(true);
+  };
+
+  const handleCancelOrder = async () => {
+    if (!orderToCancel) return;
+
+    try {
+      setCancellingOrderId(orderToCancel);
+      setCancelError(null);
+      
+      console.log('Attempting to cancel order:', orderToCancel);
+      
+      // Try to update order status
+      const { data, error } = await supabase
+        .from('orders')
+        .update({ 
+          order_status: 'cancelled'
+        })
+        .eq('id', orderToCancel)
+        .select();
+
+      console.log('Update response:', { data, error });
+
+      if (error) {
+        console.error('Supabase error:', error);
+        setCancelError(`Database error: ${error.message}`);
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        setCancelError('Order not found or no permission to update');
+        return;
+      }
+
+      // Update local state
+      setOrders(orders.map(order => 
+        order.id === orderToCancel 
+          ? { ...order, order_status: 'cancelled' }
+          : order
+      ));
+
+      setShowCancelModal(false);
+      setOrderToCancel(null);
+      
+      // Success notification (you can replace with a better toast notification)
+      setTimeout(() => {
+        toast.success('Order cancelled successfully!');
+      }, 300);
+    } catch (error: any) {
+      console.error('Error cancelling order:', error);
+      setCancelError(error.message || 'Unknown error occurred');
+    } finally {
+      setCancellingOrderId(null);
+    }
+  };
+
   const hasOnlyPDFs = (items: OrderItem[]): boolean => {
     return items && items.length > 0 && items.every(item => item.category === 'PDF');
   };
@@ -92,7 +164,6 @@ export default function OrdersPage() {
   const handleViewOrder = (orderId: string) => {
     const items = orderItems[orderId] || [];
     
-    // If order contains only PDFs, go to download page
     if (hasOnlyPDFs(items)) {
       router.push(`/pdf-download?orderId=${orderId}`);
     } else {
@@ -160,6 +231,63 @@ export default function OrdersPage() {
           <p className="text-indigo-300">View and track your orders</p>
         </div>
 
+        {/* Cancel Confirmation Modal */}
+        {showCancelModal && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-gradient-to-br from-slate-800 to-indigo-900 rounded-2xl shadow-2xl max-w-md w-full p-6 border border-indigo-500/30">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
+                  <AlertCircle className="w-6 h-6 text-red-400" />
+                </div>
+                <h3 className="text-xl font-bold text-white">Cancel Order?</h3>
+              </div>
+              
+              <p className="text-indigo-200 mb-6">
+                Are you sure you want to cancel this order? This action cannot be undone.
+              </p>
+
+              {cancelError && (
+                <div className="mb-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
+                  <p className="text-red-300 text-sm flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                    <span>{cancelError}</span>
+                  </p>
+                </div>
+              )}
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowCancelModal(false);
+                    setOrderToCancel(null);
+                  }}
+                  disabled={cancellingOrderId !== null}
+                  className="flex-1 px-4 py-3 border border-indigo-500/30 bg-indigo-500/10 text-indigo-200 rounded-lg hover:bg-indigo-500/20 transition-all duration-300 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Keep Order
+                </button>
+                <button
+                  onClick={handleCancelOrder}
+                  disabled={cancellingOrderId !== null}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-300 font-semibold shadow-lg shadow-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {cancellingOrderId ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      Cancelling...
+                    </>
+                  ) : (
+                    <>
+                      <XCircle className="w-4 h-4" />
+                      Yes, Cancel Order
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Orders List */}
         {orders.length === 0 ? (
           <div className="bg-gradient-to-br from-slate-800/50 to-indigo-900/30 backdrop-blur-sm rounded-xl shadow-2xl p-12 text-center border border-indigo-500/20">
@@ -179,6 +307,7 @@ export default function OrdersPage() {
               const items = orderItems[order.id] || [];
               const onlyPDFs = hasOnlyPDFs(items);
               const containsPDFs = hasPDFs(items);
+              const isCancellable = canCancelOrder(order);
 
               return (
                 <div
@@ -186,6 +315,8 @@ export default function OrdersPage() {
                   className={`bg-gradient-to-br backdrop-blur-sm rounded-xl shadow-2xl border-2 overflow-hidden transform transition-all duration-300 hover:scale-[1.01] ${
                     onlyPDFs 
                       ? 'from-green-900/30 to-emerald-900/20 border-green-500/30 shadow-green-500/20' 
+                      : order.order_status === 'cancelled'
+                      ? 'from-red-900/30 to-slate-900/20 border-red-500/30 shadow-red-500/20'
                       : 'from-slate-800/50 to-indigo-900/30 border-indigo-500/20 shadow-indigo-500/20'
                   }`}
                 >
@@ -193,6 +324,8 @@ export default function OrdersPage() {
                   <div className={`px-6 py-4 border-b backdrop-blur-sm ${
                     onlyPDFs 
                       ? 'bg-green-500/10 border-green-500/20' 
+                      : order.order_status === 'cancelled'
+                      ? 'bg-red-500/10 border-red-500/20'
                       : 'bg-indigo-500/10 border-indigo-500/20'
                   }`}>
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -204,7 +337,7 @@ export default function OrdersPage() {
                             getStatusIcon(order.order_status)
                           )}
                           <div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 flex-wrap">
                               <p className="text-sm text-indigo-300">Order #{order.id.slice(0, 8)}</p>
                               {onlyPDFs && (
                                 <span className="px-2 py-0.5 bg-gradient-to-r from-green-600 to-emerald-600 text-white text-xs font-bold rounded shadow-lg">
@@ -262,7 +395,7 @@ export default function OrdersPage() {
                                 <h4 className="font-semibold text-white mb-1">
                                   {item.product_title}
                                 </h4>
-                                <p className="text-sm text-indigo-300 mb-1 flex items-center gap-2">
+                                <p className="text-sm text-indigo-300 mb-1 flex items-center gap-2 flex-wrap">
                                   <span className="capitalize">{item.category}</span>
                                   {item.category === 'PDF' && (
                                     <span className="text-xs bg-green-500/20 text-green-300 px-2 py-0.5 rounded-full border border-green-500/30">
@@ -283,23 +416,22 @@ export default function OrdersPage() {
 
                     {/* Order Footer */}
                     <div className="mt-6 pt-4 border-t border-indigo-500/20 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-                      <div className="flex items-center gap-4 text-sm text-indigo-300">
+                      <div className="flex items-center gap-4 text-sm text-indigo-300 flex-wrap">
                         <span>Payment: <span className="font-semibold capitalize text-white">{order.payment_method === 'cod' ? 'Cash on Delivery' : order.payment_method}</span></span>
                         <span className="hidden sm:inline">•</span>
                         <span>Status: <span className={`font-semibold capitalize ${order.payment_status === 'completed' ? 'text-green-400' : 'text-yellow-400'}`}>{order.payment_status}</span></span>
                       </div>
-                      <div className="flex gap-3">
+                      <div className="flex gap-3 flex-wrap">
                         {onlyPDFs ? (
-                          // Digital order - show download button
                           <button
                             onClick={() => handleDownloadPDFs(order.id)}
-                            className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-300 font-semibold text-sm flex items-center gap-2 shadow-lg shadow-green-500/30"
+                            disabled={order.order_status === 'cancelled'}
+                            className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-300 font-semibold text-sm flex items-center gap-2 shadow-lg shadow-green-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             <Download className="w-4 h-4" />
                             Download PDFs
                           </button>
                         ) : (
-                          // Physical or mixed order - show view details
                           <button
                             onClick={() => handleViewOrder(order.id)}
                             className="px-4 py-2 border border-indigo-500/30 bg-indigo-500/10 text-indigo-200 rounded-lg hover:bg-indigo-500/20 transition-all duration-300 font-semibold text-sm flex items-center gap-2"
@@ -309,14 +441,33 @@ export default function OrdersPage() {
                           </button>
                         )}
                         
-                        {containsPDFs && !onlyPDFs && (
-                          // Mixed order - also show download button
+                        {containsPDFs && !onlyPDFs && order.order_status !== 'cancelled' && (
                           <button
                             onClick={() => handleDownloadPDFs(order.id)}
                             className="px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-300 font-semibold text-sm flex items-center gap-2 shadow-lg shadow-green-500/30"
                           >
                             <Download className="w-4 h-4" />
                             Download
+                          </button>
+                        )}
+                        
+                        {isCancellable && (
+                          <button
+                            onClick={() => handleCancelClick(order.id)}
+                            disabled={cancellingOrderId === order.id}
+                            className="px-4 py-2 border border-red-500/30 bg-red-500/10 text-red-300 rounded-lg hover:bg-red-500/20 transition-all duration-300 font-semibold text-sm flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {cancellingOrderId === order.id ? (
+                              <>
+                                <div className="w-4 h-4 border-2 border-red-300/30 border-t-red-300 rounded-full animate-spin"></div>
+                                Cancelling...
+                              </>
+                            ) : (
+                              <>
+                                <XCircle className="w-4 h-4" />
+                                Cancel Order
+                              </>
+                            )}
                           </button>
                         )}
                         

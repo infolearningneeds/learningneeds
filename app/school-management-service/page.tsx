@@ -17,19 +17,20 @@ const page = () => {
                 smallHeader="School Management Service"
                 titleMain="We Work to Make you Happy"
                 titleHighlight="with Tailored Programs that Deliver Real-World Impact"
-                description="Learning Needs provides targeted training and management consulting solutions designed to elevate performance and inspire meaningful growth. 
-Located in Kolkata along the tranquil banks of the Ganges, we specialize in building tailor-made programs that address the unique needs of schools, institutions, and organizations.
+                description="Learning Needs offers comprehensive school management services designed to streamline operations, enhance academic quality, and improve overall institutional performance.  
+Located in Kolkata along the serene banks of the Ganges, we partner with schools to implement structured systems that ensure efficiency, transparency, and long-term growth.
 
-Our mission is to equip every learner with future-ready skills, practical knowledge, and the confidence to excel. 
-With a strong focus on measurable outcomes and high-quality delivery, we ensure that every training experience results in positive, lasting transformation."
+Our goal is to empower institutions with effective administrative solutions, strengthened leadership practices, and modern management strategies.  
+From academic planning to staff development and policy implementation, we help schools create an environment where educators can teach better and students can learn better—leading to measurable, sustainable improvement across the institution.
+"
             />
             <SchoolManagement />
 
             <StartingNewSchool />
-            <StartupSchoolServices/>
-            <SchoolServices/>
-            <ExpertiseSection/>
-            <AdditionalSupport/>
+            <StartupSchoolServices />
+            <SchoolServices />
+            <ExpertiseSection />
+            <AdditionalSupport />
         </>
     )
 }
