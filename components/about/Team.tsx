@@ -20,7 +20,7 @@ const items = [
     {
         title: "Dr. Arunangshu Ghosh",
         tag: "Chief Training Advisor",
-        image: "/images/about/aru.jpeg",
+        image: "/images/about/aur1.jpeg",
         description: "Creates engaging learning content and ensures all materials meet quality, clarity, and training standards.",
     },
     {
