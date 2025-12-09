@@ -15,13 +15,11 @@ const page = () => {
             <IndustryHero
                 backgroundImage="/images/school/school.jpg"
                 smallHeader="School Management Service"
-                titleMain="We Work to Make you Happy"
-                titleHighlight="with Tailored Programs that Deliver Real-World Impact"
-                description="Learning Needs offers comprehensive school management services designed to streamline operations, enhance academic quality, and improve overall institutional performance.  
-Located in Kolkata along the serene banks of the Ganges, we partner with schools to implement structured systems that ensure efficiency, transparency, and long-term growth.
-
-Our goal is to empower institutions with effective administrative solutions, strengthened leadership practices, and modern management strategies.  
-From academic planning to staff development and policy implementation, we help schools create an environment where educators can teach better and students can learn better—leading to measurable, sustainable improvement across the institution.
+                titleMain="We help schools build stronger and more reliable management systems,"
+                titleHighlight="creating a smooth, well-coordinated environment for every department."
+                description="Learning Needs offers complete school management support that helps institutions run efficiently, stay organized, and maintain strong operational standards.
+Located in Kolkata beside the serene Ganges, we assist schools in building reliable systems that improve coordination, communication, and institutional performance.
+Our services focus on strengthening administrative workflows, enhancing governance, and optimizing resource management—enabling schools to function smoothly and deliver consistent quality across all departments.
 "
             />
             <SchoolManagement />

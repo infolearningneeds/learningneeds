@@ -82,7 +82,7 @@ export default function IndustryHero({
                         }}
                     >
                         <span
-                            className="bg-clip-text text-transparent bg-gradient-to-r"
+                            className="bg-clip-text text-transparent bg-linear-to-r"
                             style={{
                                 backgroundImage: `linear-gradient(to right, ${gradientFrom}, ${gradientTo})`,
                             }}

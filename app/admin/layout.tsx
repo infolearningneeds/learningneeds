@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useRouter, usePathname } from 'next/navigation'
-import { 
+import {
   Shield, Users, Package, ShoppingCart, FileText, Image,
-  MessageSquare, Megaphone, Menu, X, ArrowLeft, BarChart3 , Newspaper
+  MessageSquare, Megaphone, Menu, X, ArrowLeft, BarChart3, Newspaper
 } from 'lucide-react'
 
 export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
@@ -129,26 +129,27 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
       </div>
 
       {/* SIDEBAR (Desktop always visible, mobile slides in) */}
+      {/* SIDEBAR – No external CSS, no <style jsx>, no scrollbar ever */}
       <aside
         className={`
-          fixed top-20 h-full z-50 bg-indigo-900/60 backdrop-blur-xl border-r border-white/10
-          transition-transform duration-300
-          ${desktopSidebar ? 'md:w-64 md:translate-x-0' : 'md:w-20'}
-          ${sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full md:translate-x-0'}
-        `}
+    fixed inset-y-0 top-20 z-50 bg-indigo-900/60 backdrop-blur-xl border-r border-white/10
+    transition-transform duration-300 ease-out flex flex-col
+    ${desktopSidebar ? 'md:w-64 md:translate-x-0' : 'md:w-20'}
+    ${sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full md:translate-x-0'}
+  `}
       >
-        <div className="p-4 h-full flex flex-col">
-
-          {/* Header */}
-          <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col h-full">
+          {/* Header – always visible */}
+          <div className="p-4 flex items-center justify-between shrink-0">
             <div className="flex items-center space-x-2">
               <div className="p-2 bg-amber-500/20 rounded-xl">
                 <Shield className="w-6 h-6 text-amber-400" />
               </div>
-              <span className="text-white font-bold text-lg hidden md:block">Admin Panel</span>
+              <span className="text-white font-bold text-lg hidden md:block">
+                Admin Panel
+              </span>
             </div>
 
-            {/* Close btn (mobile only) */}
             <button
               onClick={() => setSidebarOpen(false)}
               className="p-2 hover:bg-white/10 rounded-lg text-white md:hidden"
@@ -157,40 +158,50 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
             </button>
           </div>
 
-          {/* MENU */}
-          <nav className="space-y-2 flex-1 overflow-y-auto">
-            {menuItems.map((item) => {
-              const Icon = item.icon
-              const isActive = pathname === item.path
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    router.push(item.path)
-                    if (isMobile) setSidebarOpen(false)
-                  }}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
-                    isActive
-                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                      : 'text-indigo-300 hover:bg-white/5 hover:text-white'
-                  }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span className="font-medium">{item.label}</span>
-                </button>
-              )
-            })}
+          {/* Scrollable menu – ONLY this scrolls + scrollbar completely hidden */}
+          <nav
+            className="flex-1 overflow-y-auto px-4 pb-4"
+            style={{
+              msOverflowStyle: 'none',      /* IE + Edge */
+              scrollbarWidth: 'none',       /* Firefox */
+            } as React.CSSProperties}
+          >
+            {/* This extra div kills WebKit scrollbar */}
+            <div className="[-webkit-scrollbar{display:none}] space-y-2">
+              {menuItems.map((item) => {
+                const Icon = item.icon
+                const isActive = pathname === item.path
+
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      router.push(item.path)
+                      if (isMobile) setSidebarOpen(false)
+                    }}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${isActive
+                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                        : 'text-indigo-300 hover:bg-white/5 hover:text-white'
+                      }`}
+                  >
+                    <Icon className="w-5 h-5 flex-shrink-0" />
+                    <span className="font-medium truncate">{item.label}</span>
+                  </button>
+                )
+              })}
+            </div>
           </nav>
 
-          {/* Back to Profile */}
-          <button
-            onClick={() => router.push('/profile')}
-            className="flex items-center space-x-3 px-4 py-3 text-indigo-300 hover:bg-white/5 hover:text-white rounded-xl transition-all"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="font-medium hidden md:block">Back to Profile</span>
-          </button>
-
+          {/* Footer button – always visible */}
+          <div className="p-4 border-t border-white/10 shrink-0">
+            <button
+              onClick={() => router.push('/profile')}
+              className="w-full flex items-center space-x-3 px-4 py-3 text-indigo-300 hover:bg-white/5 hover:text-white rounded-xl transition-all"
+            >
+              <ArrowLeft className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium hidden md:block">Back to Profile</span>
+            </button>
+          </div>
         </div>
       </aside>
 
@@ -204,9 +215,8 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
 
       {/* MAIN CONTENT */}
       <main
-        className={`transition-all duration-300 p-4 md:p-6 ${
-          desktopSidebar ? 'md:ml-64' : 'md:ml-20'
-        }`}
+        className={`transition-all duration-300 p-4 md:p-6 ${desktopSidebar ? 'md:ml-64' : 'md:ml-20'
+          }`}
       >
         {children}
       </main>

@@ -8,7 +8,7 @@ const page = () => {
         <>
             <IndustryHero
                 backgroundImage="/images/about/hero.jpeg"
-                smallHeader="Sports"
+                smallHeader="School Essentials"
                 titleMain="Service Truly Different"
                 titleHighlight="with Essential Tools Designed for Smarter, Stronger Schools"
                 description="Learning Needs provides thoughtfully curated School Essentials designed to support modern educational environments. 
