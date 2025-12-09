@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-
 import { useEffect, useState } from "react";
 import {
   FaBell,
@@ -46,8 +45,10 @@ interface ColorClasses {
 const Notice = () => {
   const [notices, setNotices] = useState<Notice[]>([]);
   const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   const categoryMap = {
     important: { icon: FaExclamationCircle, color: "red" },
@@ -102,38 +103,65 @@ const Notice = () => {
   };
 
   useEffect(() => {
+    setMounted(true);
     fetchNotices();
   }, []);
 
   const getColorClasses = (color: string): ColorClasses => {
     const colors: Record<string, ColorClasses> = {
-      red: { bg: "bg-red-50", text: "text-red-600", badge: "bg-red-500", dot: "bg-red-500" },
-      blue: { bg: "bg-blue-50", text: "text-blue-600", badge: "bg-blue-500", dot: "bg-blue-500" },
-      green: { bg: "bg-green-50", text: "text-green-600", badge: "bg-green-500", dot: "bg-green-500" },
+      red: {
+        bg: "bg-red-50",
+        text: "text-red-600",
+        badge: "bg-red-500",
+        dot: "bg-red-500"
+      },
+      blue: {
+        bg: "bg-blue-50",
+        text: "text-blue-600",
+        badge: "bg-blue-500",
+        dot: "bg-blue-500"
+      },
+      green: {
+        bg: "bg-green-50",
+        text: "text-green-600",
+        badge: "bg-green-500",
+        dot: "bg-green-500"
+      },
     };
-    return colors[color] || { bg: "bg-gray-50", text: "text-gray-600", badge: "bg-gray-500", dot: "bg-gray-500" };
+    return colors[color] || {
+      bg: "bg-gray-50",
+      text: "text-gray-600",
+      badge: "bg-gray-500",
+      dot: "bg-gray-500"
+    };
   };
+
+  if (!mounted) return null;
 
   if (loading)
     return (
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-100">
-        <div className="flex flex-col items-center justify-center py-20">
-          <div className="w-16 h-16 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mb-4"></div>
-          <p className="text-gray-600 text-lg">Loading notices...</p>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mb-4"></div>
+          <p className="text-gray-600">Loading notices...</p>
         </div>
       </div>
     );
 
   if (error)
     return (
-      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-100">
-        <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-          <FaExclamationCircle className="text-red-500 text-4xl mx-auto mb-3" />
-          <p className="text-red-600 font-semibold mb-2">Error Loading Notices</p>
-          <p className="text-red-500 text-sm mb-4">{error}</p>
-          <button 
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
+          <div className="text-red-500 text-5xl mb-4">
+            <FaExclamationCircle className="inline" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            Error Loading Notices
+          </h2>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <button
             onClick={fetchNotices}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+            className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition"
           >
             Try Again
           </button>
@@ -142,97 +170,128 @@ const Notice = () => {
     );
 
   return (
-    <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-100">
-      <div className="flex items-center gap-4 mb-10">
-        <div className="relative">
-          <div className="absolute inset-0 bg-yellow-300 rounded-full blur-xl opacity-40" />
-          <div className="relative bg-yellow-400 rounded-full p-3 shadow">
-            <FaBell className="text-3xl text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-full mb-4">
+            <FaBell className="text-white text-2xl" />
           </div>
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">Notice Board</h1>
+          <p className="text-gray-600">Stay updated with latest announcements</p>
         </div>
-        <div>
-          <h2 className="text-3xl font-bold text-gray-800">Notice Board</h2>
-          <p className="text-sm text-gray-600">Stay updated with latest announcements</p>
-        </div>
-      </div>
 
-      {notices.length === 0 ? (
-        <div className="bg-white border border-gray-200 shadow-md rounded-xl p-12 text-center">
-          <FaBell className="text-gray-300 text-6xl mx-auto mb-4" />
-          <p className="text-gray-500 text-lg font-medium mb-2">No Notices Available</p>
-          <p className="text-gray-400 text-sm">Check back later for new announcements</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <div className="relative bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden h-80 pointer-events-auto">
-            <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-white to-transparent z-10" />
-            <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white to-transparent z-10" />
-
-            <div className="animate-scroll-vertical py-3">
-              {[...notices, ...notices].map((notice, index) => {
-                const Icon = notice.icon;
-                const color = getColorClasses(notice.color);
-
-                return (
-                  <div
-                    key={`${notice.id}-${index}`}
-                    onClick={() => setSelectedNotice(notice)}
-                    className="px-5 py-4 cursor-pointer hover:bg-gray-50 transition flex items-center gap-4 border-b border-gray-200"
-                  >
-                    <div className={`w-12 h-12 rounded-xl ${color.bg} flex items-center justify-center border flex-shrink-0`}>
-                      <Icon className={`text-lg ${color.text}`} />
-                    </div>
-
-                    <span className={`text-xs font-semibold px-3 py-1 rounded-full text-white ${color.badge} flex-shrink-0`}>
-                      {notice.type}
-                    </span>
-
-                    <p className="flex-1 text-gray-700 font-medium text-sm truncate">{notice.title}</p>
-                    <span className="text-xs text-gray-500 flex-shrink-0">{notice.date}</span>
-                    <FaChevronRight className="text-gray-400 flex-shrink-0" />
-                  </div>
-                );
-              })}
+        {notices.length === 0 ? (
+          <div className="bg-white rounded-lg shadow-xl p-12 text-center">
+            <div className="text-gray-400 text-6xl mb-4">
+              <FaInfoCircle className="inline" />
             </div>
+            <h3 className="text-2xl font-semibold text-gray-700 mb-2">
+              No Notices Available
+            </h3>
+            <p className="text-gray-500">Check back later for new announcements</p>
           </div>
+        ) : (
+          <div className="grid md:grid-cols-2 gap-6 overflow-hidden">
+            <div className="bg-white rounded-lg shadow-xl overflow-hidden max-w-full">
+              <div className="bg-indigo-600 text-white px-5 py-4">
+                <h2 className="text-xl font-semibold">All Notices</h2>
+              </div>
+              <div 
+                className="h-[600px] overflow-hidden relative"
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+              >
+                <style dangerouslySetInnerHTML={{__html: `
+                  @keyframes marquee {
+                    0% {
+                      transform: translateY(0);
+                    }
+                    100% {
+                      transform: translateY(-50%);
+                    }
+                  }
+                  .marquee-content {
+                    animation: marquee 40s linear infinite;
+                  }
+                  .marquee-content.paused {
+                    animation-play-state: paused;
+                  }
+                `}} />
+                <div className={`marquee-content ${isPaused ? 'paused' : ''}`}>
+                  {[...notices, ...notices].map((notice, index) => {
+                    const Icon = notice.icon;
+                    const color = getColorClasses(notice.color);
+                    return (
+                      <div
+                        key={`${notice.id}-${index}`}
+                        onClick={() => setSelectedNotice(notice)}
+                        className="px-5 py-4 cursor-pointer hover:bg-gray-50 transition flex items-center gap-4 border-b border-gray-200"
+                      >
+                        <div className={`p-3 ${color.bg} rounded-lg flex-shrink-0`}>
+                          <Icon className={`${color.text} text-xl`} />
+                        </div>
+                        <div className="flex-1 min-w-0 overflow-hidden">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span
+                              className={`text-xs font-semibold ${color.text} uppercase`}
+                            >
+                              {notice.type}
+                            </span>
+                            <span className={`w-2 h-2 ${color.dot} rounded-full`}></span>
+                          </div>
+                          <h3 className="font-semibold text-gray-800 truncate">
+                            {notice.title}
+                          </h3>
+                          <p className="text-sm text-gray-500 truncate">{notice.date}</p>
+                        </div>
+                        <FaChevronRight className="text-gray-400 flex-shrink-0" />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
 
-          <div className="bg-white border border-gray-200 shadow-md rounded-xl p-6 min-h-80">
-            {selectedNotice ? (
-              <>
-                <div className="flex items-start gap-4">
-                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center border ${getColorClasses(selectedNotice.color).bg}`}>
-                    <selectedNotice.icon className={`text-2xl ${getColorClasses(selectedNotice.color).text}`} />
-                  </div>
-
-                  <div className="flex-1">
-                    <span className={`text-xs font-semibold px-3 py-1 rounded-full text-white ${getColorClasses(selectedNotice.color).badge}`}>
+            <div className="bg-white rounded-lg shadow-xl overflow-hidden max-w-full">
+              {selectedNotice ? (
+                <>
+                  <div
+                    className={`${
+                      getColorClasses(selectedNotice.color).bg
+                    } px-5 py-4 border-b`}
+                  >
+                    <span
+                      className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                        getColorClasses(selectedNotice.color).badge
+                      } text-white mb-3`}
+                    >
                       {selectedNotice.type.toUpperCase()}
                     </span>
-                    <h3 className="text-xl font-bold text-gray-800 mt-2">{selectedNotice.title}</h3>
-                    <p className="text-sm text-gray-500 mt-1">{selectedNotice.date}</p>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-2 break-words">
+                      {selectedNotice.title}
+                    </h2>
+                    <p className="text-sm text-gray-600 break-words">{selectedNotice.date}</p>
+                  </div>
+                  <div className="p-6 overflow-y-auto overflow-x-hidden max-h-[500px]">
+                    <p className="text-gray-700 leading-relaxed break-words">
+                      {selectedNotice.fullContent}
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <div className="flex items-center justify-center h-full min-h-[400px]">
+                  <div className="text-center">
+                    <FaInfoCircle className="text-gray-300 text-6xl mx-auto mb-4" />
+                    <p className="text-gray-500 text-lg">
+                      Select a notice to see details
+                    </p>
                   </div>
                 </div>
-
-                <p className="mt-6 text-gray-700 leading-relaxed">{selectedNotice.fullContent}</p>
-              </>
-            ) : (
-              <div className="flex items-center justify-center h-full text-gray-500 text-lg">
-                Select a notice to see details
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      )}
-
-      <style>{`
-        @keyframes scroll-vertical {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(-50%); }
-        }
-        .animate-scroll-vertical {
-          animation: scroll-vertical 25s linear infinite;
-        }
-      `}</style>
+        )}
+      </div>
     </div>
   );
 };
