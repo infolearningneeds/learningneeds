@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useAppDispatch } from '@/store/hooks';
 import { addToCart } from '@/store/slices/cartSlice';
 import toast from 'react-hot-toast';
+import IndustryHero from '@/components/helper/IndustryHero';
 
 interface Product {
     id: string;
@@ -145,16 +146,16 @@ export default function ProductDetailsPage() {
             'PDF': 'bg-green-600 text-white',
             'Learning Aid': 'bg-purple-600 text-white',
         };
-        return styles[category] || 'bg-gray-600 text-white';
+        return styles[category] || 'bg-indigo-600 text-white';
     };
 
     // Loading State
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="min-h-screen flex items-center justify-center bg-gray-900">
                 <div className="text-center">
-                    <Loader2 className="w-12 h-12 animate-spin mx-auto text-gray-900" />
-                    <p className="mt-4 text-gray-600 text-lg">Loading product...</p>
+                    <Loader2 className="w-12 h-12 animate-spin mx-auto text-indigo-500" />
+                    <p className="mt-4 text-gray-300 text-lg">Loading product...</p>
                 </div>
             </div>
         );
@@ -163,16 +164,16 @@ export default function ProductDetailsPage() {
     // Error State
     if (error || !product) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
                 <div className="text-center">
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto">
-                        <div className="flex items-center gap-3 text-red-800 justify-center">
-                            <AlertCircle className="w-6 h-6" />
+                    <div className="bg-red-900/20 border border-red-800 rounded-2xl p-6 max-w-md mx-auto">
+                        <div className="flex items-center gap-3 text-red-400 justify-center">
+                            <AlertCircle className="w-6 h-6 flex-shrink-0" />
                             <p className="font-semibold">{error || 'Product not found'}</p>
                         </div>
                         <button
                             onClick={() => window.location.href = '/products'}
-                            className="mt-4 w-full px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+                            className="mt-4 w-full px-4 py-2 bg-indigo-800 text-white rounded-xl hover:bg-indigo-700 transition-colors"
                         >
                             Back to Products
                         </button>
@@ -197,119 +198,117 @@ export default function ProductDetailsPage() {
     const canAddToCart = product.available && (isPDF || (product.stock_quantity && product.stock_quantity > 0));
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-            {/* Hero Banner */}
-            <div className="relative w-full bg-gray-900 py-16 sm:py-20 md:py-24">
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-8 text-center mt-10">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
-                        {product.title}
-                    </h1>
-                    <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
-                        {product.description}
-                    </p>
-                    {isPDF && (
-                        <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg font-semibold">
-                            <Download className="w-5 h-5" />
-                            Digital Product - Instant Download
-                        </div>
-                    )}
-                </div>
-            </div>
-
+        <div className="min-h-screen bg-gray-900 overflow-x-hidden">
             {/* Breadcrumb */}
-            <div className="bg-white border-b border-gray-200">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <span onClick={() => window.location.href = '/'} className="hover:text-gray-900 cursor-pointer transition-colors">Home</span>
-                        <ChevronRight className="w-4 h-4" />
-                        <span onClick={() => window.location.href = '/products'} className="hover:text-gray-900 cursor-pointer transition-colors">Products</span>
-                        <ChevronRight className="w-4 h-4" />
-                        <span className="text-gray-900 font-medium">{product.title}</span>
+            <div className="bg-indigo-800 mt-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                    <div className="flex items-center gap-2 text-sm text-gray-300 overflow-x-auto">
+                        <span onClick={() => window.location.href = '/'} className="hover:text-white cursor-pointer transition-colors whitespace-nowrap">Home</span>
+                        <ChevronRight className="w-4 h-4 shrink-0" />
+                        <span onClick={() => window.location.href = '/products'} className="hover:text-white cursor-pointer transition-colors whitespace-nowrap">Products</span>
+                        <ChevronRight className="w-4 h-4 shrink-0" />
+                        <span className="text-white font-medium truncate">{product.title}</span>
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
                 {/* Product Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16">
-                    {/* Image Gallery */}
-                    <div className="space-y-4">
-                        <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-100 shadow-lg group">
-                            <Image
-                                src={productImages[selectedImage]}
-                                alt={product.title}
-                                fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                            <button 
-                                onClick={() => setIsWishlisted(!isWishlisted)}
-                                className={`absolute top-4 right-4 p-3 rounded-lg shadow-lg transition-all duration-300 ${
-                                    isWishlisted ? 'bg-gray-900' : 'bg-white hover:bg-gray-50'
-                                }`}
-                            >
-                                <Heart className={`w-5 h-5 transition-colors ${isWishlisted ? 'text-white fill-white' : 'text-gray-700'}`} />
-                            </button>
-                            {isPDF && (
-                                <div className="absolute top-4 left-4 px-4 py-2 bg-green-600 text-white rounded-lg font-bold text-sm">
-                                    DIGITAL
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-16">
+                    {/* Image Gallery & Description */}
+                    <div className="lg:col-span-7 space-y-6">
+                        {/* Image Gallery */}
+                        <div className="space-y-4">
+                            <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-800 shadow-xl group">
+                                <Image
+                                    src={productImages[selectedImage]}
+                                    alt={product.title}
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    priority
+                                />
+                                <button 
+                                    onClick={() => setIsWishlisted(!isWishlisted)}
+                                    className={`absolute top-4 right-4 p-3 rounded-full shadow-lg transition-all duration-300 ${
+                                        isWishlisted ? 'bg-indigo-800' : 'bg-gray-800/90 hover:bg-gray-700/90'
+                                    }`}
+                                >
+                                    <Heart className={`w-5 h-5 transition-colors ${isWishlisted ? 'text-white fill-white' : 'text-gray-200'}`} />
+                                </button>
+                                {isPDF && (
+                                    <div className="absolute top-4 left-4 px-3 py-1.5 bg-green-600 text-white rounded-full font-semibold text-xs tracking-wide">
+                                        DIGITAL
+                                    </div>
+                                )}
+                                {hasDiscount && (
+                                    <div className="absolute bottom-4 left-4 px-3 py-1.5 bg-red-600 text-white rounded-full font-bold text-xs tracking-wide">
+                                        {discountPercent}% OFF
+                                    </div>
+                                )}
+                            </div>
+                            {productImages.length > 1 && (
+                                <div className="grid grid-cols-4 gap-3">
+                                    {productImages.map((img, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setSelectedImage(idx)}
+                                            className={`aspect-square rounded-xl overflow-hidden border-2 transition-all duration-300 relative ${
+                                                selectedImage === idx 
+                                                    ? 'border-indigo-800 shadow-md scale-95' 
+                                                    : 'border-gray-700 hover:border-indigo-600'
+                                            }`}
+                                        >
+                                            <Image src={img} alt={`View ${idx + 1}`} fill className="object-cover" />
+                                        </button>
+                                    ))}
                                 </div>
                             )}
                         </div>
-                        {productImages.length > 1 && (
-                            <div className="grid grid-cols-4 gap-3">
-                                {productImages.map((img, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setSelectedImage(idx)}
-                                        className={`aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 relative ${
-                                            selectedImage === idx 
-                                                ? 'border-gray-900 shadow-md' 
-                                                : 'border-gray-200 hover:border-gray-400'
-                                        }`}
-                                    >
-                                        <Image src={img} alt={`View ${idx + 1}`} fill className="object-cover" />
-                                    </button>
-                                ))}
-                            </div>
-                        )}
-                    </div>
 
-                    {/* Product Info */}
-                    <div className="space-y-6">
-                        <div>
-                            <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg text-sm font-semibold mb-4 ${getCategoryBadgeStyle(product.category)}`}>
-                                {product.category}
-                            </span>
-                            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-                                {product.title}
-                            </h1>
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="flex items-center gap-2">
-                                    <div className="flex items-center gap-1">
-                                        {[...Array(5)].map((_, i) => (
-                                            <FaStar key={i} className="w-4 h-4 text-yellow-500" />
-                                        ))}
-                                    </div>
-                                    <span className="font-semibold text-gray-900">5.0</span>
-                                    <span className="text-gray-500 text-sm">(Reviews coming soon)</span>
-                                </div>
-                            </div>
-                            <p className="text-gray-600 leading-relaxed">
+                        {/* Product Description */}
+                        <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700">
+                            <h3 className="text-xl font-bold text-white mb-4">Product Description</h3>
+                            <p className="text-gray-300 leading-relaxed break-words whitespace-pre-wrap">
                                 {product.description}
                             </p>
                         </div>
+                    </div>
 
-                        {/* Price */}
-                        <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                            <div className="flex items-baseline gap-4 flex-wrap">
-                                <span className="text-4xl font-bold text-gray-900">
-                                    ₹{displayPrice}
+                    {/* Product Info */}
+                    <div className="lg:col-span-5 space-y-6">
+                        {/* Category Badge */}
+                        <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide ${getCategoryBadgeStyle(product.category)}`}>
+                            {product.category}
+                        </span>
+
+                        {/* Title & Rating */}
+                        <div>
+                            <h1 className="text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight break-words">
+                                {product.title}
+                            </h1>
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="flex items-center gap-1">
+                                    {[...Array(5)].map((_, i) => (
+                                        <FaStar key={i} className="w-4 h-4 text-yellow-400" />
+                                    ))}
+                                </div>
+                                <span className="font-semibold text-white">5.0</span>
+                                <span className="text-gray-500 text-sm">·</span>
+                                <span className="text-gray-400 text-sm">No reviews yet</span>
+                            </div>
+                        </div>
+
+                        {/* Price Section */}
+                        <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700">
+                            <div className="flex items-baseline gap-3 flex-wrap">
+                                <span className="text-4xl lg:text-5xl font-bold text-white">
+                                    ₹{displayPrice.toLocaleString()}
                                 </span>
                                 {hasDiscount && (
                                     <>
-                                        <span className="text-xl text-gray-400 line-through">₹{product.original_price}</span>
-                                        <span className="px-3 py-1 bg-gray-900 text-white rounded-lg text-sm font-semibold">
-                                            {discountPercent}% OFF
+                                        <span className="text-xl text-gray-500 line-through">₹{product.original_price.toLocaleString()}</span>
+                                        <span className="px-2.5 py-1 bg-red-600 text-white rounded-full text-xs font-bold tracking-wide">
+                                            SAVE {discountPercent}%
                                         </span>
                                     </>
                                 )}
@@ -317,43 +316,41 @@ export default function ProductDetailsPage() {
                         </div>
 
                         {/* Stock Status */}
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 flex-wrap">
                             {isPDF ? (
-                                <span className="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-semibold text-sm flex items-center gap-2">
+                                <span className="px-4 py-2.5 bg-green-900/30 text-green-400 rounded-xl font-semibold text-sm flex items-center gap-2 border border-green-800">
                                     <Download className="w-4 h-4" />
                                     Instant Digital Download
                                 </span>
                             ) : (
-                                <>
-                                    <span className={`px-4 py-2 rounded-lg font-semibold text-sm ${
-                                        product.available && product.stock_quantity && product.stock_quantity > 0
-                                            ? 'bg-green-100 text-green-700' 
-                                            : 'bg-red-100 text-red-700'
-                                    }`}>
-                                        {product.available && product.stock_quantity && product.stock_quantity > 0
-                                            ? `✓ In Stock (${product.stock_quantity} available)` 
-                                            : '✗ Out of Stock'}
-                                    </span>
-                                </>
+                                <span className={`px-4 py-2.5 rounded-xl font-semibold text-sm ${
+                                    product.available && product.stock_quantity && product.stock_quantity > 0
+                                        ? 'bg-green-900/30 text-green-400 border border-green-800' 
+                                        : 'bg-red-900/30 text-red-400 border border-red-800'
+                                }`}>
+                                    {product.available && product.stock_quantity && product.stock_quantity > 0
+                                        ? `✓ In Stock (${product.stock_quantity} available)` 
+                                        : '✗ Out of Stock'}
+                                </span>
                             )}
                         </div>
 
                         {/* Quantity & Actions */}
-                        <div className="space-y-5">
+                        <div className="space-y-4 pt-2">
                             {!isPDF && canAddToCart && (
                                 <div className="flex items-center gap-4 flex-wrap">
-                                    <span className="text-gray-900 font-semibold">Quantity:</span>
-                                    <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                                    <span className="text-white font-semibold text-sm">Quantity:</span>
+                                    <div className="flex items-center border-2 border-gray-700 rounded-xl overflow-hidden bg-gray-800">
                                         <button
                                             onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                            className="px-4 py-2 hover:bg-gray-100 transition-colors font-semibold"
+                                            className="px-4 py-2.5 hover:bg-gray-700 transition-colors font-semibold text-gray-300"
                                         >
-                                            -
+                                            −
                                         </button>
-                                        <span className="px-6 py-2 border-x border-gray-300 font-semibold">{quantity}</span>
+                                        <span className="px-6 py-2.5 border-x-2 border-gray-700 font-bold text-white min-w-[60px] text-center">{quantity}</span>
                                         <button
                                             onClick={() => setQuantity(Math.min(product.stock_quantity || 1, quantity + 1))}
-                                            className="px-4 py-2 hover:bg-gray-100 transition-colors font-semibold"
+                                            className="px-4 py-2.5 hover:bg-gray-700 transition-colors font-semibold text-gray-300"
                                         >
                                             +
                                         </button>
@@ -361,14 +358,14 @@ export default function ProductDetailsPage() {
                                 </div>
                             )}
 
-                            <div className="flex gap-4">
+                            <div className="flex gap-3">
                                 <button 
                                     onClick={handleAddToCart}
                                     disabled={!canAddToCart}
-                                    className={`flex-1 flex items-center justify-center gap-3 py-3 rounded-lg font-semibold transition-colors ${
+                                    className={`flex-1 flex items-center justify-center gap-2 py-4 rounded-xl font-semibold transition-all text-base ${
                                         canAddToCart
-                                            ? 'bg-gray-900 text-white hover:bg-gray-800' 
-                                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                            ? 'bg-indigo-800 text-white hover:bg-indigo-700 shadow-lg hover:shadow-xl active:scale-95' 
+                                            : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                                     }`}
                                 >
                                     {isPDF ? (
@@ -383,42 +380,42 @@ export default function ProductDetailsPage() {
                                         </>
                                     )}
                                 </button>
-                                <button className="px-5 py-3 border border-gray-300 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all">
-                                    <Share2 className="w-5 h-5 text-gray-700" />
+                                <button className="px-5 py-4 border-2 border-gray-700 rounded-xl hover:border-indigo-600 hover:bg-gray-800 transition-all active:scale-95">
+                                    <Share2 className="w-5 h-5 text-gray-300" />
                                 </button>
                             </div>
                         </div>
 
-                        {/* Shipping Info */}
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {/* Features */}
+                        <div className="grid grid-cols-1 gap-3 pt-4">
                             {!isPDF && (
-                                <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                                    <div className="p-2 bg-blue-100 rounded-lg">
-                                        <Truck className="w-5 h-5 text-blue-600" />
+                                <div className="flex items-center gap-3 p-4 bg-blue-900/20 rounded-xl border border-blue-800">
+                                    <div className="p-2.5 bg-blue-900/30 rounded-lg flex-shrink-0">
+                                        <Truck className="w-5 h-5 text-blue-400" />
                                     </div>
                                     <div>
-                                        <p className="font-semibold text-gray-900 text-sm">Free Delivery</p>
-                                        <p className="text-xs text-gray-600">Orders over ₹500</p>
+                                        <p className="font-semibold text-white text-sm">Free Delivery</p>
+                                        <p className="text-xs text-gray-400">On orders over ₹500</p>
                                     </div>
                                 </div>
                             )}
-                            <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg border border-green-200">
-                                <div className="p-2 bg-green-100 rounded-lg">
-                                    <Shield className="w-5 h-5 text-green-600" />
+                            <div className="flex items-center gap-3 p-4 bg-green-900/20 rounded-xl border border-green-800">
+                                <div className="p-2.5 bg-green-900/30 rounded-lg flex-shrink-0">
+                                    <Shield className="w-5 h-5 text-green-400" />
                                 </div>
                                 <div>
-                                    <p className="font-semibold text-gray-900 text-sm">Secure Payment</p>
-                                    <p className="text-xs text-gray-600">100% secure</p>
+                                    <p className="font-semibold text-white text-sm">Secure Payment</p>
+                                    <p className="text-xs text-gray-400">100% secure checkout</p>
                                 </div>
                             </div>
                             {!isPDF && (
-                                <div className="flex items-center gap-3 p-4 bg-purple-50 rounded-lg border border-purple-200">
-                                    <div className="p-2 bg-purple-100 rounded-lg">
-                                        <RefreshCw className="w-5 h-5 text-purple-600" />
+                                <div className="flex items-center gap-3 p-4 bg-purple-900/20 rounded-xl border border-purple-800">
+                                    <div className="p-2.5 bg-purple-900/30 rounded-lg flex-shrink-0">
+                                        <RefreshCw className="w-5 h-5 text-purple-400" />
                                     </div>
                                     <div>
-                                        <p className="font-semibold text-gray-900 text-sm">Easy Returns</p>
-                                        <p className="text-xs text-gray-600">30 day return</p>
+                                        <p className="font-semibold text-white text-sm">Easy Returns</p>
+                                        <p className="text-xs text-gray-400">30-day return policy</p>
                                     </div>
                                 </div>
                             )}
@@ -428,11 +425,11 @@ export default function ProductDetailsPage() {
 
                 {/* Reviews Section */}
                 <div className="mb-16">
-                    <div className="flex justify-between items-center mb-8">
-                        <h2 className="text-3xl font-bold text-gray-900">Customer Reviews</h2>
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-white">Customer Reviews</h2>
                         <button
                             onClick={() => setShowReviewForm(!showReviewForm)}
-                            className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-semibold"
+                            className="px-6 py-3 bg-indigo-800 text-white rounded-xl hover:bg-indigo-700 transition-all font-semibold shadow-lg hover:shadow-xl active:scale-95 w-full sm:w-auto"
                         >
                             {showReviewForm ? 'Cancel' : 'Write a Review'}
                         </button>
@@ -440,21 +437,21 @@ export default function ProductDetailsPage() {
 
                     {/* Review Form */}
                     {showReviewForm && (
-                        <div className="bg-gray-50 rounded-xl p-6 mb-8 border border-gray-200">
-                            <h3 className="font-semibold text-gray-900 text-xl mb-6">Share Your Experience</h3>
+                        <div className="bg-gray-800 rounded-2xl p-6 sm:p-8 mb-8 border border-gray-700">
+                            <h3 className="font-bold text-white text-xl mb-6">Share Your Experience</h3>
                             <div className="space-y-5">
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">Your Name</label>
+                                    <label className="block text-sm font-semibold text-gray-300 mb-2">Your Name</label>
                                     <input
                                         type="text"
                                         value={reviewName}
                                         onChange={(e) => setReviewName(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-900 transition-colors"
+                                        className="w-full px-4 py-3 border-2 border-gray-700 bg-gray-900 text-white rounded-xl focus:outline-none focus:border-indigo-800 transition-colors"
                                         placeholder="Enter your name"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">Your Rating</label>
+                                    <label className="block text-sm font-semibold text-gray-300 mb-2">Your Rating</label>
                                     <div className="flex gap-2">
                                         {[1, 2, 3, 4, 5].map((star) => (
                                             <button
@@ -466,7 +463,7 @@ export default function ProductDetailsPage() {
                                             >
                                                 <FaStar
                                                     className={`w-8 h-8 transition-colors ${
-                                                        star <= (hoverRating || userRating) ? 'text-yellow-500' : 'text-gray-300'
+                                                        star <= (hoverRating || userRating) ? 'text-yellow-400' : 'text-gray-600'
                                                     }`}
                                                 />
                                             </button>
@@ -474,19 +471,19 @@ export default function ProductDetailsPage() {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">Your Review</label>
+                                    <label className="block text-sm font-semibold text-gray-300 mb-2">Your Review</label>
                                     <textarea
                                         value={reviewText}
                                         onChange={(e) => setReviewText(e.target.value)}
                                         rows={4}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-900 resize-none transition-colors"
+                                        className="w-full px-4 py-3 border-2 border-gray-700 bg-gray-900 text-white rounded-xl focus:outline-none focus:border-indigo-800 resize-none transition-colors"
                                         placeholder="Share your thoughts about this product..."
                                     />
                                 </div>
-                                <div className="flex gap-4">
+                                <div className="flex flex-col sm:flex-row gap-3">
                                     <button
                                         onClick={handleSubmitReview}
-                                        className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-semibold"
+                                        className="px-6 py-3 bg-indigo-800 text-white rounded-xl hover:bg-indigo-700 transition-colors font-semibold"
                                     >
                                         Submit Review
                                     </button>
@@ -497,7 +494,7 @@ export default function ProductDetailsPage() {
                                             setReviewText('');
                                             setReviewName('');
                                         }}
-                                        className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-semibold"
+                                        className="px-6 py-3 border-2 border-gray-700 rounded-xl hover:bg-gray-800 transition-colors font-semibold text-gray-300"
                                     >
                                         Cancel
                                     </button>
@@ -510,33 +507,33 @@ export default function ProductDetailsPage() {
                     {submittedReviews.length > 0 ? (
                         <div className="space-y-6">
                             {submittedReviews.map((review) => (
-                                <div key={review.id} className="bg-white rounded-lg p-6 border border-gray-200">
-                                    <div className="flex justify-between items-start mb-4">
+                                <div key={review.id} className="bg-gray-800 rounded-2xl p-6 border border-gray-700 shadow-xl">
+                                    <div className="flex justify-between items-start mb-4 flex-wrap gap-4">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 bg-gray-900 rounded-full flex items-center justify-center text-white font-semibold">
+                                            <div className="w-12 h-12 bg-indigo-800 rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0">
                                                 {review.name.charAt(0).toUpperCase()}
                                             </div>
                                             <div>
-                                                <h4 className="font-semibold text-gray-900">{review.name}</h4>
-                                                <p className="text-sm text-gray-500">{review.date}</p>
+                                                <h4 className="font-semibold text-white">{review.name}</h4>
+                                                <p className="text-sm text-gray-400">{review.date}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-1">
                                             {[...Array(5)].map((_, i) => (
                                                 <FaStar
                                                     key={i}
-                                                    className={`w-4 h-4 ${i < review.rating ? 'text-yellow-500' : 'text-gray-300'}`}
+                                                    className={`w-4 h-4 ${i < review.rating ? 'text-yellow-400' : 'text-gray-600'}`}
                                                 />
                                             ))}
                                         </div>
                                     </div>
-                                    <p className="text-gray-700 leading-relaxed">{review.comment}</p>
+                                    <p className="text-gray-300 leading-relaxed break-words">{review.comment}</p>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
-                            <p className="text-gray-500">No reviews yet. Be the first to review this product!</p>
+                        <div className="text-center py-12 bg-gray-800 rounded-2xl border border-gray-700">
+                            <p className="text-gray-400">No reviews yet. Be the first to review this product!</p>
                         </div>
                     )}
                 </div>
@@ -544,8 +541,8 @@ export default function ProductDetailsPage() {
                 {/* Related Products */}
                 {relatedProducts.length > 0 && (
                     <div>
-                        <h2 className="text-3xl font-bold text-gray-900 mb-8">Related Products</h2>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-8">Related Products</h2>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                             {relatedProducts.map((item) => {
                                 const itemPrice = item.discount_price || item.original_price;
                                 const itemImage = item.product_images?.[0]?.image_url || '/placeholder-product.jpg';
@@ -554,20 +551,20 @@ export default function ProductDetailsPage() {
                                     <div
                                         key={item.id}
                                         onClick={() => window.location.href = `/products/${item.id}`}
-                                        className="group bg-white rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200"
+                                        className="group bg-gray-800 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-700"
                                     >
-                                        <div className="aspect-square bg-gray-100 relative overflow-hidden">
+                                        <div className="aspect-square bg-gray-900 relative overflow-hidden">
                                             <Image src={itemImage} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
                                         </div>
                                         <div className="p-4">
-                                            <h3 className="font-semibold text-gray-900 mb-2 line-clamp-1">{item.title}</h3>
+                                            <h3 className="font-semibold text-white mb-2 line-clamp-2 text-sm sm:text-base">{item.title}</h3>
                                             <div className="flex items-center gap-1 mb-3">
                                                 {[...Array(5)].map((_, i) => (
-                                                    <FaStar key={i} className="w-3 h-3 text-yellow-500" />
+                                                    <FaStar key={i} className="w-3 h-3 text-yellow-400" />
                                                 ))}
-                                                <span className="text-xs text-gray-600 ml-1 font-medium">(5.0)</span>
+                                                <span className="text-xs text-gray-400 ml-1 font-medium">(5.0)</span>
                                             </div>
-                                            <p className="text-lg font-bold text-gray-900">₹{itemPrice}</p>
+                                            <p className="text-lg font-bold text-white">₹{itemPrice.toLocaleString()}</p>
                                         </div>
                                     </div>
                                 );
