@@ -19,7 +19,7 @@ const page = () => {
                 titleHighlight="creating a smooth, well-coordinated environment for every department."
                 description="Learning Needs offers complete school management support that helps institutions run efficiently, stay organized, and maintain strong operational standards.
 Located in Kolkata beside the serene Ganges, we assist schools in building reliable systems that improve coordination, communication, and institutional performance.
-Our services focus on strengthening administrative workflows, enhancing governance, and optimizing resource management—enabling schools to function smoothly and deliver consistent quality across all departments.
+Our services focus on strengthening administrative workflows, enhancing governance, and optimizing resource management enabling schools to function smoothly and deliver consistent quality across all departments.
 "
             />
             <SchoolManagement />
