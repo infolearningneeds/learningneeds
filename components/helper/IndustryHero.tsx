@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 interface IndustryHeroProps {
@@ -27,6 +28,11 @@ export default function IndustryHero({
     gradientFrom = "#8b5cf6",
     gradientTo = "#facc15",
 }: IndustryHeroProps) {
+    const pathname = usePathname();
+
+    // ✅ Routing logic
+    const buttonLink = pathname === "/about" ? "/products" : "/contact";
+
     return (
         <section className="relative w-full text-white py-40 overflow-hidden">
             {/* Background Image */}
@@ -47,7 +53,9 @@ export default function IndustryHero({
                 {/* Left Section */}
                 <div className="flex-1">
                     {smallHeader && (
-                        <p className="text-sm text-gray-300 mb-3">{smallHeader}</p>
+                        <p className="text-sm text-gray-300 mb-3">
+                            {smallHeader}
+                        </p>
                     )}
 
                     <h1 className="text-4xl md:text-6xl font-extrabold leading-[1.15] mb-6 w-[90%] md:w-[70%]">
@@ -62,34 +70,35 @@ export default function IndustryHero({
                         </span>
                     </h1>
 
-
                     {description && (
-                        <p className="text-gray-300 text-lg w-[90%] md:w-[70%] mb-10" style={{
-                            textAlign: 'justify',
-                            textJustify: 'inter-word',
-                            hyphens: 'auto',
-                            wordSpacing: 'normal'
-                        }}>
+                        <p
+                            className="text-gray-300 text-lg w-[90%] md:w-[70%] mb-10"
+                            style={{
+                                textAlign: "justify",
+                                textJustify: "inter-word",
+                                hyphens: "auto",
+                                wordSpacing: "normal",
+                            }}
+                        >
                             {description}
                         </p>
                     )}
 
-                    <Link href="/products">
-                    <button
-                        className="px-8 py-3 rounded-full border text-white text-lg font-medium transition-all duration-300 hover:scale-105"
-                        style={{
-                            borderColor: gradientFrom,
-                        }}
-                    >
-                        <span
-                            className="bg-clip-text text-transparent bg-linear-to-r"
-                            style={{
-                                backgroundImage: `linear-gradient(to right, ${gradientFrom}, ${gradientTo})`,
-                            }}
+                    {/* CTA Button */}
+                    <Link href={buttonLink}>
+                        <button
+                            className="px-8 py-3 rounded-full border text-white text-lg font-medium transition-all duration-300 hover:scale-105"
+                            style={{ borderColor: gradientFrom }}
                         >
-                            {buttonText} →
-                        </span>
-                    </button>
+                            <span
+                                className="bg-clip-text text-transparent"
+                                style={{
+                                    backgroundImage: `linear-gradient(to right, ${gradientFrom}, ${gradientTo})`,
+                                }}
+                            >
+                                {buttonText} →
+                            </span>
+                        </button>
                     </Link>
                 </div>
 

@@ -8,13 +8,13 @@ const page = () => {
             <IndustryHero
                 backgroundImage="/images/career/job.jpg"
                 smallHeader="Career"
-                titleMain="Personal Development for Smart People"
-                titleHighlight="captured through moments of Strength, Skill & Team Spirit"
-                description="Our Sports Gallery brings together powerful moments that reflect dedication, teamwork, and the joy of active learning.
-        Each image highlights students developing essential skills, building confidence, and experiencing the true spirit of sportsmanship.
-        From training sessions to competitive events, this collection captures the energy, discipline, and passion that define holistic physical education in schools.
-                "
+                titleMain="Build Your Career With Us"
+                titleHighlight="where talent, growth & purpose come together"
+                description="We are always looking for passionate, skilled, and motivated individuals who want to grow and make a real impact.
+    By filling out the form below, you take the first step toward working with a team that values learning, collaboration, and professional development.
+    Whether you are starting your journey or looking to advance your career, this is your opportunity to be part of an environment that supports your goals and rewards dedication."
             />
+
             <CareerForm />
         </>
     )
