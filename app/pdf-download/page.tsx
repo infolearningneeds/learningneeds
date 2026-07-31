@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Download, CheckCircle, FileText, Loader2, AlertCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -14,7 +14,7 @@ interface PurchasedPDF {
   category: string;
 }
 
-export default function PDFDownloadPage() {
+function PDFDownloadContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const orderId = searchParams.get('orderId');
@@ -458,5 +458,24 @@ export default function PDFDownloadPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function PDFDownloadFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white">
+      <div className="text-center">
+        <Loader2 className="w-16 h-16 animate-spin mx-auto text-blue-600 mb-4" />
+        <p className="text-gray-600 text-lg">Preparing your downloads...</p>
+      </div>
+    </div>
+  );
+}
+
+export default function PDFDownloadPage() {
+  return (
+    <Suspense fallback={<PDFDownloadFallback />}>
+      <PDFDownloadContent />
+    </Suspense>
   );
 }
