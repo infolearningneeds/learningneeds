@@ -37,17 +37,18 @@ interface ColorClasses {
   dot: string;
 }
 
+type CategoryColor = "red" | "blue" | "green";
+
+const categoryMap: Record<"important" | "info" | "success", { icon: IconType; color: CategoryColor }> = {
+  important: { icon: FaExclamationCircle, color: "red" },
+  info: { icon: FaInfoCircle, color: "blue" },
+  success: { icon: FaCheckCircle, color: "green" },
+};
+
 const Notice = () => {
   const [notices, setNotices] = useState<Notice[]>([]);
   const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
-  // Map categories to icon + color
-  const categoryMap = {
-    important: { icon: FaExclamationCircle, color: "red" },
-    info: { icon: FaInfoCircle, color: "blue" },
-    success: { icon: FaCheckCircle, color: "green" },
-  };
 
   // Fetch from Supabase
   const fetchNotices = async () => {
