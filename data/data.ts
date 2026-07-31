@@ -1,0 +1,103 @@
+export const productData = [
+  {
+    id: 1,
+    title: "Nursery Rhymes With Stories & G.k. (for Nursery)",
+    description:
+      "Experience crystal-clear audio with advanced noise cancellation technology. Perfect for travel, work, and entertainment with up to 30 hours of battery life.",
+    category: "Book",
+    originalPrice: 12999,
+    discountPrice: 9999,
+    available: true,
+    reviews: 4.6,
+    image: "/images/products/book1.webp",
+  },
+  {
+    id: 2,
+    title: "Nursery Rhymes 2 With Stories & G.k.",
+    description:
+      "Lightweight and breathable running shoes designed for maximum comfort and durability. Ideal for jogging, workouts, and daily wear.",
+    category: "Book",
+    originalPrice: 3599,
+    discountPrice: 2599,
+    available: false,
+    reviews: 4.2,
+    image: "/images/products/book2.webp",
+  },
+  {
+    id: 3,
+    title: "Number Book (1-100)",
+    description:
+      "Track your daily activities, heart rate, sleep cycles, and more with this sleek and durable fitness band. Stay connected with smart notifications.",
+    category: "PDF",
+    originalPrice: 2499,
+    discountPrice: 1799,
+    available: true,
+    reviews: 4.5,
+    image: "/images/products/pdff.png",
+  },
+  {
+    id: 4,
+    title: "Wooden Study Table",
+    description:
+      "Premium engineered wood study table with a modern design. Perfect for home offices, student rooms, and work-from-home setups.",
+    category: "Learning AID",
+    originalPrice: 8999,
+    discountPrice: 6999,
+    available: true,
+    reviews: 4.3,
+    image: "/images/products/study.webp",
+  },
+  {
+    id: 5,
+    title: "Numbers for juniors",
+    description:
+      "Soft and breathable cotton t-shirt designed for all-day comfort. Perfect for casual outings, travel, and everyday wear.",
+    category: "PDF",
+    originalPrice: 799,
+    discountPrice: 499,
+    available: true,
+    reviews: 4.1,
+    image: "/images/products/pdff.png",
+  },
+  {
+    id: 6,
+    title: "Playable Numbers",
+    description:
+      "Compact and powerful speaker with deep bass and clear sound. Features Bluetooth connectivity, long battery life, and water-resistant design.",
+    category: "Learning AID",
+    originalPrice: 1999,
+    discountPrice: 1499,
+    available: false,
+    reviews: 4.4,
+    image: "/images/products/aid2.webp",
+  },
+];
+export const articleData = [
+  {
+    id: 1,
+    userImage: "/images/u1.jpg",
+    username: "John Doe",
+    longDescription: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. `,
+    reaction: 45,
+    coverImage: "/images/b1.jpg",
+    title: "Understanding JavaScript",
+  },
+  {
+    id: 2,
+    userImage: "/images/u2.jpg",
+    username: "Jane Smith",
+    longDescription: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. `,
+    reaction: 78,
+    coverImage: "/images/b2.jpg",
+    title: "A Guide to Node.js Event Loop",
+  },
+  {
+    id: 3,
+    userImage: "/images/u3.jpg",
+    username: "Alex Johnson",
+    longDescription: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. `,
+    reaction: 62,
+    coverImage: "/images/b3.jpg",
+    title: "Introduction to React Hooks",
+  },
+];
