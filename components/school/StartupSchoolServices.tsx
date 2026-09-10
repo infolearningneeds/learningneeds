@@ -3,19 +3,19 @@ import { School, GraduationCap, Building2, TrendingUp, LayoutDashboard, Megaphon
 
 const StartupSchoolServices = () => {
   const services = [
-    { title: "New Start-up School", icon: School, color: "from-pink-500 to-rose-600" },
-    { title: "Teacher's Training", icon: GraduationCap, color: "from-purple-500 to-indigo-600" },
-    { title: "Infrastructure Designing", icon: Building2, color: "from-blue-500 to-cyan-600" },
-    { title: "Marketing Training", icon: TrendingUp, color: "from-emerald-500 to-teal-600" },
-    { title: "Interior Layout Designing", icon: LayoutDashboard, color: "from-orange-500 to-amber-600" },
-    { title: "Advertisement Plan", icon: Megaphone, color: "from-red-500 to-pink-600" },
-    { title: "Operation Plan", icon: ClipboardList, color: "from-violet-500 to-purple-600" },
-    { title: "Staff Selection Support", icon: Users, color: "from-sky-500 to-blue-600" },
-    { title: "Name Selection", icon: Tag, color: "from-fuchsia-500 to-pink-600" },
-    { title: "Area & Site Selection", icon: MapPin, color: "from-lime-500 to-green-600" },
-    { title: "Furniture & Learning Aid Selection", icon: Sofa, color: "from-amber-500 to-orange-600" },
-    { title: "School Organization Structure", icon: Network, color: "from-indigo-500 to-blue-600" },
-    { title: "Collateral Designing Support", icon: FileText, color: "from-teal-500 to-cyan-600" }
+    { title: "New Start-up School", icon: School, color: "from-pink-500 to-rose-600", image: "https://loremflickr.com/600/600/school,building" },
+    { title: "Teacher's Training", icon: GraduationCap, color: "from-purple-500 to-indigo-600", image: "https://loremflickr.com/600/600/teacher,classroom" },
+    { title: "Infrastructure Designing", icon: Building2, color: "from-blue-500 to-cyan-600", image: "https://loremflickr.com/600/600/architecture,blueprint" },
+    { title: "Marketing Training", icon: TrendingUp, color: "from-emerald-500 to-teal-600", image: "https://loremflickr.com/600/600/marketing,meeting" },
+    { title: "Interior Layout Designing", icon: LayoutDashboard, color: "from-orange-500 to-amber-600", image: "https://loremflickr.com/600/600/interior,classroom" },
+    { title: "Advertisement Plan", icon: Megaphone, color: "from-red-500 to-pink-600", image: "https://loremflickr.com/600/600/advertisement,billboard" },
+    { title: "Operation Plan", icon: ClipboardList, color: "from-violet-500 to-purple-600", image: "https://loremflickr.com/600/600/office,planning" },
+    { title: "Staff Selection Support", icon: Users, color: "from-sky-500 to-blue-600", image: "https://loremflickr.com/600/600/interview,hiring" },
+    { title: "Name Selection", icon: Tag, color: "from-fuchsia-500 to-pink-600", image: "https://loremflickr.com/600/600/signboard,branding" },
+    { title: "Area & Site Selection", icon: MapPin, color: "from-lime-500 to-green-600", image: "https://loremflickr.com/600/600/map,location" },
+    { title: "Furniture & Learning Aid Selection", icon: Sofa, color: "from-amber-500 to-orange-600", image: "https://loremflickr.com/600/600/kindergarten,furniture" },
+    { title: "School Organization Structure", icon: Network, color: "from-indigo-500 to-blue-600", image: "https://loremflickr.com/600/600/teamwork,organization" },
+    { title: "Collateral Designing Support", icon: FileText, color: "from-teal-500 to-cyan-600", image: "https://loremflickr.com/600/600/brochure,print" }
   ];
 
   const floatingElements = [
@@ -83,9 +83,18 @@ const StartupSchoolServices = () => {
                 style={{ animationDelay: `${idx * 50}ms` }}
               >
                 <div className="relative h-full min-h-[140px] bg-white/80 backdrop-blur-xl rounded-3xl p-6 border-2 border-white/50 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                  
+
+                  {/* Hover Background Image (blurred) */}
+                  <div
+                    className="absolute inset-0 bg-cover bg-center scale-105 opacity-0 group-hover:opacity-100 group-hover:blur-[2px] transition-all duration-500"
+                    style={{ backgroundImage: `url(${service.image})` }}
+                  ></div>
+
+                  {/* Dark wash so text stays readable over the image */}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-500"></div>
+
                   {/* Gradient Overlay on Hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-30 transition-opacity duration-500`}></div>
                   
                   {/* Content */}
                   <div className="relative z-10 h-full flex flex-col justify-between">
@@ -94,14 +103,14 @@ const StartupSchoolServices = () => {
                     </div>
                     
                     <div>
-                      <h3 className="text-base font-bold text-gray-900 leading-tight group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-gray-900 group-hover:to-gray-600 transition-all duration-300">
+                      <h3 className="text-base font-bold text-gray-900 leading-tight group-hover:text-white transition-all duration-300">
                         {service.title}
                       </h3>
                     </div>
                   </div>
 
                   {/* Corner Accent */}
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-transparent to-white/20 rounded-bl-3xl"></div>
+                  <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-transparent to-white/20 rounded-bl-3xl pointer-events-none"></div>
                 </div>
               </div>
             );

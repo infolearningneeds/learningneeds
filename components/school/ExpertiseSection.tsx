@@ -1,6 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
-import { BookOpen, Users, TrendingUp, Award, Lightbulb, Target, FileText, PieChart, Briefcase, GraduationCap, Brain, Rocket, Globe, CheckCircle, Star } from 'lucide-react';
+import {
+  BookOpen, Users, TrendingUp, Award, Lightbulb, Target, FileText, PieChart,
+  Briefcase, GraduationCap, Brain, Rocket, Globe, CheckCircle, Star, ArrowRight
+} from 'lucide-react';
 
 const ExpertiseSection: React.FC = () => {
   const floatingIcons = [
@@ -22,18 +25,18 @@ const ExpertiseSection: React.FC = () => {
   ];
 
   const expertiseItems = [
-    'Strategic Educational Planning',
-    'Curriculum Development',
-    'Teacher Training & Development',
-    'Quality Assurance Systems',
-    'Inspection Preparation',
-    'Governance & Leadership',
-    'Financial Management',
-    'Organizational Development',
+    { title: 'Strategic Educational Planning', icon: Target },
+    { title: 'Curriculum Development', icon: BookOpen },
+    { title: 'Teacher Training & Development', icon: GraduationCap },
+    { title: 'Quality Assurance Systems', icon: CheckCircle },
+    { title: 'Inspection Preparation', icon: FileText },
+    { title: 'Governance & Leadership', icon: Users },
+    { title: 'Financial Management', icon: PieChart },
+    { title: 'Organizational Development', icon: TrendingUp },
   ];
 
   return (
-    <div className="min-h-screen bg-white py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="bg-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Floating Icons Background */}
       <div className="absolute inset-0 pointer-events-none">
         {floatingIcons.map((item, index) => {
@@ -42,13 +45,7 @@ const ExpertiseSection: React.FC = () => {
             <div
               key={index}
               className="absolute animate-float opacity-10"
-              style={{
-                top,
-                left,
-                right,
-                animationDelay: delay,
-                animationDuration: duration,
-              }}
+              style={{ top, left, right, animationDelay: delay, animationDuration: duration }}
             >
               <Icon className={`w-16 h-16 ${color}`} strokeWidth={1.5} />
             </div>
@@ -56,146 +53,90 @@ const ExpertiseSection: React.FC = () => {
         })}
       </div>
 
-      {/* Content */}
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header */}
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-4 relative inline-block">
+        {/* Header — real text, never dependent on the image loading */}
+        <div className="text-center mb-14">
+          <p className="text-blue-600 font-semibold tracking-wide mb-3 text-sm sm:text-base uppercase">
+            Where we add the most value
+          </p>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 max-w-3xl mx-auto leading-tight">
             Expertise Includes
-            
           </h2>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Image Section */}
-          <div className="relative group animate-slide-in-left">
-            <div className="absolute -inset-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl opacity-20 blur-2xl group-hover:opacity-30 transition-opacity duration-500"></div>
-            <div className="relative overflow-hidden rounded-3xl shadow-2xl transform transition-all duration-500 group-hover:scale-105 group-hover:shadow-3xl h-[500px]">
+        <div className="flex flex-col gap-12">
+          {/* Row 1: Image — full width, natural aspect ratio so the whole image is visible, nothing cropped */}
+          <div className="relative group max-w-4xl mx-auto w-full">
+            <div className="absolute -inset-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl opacity-20 blur-xl group-hover:opacity-30 transition-opacity duration-500" />
+            <div className="relative w-full rounded-3xl shadow-2xl overflow-hidden bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100">
               <Image
                 src="/images/school/expert.png"
                 alt="Education Excellence"
-                fill
-                className="object-contain"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                width={1200}
+                height={800}
+                className="w-full h-auto object-contain"
+                sizes="(max-width: 1024px) 100vw, 900px"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              {/* Decorative corner accents */}
-              <div className="absolute top-4 left-4 w-16 h-16 border-t-4 border-l-4 border-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="absolute bottom-4 right-4 w-16 h-16 border-b-4 border-r-4 border-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute top-4 left-4 w-14 h-14 border-t-4 border-l-4 border-white/70 rounded-tl-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute bottom-4 right-4 w-14 h-14 border-b-4 border-r-4 border-white/70 rounded-br-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           </div>
 
-          {/* Expertise List Section */}
-          <div className="animate-slide-in-right">
-            <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-3xl p-8 shadow-xl border border-gray-100">
-              <div className="space-y-4">
-                {expertiseItems.map((item, index) => (
+          {/* Row 2: Expertise List Section */}
+          <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-3xl p-8 sm:p-10 shadow-xl border border-gray-100">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {expertiseItems.map((item, index) => {
+                const ItemIcon = item.icon;
+                return (
                   <div
                     key={index}
-                    className="flex items-start gap-4 group/item cursor-pointer transform transition-all duration-300 hover:translate-x-2"
-                    style={{ animationDelay: `${index * 100}ms` }}
+                    className="flex items-center gap-4 group/item cursor-pointer transform transition-all duration-300 hover:translate-x-2"
                   >
-                    <div className="flex-shrink-0 mt-1">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg group-hover/item:scale-110 transition-transform duration-300">
-                        <CheckCircle className="w-5 h-5 text-white" strokeWidth={2.5} />
+                    <div className="flex-shrink-0">
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-md group-hover/item:scale-110 transition-transform duration-300">
+                        <ItemIcon className="w-4.5 h-4.5 text-white" strokeWidth={2.5} />
                       </div>
                     </div>
                     <div className="flex-1">
                       <p className="text-lg font-semibold text-gray-800 group-hover/item:text-blue-600 transition-colors duration-300">
-                        {item}
+                        {item.title}
                       </p>
-                      <div className="h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 w-0 group-hover/item:w-full transition-all duration-500 mt-1"></div>
+                      <div className="h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 w-0 group-hover/item:w-full transition-all duration-500 mt-1" />
                     </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
+            </div>
 
-              {/* Call to Action */}
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                  Learn More About Our Services
-                </button>
-              </div>
+            <div className="mt-8 pt-8 border-t border-gray-200 max-w-md mx-auto">
+              <button className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group">
+                Learn More About Our Services
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
             </div>
           </div>
         </div>
 
         {/* Decorative bottom elements */}
-        <div className="mt-20 flex justify-center gap-3">
+        <div className="mt-16 flex justify-center gap-3">
           {[...Array(5)].map((_, i) => (
             <div
               key={i}
               className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 animate-pulse"
               style={{ animationDelay: `${i * 200}ms` }}
-            ></div>
+            />
           ))}
         </div>
       </div>
 
       <style jsx>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes slide-in-left {
-          from {
-            opacity: 0;
-            transform: translateX(-50px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes slide-in-right {
-          from {
-            opacity: 0;
-            transform: translateX(50px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
         @keyframes float {
-          0%, 100% {
-            transform: translateY(0px) translateX(0px) rotate(0deg);
-          }
-          25% {
-            transform: translateY(-25px) translateX(15px) rotate(8deg);
-          }
-          50% {
-            transform: translateY(-15px) translateX(-15px) rotate(-8deg);
-          }
-          75% {
-            transform: translateY(-35px) translateX(10px) rotate(5deg);
-          }
+          0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+          25% { transform: translateY(-25px) translateX(15px) rotate(8deg); }
+          50% { transform: translateY(-15px) translateX(-15px) rotate(-8deg); }
+          75% { transform: translateY(-35px) translateX(10px) rotate(5deg); }
         }
-
-        .animate-fade-in {
-          animation: fade-in 0.8s ease-out;
-        }
-
-        .animate-slide-in-left {
-          animation: slide-in-left 0.8s ease-out;
-        }
-
-        .animate-slide-in-right {
-          animation: slide-in-right 0.8s ease-out;
-        }
-
         .animate-float {
           animation: float 7s ease-in-out infinite;
         }
