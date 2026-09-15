@@ -8,11 +8,13 @@ import Products from './products/Products'
 import TeamMessage from './teammessage/TeamMessage'
 import Goal from './goals/Goals'
 import Notice from './notice/Notice'
+import Announcement from './announcement/Announcement'
 
 const Home = () => {
   return (
     <div>
       <Hero />
+      <Announcement/>
       <Discount />
       <About />
       <Service />
