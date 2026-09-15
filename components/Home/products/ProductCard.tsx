@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import Image from 'next/image';
+import Image from '@/components/SafeImage';
 import Link from 'next/link';
 import { FaStar } from 'react-icons/fa';
 import Tilt from 'react-parallax-tilt';
@@ -72,6 +72,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
                             src={displayImage}
                             alt={product.title}
                             fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                             className="object-cover"
                         />
                         {/* PDF Badge */}

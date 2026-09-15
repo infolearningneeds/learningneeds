@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import Image from 'next/image';
+import Image from '@/components/SafeImage';
 import { Package, Truck, CheckCircle2, XCircle, Clock, Download, Eye } from 'lucide-react';
 
 interface Order {
@@ -248,6 +248,7 @@ export default function OrdersPage() {
                               src={item.product_image}
                               alt={item.product_title}
                               fill
+                              sizes="80px"
                               className="object-cover"
                             />
                             {item.category === 'PDF' && (

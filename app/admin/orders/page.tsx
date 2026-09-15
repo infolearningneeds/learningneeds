@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import Image from 'next/image';
+import Image from '@/components/SafeImage';
 import {
     Package,
     Search,
@@ -609,6 +609,7 @@ export default function AdminOrdersPage() {
                                                     src={item.product_image}
                                                     alt={item.product_title}
                                                     fill
+                                                    sizes="80px"
                                                     className="object-cover"
                                                 />
                                             </div>

@@ -60,7 +60,8 @@ const Products = () => {
                 alt='Products'
                 width={800}
                 height={800}
-                className='absolute top-[30%] animate-bounce'
+                priority
+                className='absolute top-[30%] w-auto h-auto animate-bounce'
             />
             <div className="w-[80%] pt-8 pb-8 mx-auto">
                 <h1 className='text-4xl md:text-5xl text-gray-900 font-bold'>

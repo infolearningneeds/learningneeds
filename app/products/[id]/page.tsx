@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { ShoppingCart, Heart, Share2, Truck, Shield, RefreshCw, ChevronRight, Loader2, AlertCircle, Download } from 'lucide-react';
 import { FaStar } from 'react-icons/fa';
-import Image from 'next/image';
+import Image from '@/components/SafeImage';
 import { useAppDispatch } from '@/store/hooks';
 import { addToCart } from '@/store/slices/cartSlice';
 
@@ -238,6 +238,8 @@ export default function ProductDetailsPage() {
                                 src={productImages[selectedImage]}
                                 alt={product.title}
                                 fill
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                priority
                                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                             />
                             <button 
@@ -266,7 +268,7 @@ export default function ProductDetailsPage() {
                                                 : 'border-gray-200 hover:border-gray-400'
                                         }`}
                                     >
-                                        <Image src={img} alt={`View ${idx + 1}`} fill className="object-cover" />
+                                        <Image src={img} alt={`View ${idx + 1}`} fill sizes="(max-width: 1024px) 25vw, 12vw" className="object-cover" />
                                     </button>
                                 ))}
                             </div>
@@ -556,7 +558,7 @@ export default function ProductDetailsPage() {
                                         className="group bg-white rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200"
                                     >
                                         <div className="aspect-square bg-gray-100 relative overflow-hidden">
-                                            <Image src={itemImage} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                                            <Image src={itemImage} alt={item.title} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" className="object-cover group-hover:scale-105 transition-transform duration-300" />
                                         </div>
                                         <div className="p-4">
                                             <h3 className="font-semibold text-gray-900 mb-2 line-clamp-1">{item.title}</h3>

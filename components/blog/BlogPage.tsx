@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import Image from '@/components/SafeImage';
 import Link from 'next/link';
 import { Heart, Clock, Calendar, TrendingUp } from 'lucide-react';
 import { supabase } from '@/lib/supabase';

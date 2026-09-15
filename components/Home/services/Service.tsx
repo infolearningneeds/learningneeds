@@ -58,6 +58,7 @@ const Services = () => {
                   src="/images/service.jpg"
                   alt="Business Success"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                   priority
                   quality={90}

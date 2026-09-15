@@ -134,6 +134,7 @@ const TeamMessage = () => {
                                             alt="Team Message"
                                             width={220}
                                             height={220}
+                                            className="w-auto h-auto"
                                         />
                                     </Tilt>
                                 </div>

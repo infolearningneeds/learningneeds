@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import Image from '@/components/SafeImage';
 import Link from 'next/link';
 import { Calendar, Clock, ArrowLeft, Share2, User, Heart } from 'lucide-react';
 import { useParams } from 'next/navigation';
@@ -213,6 +213,7 @@ export default function BlogDetailPage() {
                     src={currentBlog.cover_image}
                     alt={currentBlog.title}
                     fill
+                    sizes="(max-width: 1024px) 100vw, 800px"
                     className="object-cover"
                     priority
                   />
@@ -343,6 +344,7 @@ export default function BlogDetailPage() {
                                 src={relatedBlog.cover_image}
                                 alt={relatedBlog.title}
                                 fill
+                                sizes="(max-width: 768px) 100vw, 300px"
                                 className="object-cover group-hover:scale-105 transition-transform duration-500"
                               />
                             </div>

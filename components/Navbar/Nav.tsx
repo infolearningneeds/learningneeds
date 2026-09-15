@@ -1,7 +1,7 @@
 'use client'
 
 import { navLinks } from '@/constants/constant'
-import Image from 'next/image'
+import Image from '@/components/SafeImage'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { HiBars3BottomRight } from 'react-icons/hi2'
@@ -80,7 +80,7 @@ const Nav = ({ openNav }: Props) => {
                                 alt="Logo"
                                 width={160}
                                 height={60}
-                                className="cursor-pointer relative z-10"
+                                className="cursor-pointer relative z-10 w-auto h-auto"
                             />
                         </div>
                     </div>

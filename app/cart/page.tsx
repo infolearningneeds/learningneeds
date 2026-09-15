@@ -4,7 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { removeFromCart, updateQuantity } from '@/store/slices/cartSlice';
-import Image from 'next/image';
+import Image from '@/components/SafeImage';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Download, Info } from 'lucide-react';
 
 export default function CartPage() {
@@ -112,6 +112,7 @@ export default function CartPage() {
                             src={item.image}
                             alt={item.title}
                             fill
+                            sizes="(max-width: 640px) 96px, 128px"
                             className="object-cover"
                           />
                           <div className="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">
@@ -189,6 +190,7 @@ export default function CartPage() {
                             src={item.image}
                             alt={item.title}
                             fill
+                            sizes="(max-width: 640px) 96px, 128px"
                             className="object-cover"
                           />
                         </div>

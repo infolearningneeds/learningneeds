@@ -1,13 +1,24 @@
-/* eslint-disable react-hooks/purity */
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, BookOpen, Sparkles, Star, Palette, GraduationCap, Lightbulb, Rocket, Award, Heart, Zap, Crown, Target, TrendingUp } from 'lucide-react';
+
+type RandomShape = {
+    id: number;
+    size: number;
+    left: number;
+    top: number;
+    delay: number;
+    duration: number;
+    opacity: number;
+    type: 'circle' | 'blob';
+};
 
 const Hero = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+    const [randomShapes, setRandomShapes] = useState<RandomShape[]>([]);
 
     const slides = [
         {
@@ -48,17 +59,23 @@ const Hero = () => {
         { Icon: Star, color: "text-pink-300" }
     ];
 
-    const randomShapes = useMemo(() => {
-        return Array.from({ length: 20 }, (_, i) => ({
-            id: i,
-            size: Math.random() * 200 + 100,
-            left: Math.random() * 100,
-            top: Math.random() * 100,
-            delay: Math.random() * 5,
-            duration: Math.random() * 10 + 15,
-            opacity: Math.random() * 0.15 + 0.05,
-            type: Math.random() > 0.5 ? 'circle' : 'blob'
-        }));
+    // Generate random shapes only on the client, after mount, so the
+    // server-rendered HTML and the client's first render match exactly
+    // (both render zero shapes). This avoids the hydration mismatch that
+    // Math.random() causes when it runs during render.
+    useEffect(() => {
+        setRandomShapes(
+            Array.from({ length: 20 }, (_, i) => ({
+                id: i,
+                size: Math.random() * 200 + 100,
+                left: Math.random() * 100,
+                top: Math.random() * 100,
+                delay: Math.random() * 5,
+                duration: Math.random() * 10 + 15,
+                opacity: Math.random() * 0.15 + 0.05,
+                type: Math.random() > 0.5 ? 'circle' : 'blob'
+            }))
+        );
     }, []);
 
     useEffect(() => {

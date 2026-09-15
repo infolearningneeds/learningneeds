@@ -5,7 +5,7 @@ import { X, Minus, Plus, Trash2 } from 'lucide-react';
 import { FiShoppingCart } from 'react-icons/fi';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { removeFromCart, updateQuantity } from '@/store/slices/cartSlice';
-import Image from 'next/image';
+import Image from '@/components/SafeImage';
 import { useRouter } from 'next/navigation';
 
 export default function CartIcon() {
@@ -108,6 +108,7 @@ export default function CartIcon() {
                           src={item.image}
                           alt={item.title}
                           fill
+                          sizes="80px"
                           className="object-cover"
                         />
                       </div>

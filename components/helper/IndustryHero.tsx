@@ -35,6 +35,7 @@ export default function IndustryHero({
                     alt="Background"
                     fill
                     priority
+                    sizes="100vw"
                     className="object-cover"
                 />
                 <div className="absolute inset-0 bg-[#000655a2]" />
@@ -98,6 +99,7 @@ export default function IndustryHero({
                                 src={image}
                                 alt={titleMain}
                                 fill
+                                sizes="(max-width: 1024px) 100vw, 50vw"
                                 className="object-contain drop-shadow-2xl"
                             />
                         </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Image as ImageIcon, Plus, Trash2, Upload, GraduationCap, Users } from 'lucide-react'
-import Image from 'next/image'
+import Image from '@/components/SafeImage'
 
 interface GalleryImage {
   id: string
@@ -285,12 +285,12 @@ const AdminGalleryPage = () => {
                   src={image.image_url}
                   alt={`${image.category} image`}
                   fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover"
                   onError={(e) => {
                     console.error('Image failed to load:', image.image_url)
                     e.currentTarget.src = '/placeholder.png'
                   }}
-                  unoptimized={image.image_url.includes('supabase.co') ? false : true}
                 />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-3">
                   <select

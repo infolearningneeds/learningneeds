@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { clearCart } from '@/store/slices/cartSlice';
 import { supabase } from '@/lib/supabase';
-import Image from 'next/image';
+import Image from '@/components/SafeImage';
 import { CreditCard, Wallet, Building2, CheckCircle2, MapPin } from 'lucide-react';
 
 type PaymentMethod = 'card' | 'upi' | 'netbanking' | 'cod';
@@ -397,7 +397,7 @@ export default function CheckoutPage() {
                 {items.map((item) => (
                   <div key={item.id} className="flex gap-3">
                     <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
-                      <Image src={item.image} alt={item.title} fill className="object-cover" />
+                      <Image src={item.image} alt={item.title} fill sizes="64px" className="object-cover" />
                     </div>
                     <div className="flex-1">
                       <p className="font-semibold text-gray-900 text-sm line-clamp-1">

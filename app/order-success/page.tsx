@@ -6,7 +6,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { CheckCircle2, Package, Truck, MapPin, Mail, Phone } from 'lucide-react';
-import Image from 'next/image';
+import Image from '@/components/SafeImage';
 import confetti from 'canvas-confetti';
 
 function OrderSuccessLoading() {
@@ -228,6 +228,7 @@ function OrderSuccessContent() {
                       src={item.product_image}
                       alt={item.product_title}
                       fill
+                      sizes="80px"
                       className="object-cover"
                     />
                   </div>
